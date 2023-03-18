@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import modelo.*;
+import vista.Login;
+
 public class Controlador {
     static Connection conect;
 
@@ -29,15 +31,15 @@ public class Controlador {
         return conect;
     }
 
-    public void login(String usuario, String contrasenia) {
+    public Boolean login(String usuario, String contrasenia) {
         Usuario us = new Usuario(1,usuario,contrasenia);
-        us.login(us,getConexion());
+        return us.login(us,getConexion());
     }
 
 
     public static void main(String args[]) {
         Controlador init = new Controlador();
-        init.getConexion();
-
+        Login view = new Login();
+        view.setVisible(true);
     }
 }

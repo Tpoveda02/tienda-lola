@@ -52,7 +52,8 @@ public class Usuario {
     public Boolean login(Usuario us, Connection conect){
         Usuario usuario = this.getUsuario(conect);
         String contrasenia = convertSHA256(us.getContrasenia());
-        if(us != null && us.getContrasenia().equals(contrasenia)) {
+        System.out.println(contrasenia);
+        if(us != null && usuario.getContrasenia().equals(contrasenia)) {
             return true;
         }
         return false;

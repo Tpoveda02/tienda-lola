@@ -1,0 +1,2 @@
+USE TIENDA_LOLA;
+INSERT INTO USUARIO_ACCESO VALUES (1,"Administrador",SHA2('TiendaLola01.', 256),now(),now())
