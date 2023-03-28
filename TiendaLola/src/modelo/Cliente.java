@@ -1,0 +1,310 @@
+package modelo;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class Cliente {
+
+    //--------------DECLARACIÓN DE VARIABLES--------------
+    private int idCliente;
+    private String tipoIdentificacion;
+    private String primerNombre;
+    private String segundoNombre;
+    private String primerApellido;
+    private String segundoApellido;
+    private String direccion;
+    private String telefono;
+    private String correoElectronico;
+    private Timestamp fechaModificación;
+
+    //---------------METODO CONSTRUCTOR------------------
+
+
+    public Cliente(int idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico) {
+        this.idCliente = idCliente;
+        this.tipoIdentificacion = tipoIdentificacion;
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+    }
+    //VALIDACIÓN ENUM PERMITIDOS
+    public enum TipoIdentificacion {
+        DNI,
+        NIE,
+        PASAPORTE,
+        CC
+    }
+    public Cliente() {
+
+    }
+
+    /*
+     * --------------------------METODOS CRUD-----------------------
+     */
+    /*
+     * METODO BUSCAR
+     */
+    public ArrayList<Cliente> buscarClientes(Cliente cliente, Connection conexion) {
+        ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+        Cliente c = new Cliente();
+        try {
+            PreparedStatement sentencia = conexion.prepareStatement( "SELECT * FROM CLIENTE WHERE " +
+                    "id_cliente LIKE ? AND tipo_identificacion LIKE ? " +
+                    "AND primer_nombre LIKE ? AND segundo_nombre LIKE ? AND primer_apellido LIKE ? " +
+                    "AND segundo_apellido LIKE ? AND direccion LIKE ? AND telefono LIKE ? " +
+                    "AND correo_electronico LIKE ?");
+                sentencia.setString(1, "%" + idCliente + "%");
+                sentencia.setString(2, "%" + tipoIdentificacion + "%");
+                sentencia.setString(3, "%" + primerNombre + "%");
+                sentencia.setString(4, "%" + segundoNombre + "%");
+                sentencia.setString(5, "%" + primerApellido + "%");
+                sentencia.setString(6, "%" + segundoApellido + "%");
+                sentencia.setString(7, "%" + direccion + "%");
+                sentencia.setString(8, "%" + telefono + "%");
+                sentencia.setString(9, "%" + correoElectronico + "%");
+            //Ejecuta la sentencia
+            ResultSet resultado = sentencia.executeQuery();
+            //Asigna los resultados a una lista de los mismos y recorre campo por campo según el registro
+            while (resultado.next()) {
+                c.setIdCliente(resultado.getInt("id_cliente"));
+                c.setTipoIdentificacion(resultado.getString("tipo_identificacion"));
+                c.setPrimerNombre(resultado.getString("primer_nombre"));
+                c.setSegundoNombre(resultado.getString("segundo_nombre"));
+                c.setPrimerNombre(resultado.getString("primer_apellido"));
+                c.setSegundoApellido(resultado.getString("segundo_apellido"));
+                c.setDireccion(resultado.getString("direccion"));
+                c.setTelefono(resultado.getString("telefono"));
+                c.setCorreoElectronico(resultado.getString("correo_electronico"));
+                //Agrega un registro - cliente
+                listaClientes.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Retorna la lista con los clientes
+        return listaClientes;
+    }
+    /*
+     * METODO CREAR
+     */
+
+    public String agregarCliente(Cliente cliente, Connection conexion) {
+        ArrayList<Cliente> sc = buscarClientes(cliente, conexion); //Busca el cliente
+        if (sc.isEmpty() || sc.get(0).getIdCliente() != cliente.getIdCliente()) {//valida quel cliente no exista
+            String mensajeError = this.validarCamposCliente(cliente);//Verifica los campos - no sean null; Si no retorna los erroes
+            if (mensajeError.equals("")) {
+                try {
+                    PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO CLIENTE (id_cliente, tipo_identificacion, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, direccion, telefono, correo_electronico) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");//Sentencia para insertar el cliente en la BD
+                    //Remplaza en la sentencia anterior los signos de interrogación en el orden que estan
+                    sentencia.setInt(1, cliente.getIdCliente());
+                    sentencia.setString(2, cliente.getTipoIdentificacion());
+                    sentencia.setString(3, cliente.getPrimerNombre());
+                    sentencia.setString(4, cliente.getSegundoNombre());
+                    sentencia.setString(5, cliente.getPrimerApellido());
+                    sentencia.setString(6, cliente.getSegundoApellido());
+                    sentencia.setString(7, cliente.getDireccion());
+                    sentencia.setString(8, cliente.getTelefono());
+                    sentencia.setString(9, cliente.getCorreoElectronico());
+                    //Ejecuta la sentencia
+                    sentencia.executeUpdate();
+                    //Cierra la conexión - sentencia
+                    sentencia.close();
+                    conexion.close();
+                    return "Cliente creado.";
+                } catch (SQLException e) {
+                    System.err.println(e.getMessage());
+                    return "Error creación de cliente, campos invalidos.";
+                }
+            } else {
+                return mensajeError;
+            }
+        }
+        return "Cliente ya registrado.";
+    }
+    /*
+     * METODO ACTUALIZAR
+     */
+
+    public String actualizarCliente(Cliente cliente, Connection conexion) {
+        String mensajeError = this.validarCamposCliente(cliente);
+        cliente.setFechaModificación(Timestamp.valueOf(LocalDateTime.now()));
+        if (mensajeError.equals("")) {//Verifica los campos - no sean null; Si no retorna los erroes
+            try {
+                //Sentencia para actualizar
+                PreparedStatement sentencia = conexion.prepareStatement("UPDATE CLIENTE SET tipo_identificacion = ?, " +
+                        "primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, " +
+                        "direccion = ?, telefono = ?, correo_electronico = ?," +
+                        "fecha_modificacion = ? WHERE id_cliente = ?");
+                sentencia.setString(1, cliente.getTipoIdentificacion());
+                sentencia.setString(2, cliente.getPrimerNombre());
+                sentencia.setString(3, cliente.getSegundoNombre());
+                sentencia.setString(4, cliente.getPrimerApellido());
+                sentencia.setString(5, cliente.getSegundoApellido());
+                sentencia.setString(6, cliente.getDireccion());
+                sentencia.setString(7, cliente.getTelefono());
+                sentencia.setString(8, cliente.getCorreoElectronico());
+                sentencia.setTimestamp(9,cliente.getFechaModificación());
+                sentencia.setInt(10, cliente.getIdCliente());
+                //Ejecuta la sentencia
+                sentencia.executeUpdate();
+                //Cierra la conexión - sentencia
+                sentencia.close();
+                conexion.close();
+                return "Cliente actualizado.";
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        } else {
+            return mensajeError;
+        }
+        return "Cliente no actualizado, campos invalidos";
+    }
+    /*
+     * METODO ELIMINAR
+     */
+
+    public String eliminarCliente(Cliente cliente, Connection conexion) {
+        try {
+            //Sentencia para eliminar el cliente según el ID
+            PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM CLIENTE WHERE id_cliente = ?");
+            sentencia.setInt(1, cliente.getIdCliente());// El ID del cliente que se desea eliminar
+            //Ejecuta la sentencia
+            int filasAfectadas = sentencia.executeUpdate();
+            //Cierra la conexión - sentencia
+            sentencia.close();
+            conexion.close();
+            if (filasAfectadas > 0) {
+                //Retorna el mensaje de exito
+                return "Cliente eliminado con éxito";
+            } else {
+                //Retorna el mensaje de cliente no encontrado
+                return "No se encontró el cliente con el ID especificado";
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            //Retorna el mensaje de error
+            return "Error elimando cliente.";
+        }
+    }
+
+    /*
+        METODO VALIDAR CAMPOS DEL CLIENTE
+     */
+
+    public String validarCamposCliente(Cliente c) {
+        String mensajeError = "";
+        try {
+            TipoIdentificacion identificacion = TipoIdentificacion.valueOf(getTipoIdentificacion());
+            // El valor ingresado es uno de los valores permitidos en el campo ENUM
+        } catch (IllegalArgumentException e) {
+            mensajeError +=" El campo tipo de identifiacion ingresado no es uno de los valores permitidos.";
+        }
+        if (c.getTelefono().length() < 7 || c.getTelefono().length() > 10) {
+            mensajeError += "El campo de teléfono debe tener entre 7 y 10 caracteres.\n";
+        }
+        if (c.getPrimerNombre().length() < 3) {
+            mensajeError += "El campo de primer nombre debe tener almenos 3 caracteres.\n";
+        }
+        if (c.getSegundoNombre().length() <  3) {
+            mensajeError += "El campo de segundo nombre debe tener almenos 3 caracteres.\n";
+        }
+        if (c.getPrimerApellido().length() <  3) {
+            mensajeError += "El campo de primer apellido debe tener almenos 3 caracteres.\n";
+        }
+        if (c.getSegundoApellido().length() <  3) {
+            mensajeError += "El campo de segundo apellido debe tener almenos 3 caracteres.\n";
+        }
+        //Concatena y devuelve los errores
+        return mensajeError;
+    }
+    /*
+     * METODOS GETTERS AND SETTERS
+     *
+     */
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public String getTipoIdentificacion() {
+        return tipoIdentificacion;
+    }
+
+    public void setTipoIdentificacion(String tipoIdentificacion) {
+        this.tipoIdentificacion = tipoIdentificacion;
+    }
+
+    public String getPrimerNombre() {
+        return primerNombre;
+    }
+
+    public void setPrimerNombre(String primerNombre) {
+        this.primerNombre = primerNombre;
+    }
+
+    public String getSegundoNombre() {
+        return segundoNombre;
+    }
+
+    public void setSegundoNombre(String segundoNombre) {
+        this.segundoNombre = segundoNombre;
+    }
+
+    public String getPrimerApellido() {
+        return primerApellido;
+    }
+
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
+    }
+
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
+
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
+    public Timestamp getFechaModificación() {
+        return fechaModificación;
+    }
+
+    public void setFechaModificación(Timestamp fechaModificación) {
+        this.fechaModificación = fechaModificación;
+    }
+}
