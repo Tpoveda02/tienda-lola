@@ -3,6 +3,7 @@ package modelo;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cliente {
 
@@ -49,6 +50,31 @@ public class Cliente {
     /*
      * METODO BUSCAR
      */
+    public List<Cliente> listarClientes(Connection conexion) {
+        List<Cliente> clientes = new ArrayList<>();
+        try{
+             PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente");
+             ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(resultado.getInt("id_cliente"));
+                cliente.setTipoIdentificacion(resultado.getString("tipo_identificacion"));
+                cliente.setPrimerNombre(resultado.getString("primer_nombre"));
+                cliente.setSegundoNombre(resultado.getString("segundo_nombre"));
+                cliente.setPrimerApellido(resultado.getString("primer_apellido"));
+                cliente.setSegundoApellido(resultado.getString("segundo_apellido"));
+                cliente.setDireccion(resultado.getString("direccion"));
+                cliente.setTelefono(resultado.getString("telefono"));
+                cliente.setCorreoElectronico(resultado.getString("correo_electronico"));
+
+                clientes.add(cliente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return clientes;
+    }
     public ArrayList<Cliente> buscarClientes(Cliente cliente, Connection conexion) {
         ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
         Cliente c = new Cliente();

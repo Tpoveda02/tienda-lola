@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import modelo.*;
+import vista.ClienteGUI;
 import vista.Login;
 
 public class Controlador {
     static Connection conect;
+    Cliente cliente = new Cliente();
 
     public Connection getConexion() {
         try {
@@ -37,6 +39,12 @@ public class Controlador {
         return us.login(us,getConexion());
     }
     //----CRUD CLIENTE----
+    //Metodo obtener cliente(s) - recibe los valores de los JText
+    public List<Cliente> listarClientes() {
+        //Llama el metodo de listar clientes
+        return cliente.listarClientes(getConexion());
+    }
+
     //Metodo obtener cliente(s) - recibe los valores de los JText
     public List<Cliente> buscarClientes(int idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico){
         //Instacia el cliente con los respectivos valores
@@ -71,9 +79,7 @@ public class Controlador {
         Controlador init = new Controlador();
         System.out.println(init.crearCliente(2, "DNI", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
         System.out.println(init.modificarCliente(2, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
-        System.out.println(init.eliminarCliente(2));
-        System.out.println(init.buscarClientes(2, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
-        //Login view = new Login();
-        //view.setVisible(true);
+        ClienteGUI view = new ClienteGUI();
+        view.setVisible(true);
     }
 }
