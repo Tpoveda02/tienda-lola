@@ -255,7 +255,7 @@ public class ActualizarCliente extends JPanel {
 			mensaje = controlador.modificarCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
 					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
 			JOptionPane.showMessageDialog(this,mensaje);
-			
+			limpiarCampos();
 			if(mensaje.equals("Cliente actualizado.")) {
 				irPanelBuscar(evt, panelActualizar);
 			}
@@ -270,6 +270,7 @@ public class ActualizarCliente extends JPanel {
 	private void btnSalirActionPerformed(ActionEvent evt, JPanel panelActualizar) {
 		try {
 			irPanelBuscar(evt, panelActualizar);
+			limpiarCampos();
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
 		}
@@ -289,6 +290,17 @@ public class ActualizarCliente extends JPanel {
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
 		}
+	}
+	public void limpiarCampos(){
+		panelBuscar.idCliente = 0;
+		panelBuscar.tipoIdentificacion = "";
+		panelBuscar.primerNombre = "";
+		panelBuscar.segundoNombre = "";
+		panelBuscar.primerApellido = "";
+		panelBuscar.segundoApellido = "";
+		panelBuscar.telefono = "";
+		panelBuscar.direccion = "";
+		panelBuscar.correoElectronico = "";
 	}
 
 }

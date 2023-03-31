@@ -65,7 +65,8 @@ public class BuscarClientes extends JPanel {
 	private JButton btnLimpiar; 
 	private JButton btnBuscar;
 	
-	public static int idCliente;
+	public static int idCliente = 0;		//Validar que no ha seleccionado ningun cliente
+
 	public static String tipoIdentificacion;
 	public static String primerNombre;
 	public static String segundoNombre;
@@ -281,11 +282,18 @@ public class BuscarClientes extends JPanel {
 		btnActualizar.setForeground(new Color(255, 255, 255));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				btnActualizarActionPerformed(evt, panelBuscar);
-				actualizarTabla(modeloTabla,controlador.listarClientes());
+				//ValidaridCliente que no ha seleccionado ningun cliente//Si no mensaje
+				if(idCliente != 0) {
+					btnActualizarActionPerformed(evt, panelBuscar);
+					actualizarTabla(modeloTabla,controlador.listarClientes());
+				}else {
+					JOptionPane.showMessageDialog(null,"Seleccione un Cliente");
+				}
+
 			}
 		});
 		panelBuscar.add(btnActualizar);
+
 
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBounds(615, 399, 100, 30);
@@ -295,8 +303,13 @@ public class BuscarClientes extends JPanel {
 		btnEliminar.setForeground(new Color(255, 255, 255));
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				btnEliminarActionPerformed(evt);
-				actualizarTabla(modeloTabla,controlador.listarClientes());
+				if(idCliente != 0) {
+					btnEliminarActionPerformed(evt);
+					actualizarTabla(modeloTabla,controlador.listarClientes());
+				}else {
+					JOptionPane.showMessageDialog(null,"Seleccione un Cliente");
+				}
+
 			}
 		});
 		panelBuscar.add(btnEliminar);
