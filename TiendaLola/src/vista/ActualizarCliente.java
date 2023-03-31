@@ -24,8 +24,12 @@ import modelo.Cliente;
 
 public class ActualizarCliente extends JPanel {
 	
+	//Objeto de la clase Controlador
 	private Controlador controlador;
+	//Objeto de la clase BuscarClientes
 	private BuscarClientes panelBuscar;
+	
+	//--------------------Variables--------------------
 	private List<Cliente> listaClientes;
 	private JLabel lblRegistroCliente;
 	private JLabel lblIdCliente;
@@ -51,8 +55,8 @@ public class ActualizarCliente extends JPanel {
 	private JButton btnActualizar; 
 	private JButton btnSalir; 
 
-	/**
-	 * Create the panel.
+	/*
+	 * METODO CONSTRUCTOR
 	 */
 	public ActualizarCliente() {
 		
@@ -63,6 +67,9 @@ public class ActualizarCliente extends JPanel {
 
 	}
 	
+	/*
+	 * METODO PARA INICIALIZAR Y DAR ESTILO A TODOS LOS COMPONETES VISUALES DE LA VISTA DE LA CLASE BuscarClientes
+	 */
 	private void inicializarComponentes() {
 		setLayout(null);
 		JPanel panelActualizar = new JPanel();
@@ -131,8 +138,6 @@ public class ActualizarCliente extends JPanel {
 
 		// TextFields
 		txtIdCliente = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtIdCliente, "ID Cliente");
 		txtIdCliente.setBounds(393, 104, 200, 20);
 		txtIdCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtIdCliente.setText(panelBuscar.idCliente + "");
@@ -147,56 +152,42 @@ public class ActualizarCliente extends JPanel {
 		panelActualizar.add(txtTipoIdentificacion);
 
 		txtPrimerNombre = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtPrimerNombre, "Primer Nombre");
 		txtPrimerNombre.setBounds(150, 158, 200, 20);
 		txtPrimerNombre.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtPrimerNombre.setText(panelBuscar.primerNombre);
 		panelActualizar.add(txtPrimerNombre);
 
 		txtSegundoNombre = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtSegundoNombre, "Segundo Nombre");
 		txtSegundoNombre.setBounds(393, 158, 200, 20);
 		txtSegundoNombre.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtSegundoNombre.setText(panelBuscar.segundoNombre);
 		panelActualizar.add(txtSegundoNombre);
 
 		txtPrimerApellido = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtPrimerApellido, "Primer Apellido");
 		txtPrimerApellido.setBounds(150, 212, 200, 20);
 		txtPrimerApellido.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtPrimerApellido.setText(panelBuscar.primerApellido);
 		panelActualizar.add(txtPrimerApellido);
 
 		txtSegundoApellido = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtSegundoApellido, "Segundo Apellido");
 		txtSegundoApellido.setBounds(393, 212, 200, 20);
 		txtSegundoApellido.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtSegundoApellido.setText(panelBuscar.segundoApellido);
 		panelActualizar.add(txtSegundoApellido);
 
 		txtDireccion = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtDireccion, "Dirección");
 		txtDireccion.setBounds(150, 264, 200, 20);
 		txtDireccion.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtDireccion.setText(panelBuscar.direccion);
 		panelActualizar.add(txtDireccion);
 
 		txtTelefono = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtTelefono, "Teléfono");
 		txtTelefono.setBounds(393, 264, 200, 20);
 		txtTelefono.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtTelefono.setText(panelBuscar.telefono);
 		panelActualizar.add(txtTelefono);
 
 		txtCorreoElectronico = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtCorreoElectronico, "Correo Electrónico");
 		txtCorreoElectronico.setBounds(150, 316, 443, 20);
 		txtCorreoElectronico.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtCorreoElectronico.setText(panelBuscar.correoElectronico);
@@ -238,6 +229,9 @@ public class ActualizarCliente extends JPanel {
 
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Actualizar
+	 */	
 	private void btnActualizarActionPerformed(ActionEvent evt, JPanel panelActualizar) {
 		try {
 			int idCliente = Integer.parseInt(txtIdCliente.getText());
@@ -250,7 +244,6 @@ public class ActualizarCliente extends JPanel {
 			String telefono = txtTelefono.getText();
 			String correoElectronico = txtCorreoElectronico.getText();
 			
-			// Actualizar el cliente a la base de datos
 			String mensaje = "";
 			mensaje = controlador.modificarCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
 					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
@@ -258,6 +251,7 @@ public class ActualizarCliente extends JPanel {
 			limpiarCampos();
 			if(mensaje.equals("Cliente actualizado.")) {
 				irPanelBuscar(evt, panelActualizar);
+				limpiarCampos();
 			}
 
 			
@@ -267,6 +261,9 @@ public class ActualizarCliente extends JPanel {
 		}
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Salir
+	 */	
 	private void btnSalirActionPerformed(ActionEvent evt, JPanel panelActualizar) {
 		try {
 			irPanelBuscar(evt, panelActualizar);
@@ -276,6 +273,9 @@ public class ActualizarCliente extends JPanel {
 		}
 	}
 	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN VOLVER AL PANEL DE LA CLASE BuscarClientes
+	 */	
 	private void irPanelBuscar(ActionEvent evt, JPanel panelActualizar) {
 		try {
 			panelBuscar.setSize(960, 440);
@@ -286,11 +286,14 @@ public class ActualizarCliente extends JPanel {
 			panelActualizar.revalidate();
 			panelActualizar.repaint();
 
-			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
 		}
 	}
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DE LIMPIAR LOS VALORES QUE ESTAN SELECCIONADOS DE LA TABLA
+	 */	
 	public void limpiarCampos(){
 		panelBuscar.idCliente = 0;
 		panelBuscar.tipoIdentificacion = "";

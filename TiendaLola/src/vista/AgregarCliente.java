@@ -28,8 +28,12 @@ import javax.swing.ImageIcon;
 
 public class AgregarCliente extends JPanel {
 	
+	//Objetod e la clase Controlador
 	private Controlador controlador;
+	//Objeto de la clase BuscarClientes
 	private BuscarClientes panelBuscar;
+	
+	//-------------------Variables-----------------
 	private List<Cliente> listaClientes;
 	private JLabel lblRegistroCliente;
 	private JLabel lblIdCliente;
@@ -56,8 +60,8 @@ public class AgregarCliente extends JPanel {
 	private JButton btnSalir; 
 
 
-	/**
-	 * Create the panel.
+	/*
+	 * METODO CONSTRUCTOR
 	 */
 	public AgregarCliente() {
 		controlador = new Controlador();
@@ -65,12 +69,21 @@ public class AgregarCliente extends JPanel {
 		listaClientes = new ArrayList<Cliente>();
 	}
 
+	/*
+	 * METODO PARA INICIALIZAR Y DAR ESTILO A TODOS LOS COMPONETES VISUALES DE LA VISTA DE LA CLASE BuscarClientes
+	 */
 	private void inicializarComponentes() {
 		setLayout(null);
 		JPanel panelAgregar = new JPanel();
 		panelAgregar.setBounds(0, 0, 960, 440);
 		add(panelAgregar);
 		panelAgregar.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
+		panel.setBackground(new Color(164, 255, 255));
+		panel.setBounds(82, 23, 792, 389);
+		panelAgregar.add(panel);
 		
 		
 		// Labels
@@ -133,8 +146,6 @@ public class AgregarCliente extends JPanel {
 
 		// TextFields
 		txtIdCliente = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtIdCliente, "ID Cliente");
 		txtIdCliente.setBounds(393, 104, 200, 20);
 		txtIdCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtIdCliente);
@@ -147,50 +158,36 @@ public class AgregarCliente extends JPanel {
 		panelAgregar.add(txtTipoIdentificacion);
 
 		txtPrimerNombre = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtPrimerNombre, "Primer Nombre");
 		txtPrimerNombre.setBounds(150, 158, 200, 20);
 		txtPrimerNombre.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtPrimerNombre);
 
 		txtSegundoNombre = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtSegundoNombre, "Segundo Nombre");
 		txtSegundoNombre.setBounds(393, 158, 200, 20);
 		txtSegundoNombre.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtSegundoNombre);
 
 		txtPrimerApellido = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtPrimerApellido, "Primer Apellido");
 		txtPrimerApellido.setBounds(150, 212, 200, 20);
 		txtPrimerApellido.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtPrimerApellido);
 
 		txtSegundoApellido = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtSegundoApellido, "Segundo Apellido");
 		txtSegundoApellido.setBounds(393, 212, 200, 20);
 		txtSegundoApellido.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtSegundoApellido);
 
 		txtDireccion = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtDireccion, "Dirección");
 		txtDireccion.setBounds(150, 264, 200, 20);
 		txtDireccion.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtDireccion);
 
 		txtTelefono = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtTelefono, "Teléfono");
 		txtTelefono.setBounds(393, 264, 200, 20);
 		txtTelefono.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtTelefono);
 
 		txtCorreoElectronico = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtCorreoElectronico, "Correo Electrónico");
 		txtCorreoElectronico.setBounds(150, 316, 443, 20);
 		txtCorreoElectronico.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtCorreoElectronico);
@@ -222,18 +219,13 @@ public class AgregarCliente extends JPanel {
 		});
 		panelAgregar.add(btnSalir);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		panel.setBackground(new Color(164, 255, 255));
-		panel.setBounds(82, 23, 792, 389);
-		panelAgregar.add(panel);
 		
-		
-
-
 
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Guardar
+	 */	
 	private void btnGuardarActionPerformed(ActionEvent evt, JPanel panelAgregar) {
 		try {
 			int idCliente = Integer.parseInt(txtIdCliente.getText());
@@ -262,6 +254,9 @@ public class AgregarCliente extends JPanel {
 		}
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Salir
+	 */	
 	private void btnSalirActionPerformed(ActionEvent evt, JPanel panelAgregar) {
 		try {
 			irPanelBuscar(evt, panelAgregar);
@@ -271,6 +266,9 @@ public class AgregarCliente extends JPanel {
 		}
 	}
 	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN VOLVER AL PANEL DE LA CLASE BuscarClientes
+	 */	
 	private void irPanelBuscar(ActionEvent evt, JPanel panelAgregar) {
 		try {
 			panelBuscar = new BuscarClientes();

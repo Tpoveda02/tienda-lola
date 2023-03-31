@@ -34,9 +34,14 @@ import javax.swing.DefaultComboBoxModel;
 
 public class BuscarClientes extends JPanel {
 
+	//Objeto de la clase Controlador
 	private Controlador controlador;
+	//Objeto de la clase PanelAgregar
 	private AgregarCliente panelAgregar;
+	//Objeto de la clase panelActualizar
 	private ActualizarCliente panelActualizar;
+	
+	//--------------------Variables-------------------
 	private List<Cliente> listaClientes;
 	private JLabel lblIdCliente;
 	private JLabel lblTipoIdentificacion; 
@@ -66,7 +71,6 @@ public class BuscarClientes extends JPanel {
 	private JButton btnBuscar;
 	
 	public static int idCliente = 0;		//Validar que no ha seleccionado ningun cliente
-
 	public static String tipoIdentificacion;
 	public static String primerNombre;
 	public static String segundoNombre;
@@ -77,18 +81,18 @@ public class BuscarClientes extends JPanel {
 	public static String correoElectronico;
 
 
-	/**
-	 * Create the panel.
+	/*
+	 * METODO CONSTRUCTOR
 	 */
 	public BuscarClientes() {
 		controlador = new Controlador();
 		inicializarComponentes();
 		listaClientes = new ArrayList<Cliente>();
-
-
-
 	}
 
+	/*
+	 * METODO PARA INICIALIZAR Y DAR ESTILO A TODOS LOS COMPONETES VISUALES DE LA VISTA DE LA CLASE BuscarClientes
+	 */
 	private void inicializarComponentes() {
 		setLayout(null);
 		JPanel panelBuscar = new JPanel();
@@ -145,8 +149,6 @@ public class BuscarClientes extends JPanel {
 
 		// TextFields
 		txtIdCliente = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtIdCliente, "ID Cliente");
 		txtIdCliente.setBounds(20, 23, 150, 20);
 		txtIdCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtIdCliente.setText("");
@@ -160,56 +162,42 @@ public class BuscarClientes extends JPanel {
 		panelBuscar.add(txtTipoIdentificacion);
 
 		txtPrimerNombre = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtPrimerNombre, "Primer Nombre");
 		txtPrimerNombre.setBounds(340, 23, 150, 20);
 		txtPrimerNombre.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtPrimerNombre.setText("");
 		panelBuscar.add(txtPrimerNombre);
 
 		txtSegundoNombre = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtSegundoNombre, "Segundo Nombre");
 		txtSegundoNombre.setBounds(500, 23, 150, 20);
 		txtSegundoNombre.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtSegundoNombre.setText("");
 		panelBuscar.add(txtSegundoNombre);
 
 		txtPrimerApellido = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtPrimerApellido, "Primer Apellido");
 		txtPrimerApellido.setBounds(660, 23, 150, 20);
 		txtPrimerApellido.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtPrimerApellido.setText("");
 		panelBuscar.add(txtPrimerApellido);
 
 		txtSegundoApellido = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtSegundoApellido, "Segundo Apellido");
 		txtSegundoApellido.setBounds(21, 70, 150, 20);
 		txtSegundoApellido.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtSegundoApellido.setText("");
 		panelBuscar.add(txtSegundoApellido);
 
 		txtDireccion = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtDireccion, "Dirección");
 		txtDireccion.setBounds(180, 70, 150, 20);
 		txtDireccion.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtDireccion.setText("");
 		panelBuscar.add(txtDireccion);
 
 		txtTelefono = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtTelefono, "Teléfono");
 		txtTelefono.setBounds(340, 70, 150, 20);
 		txtTelefono.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtTelefono.setText("");
 		panelBuscar.add(txtTelefono);
 
 		txtCorreoElectronico = new JTextField();
-		// Agregamos un FocusListener para que el texto informativo se borre automáticamente
-		//		ListenerJtext(txtCorreoElectronico, "Correo Electrónico");
 		txtCorreoElectronico.setBounds(500, 70, 310, 20);
 		txtCorreoElectronico.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtCorreoElectronico.setText("");
@@ -232,24 +220,23 @@ public class BuscarClientes extends JPanel {
 		scrollPane = new JScrollPane(tablaClientes);
 		scrollPane.setBorder(new LineBorder(Color.WHITE, 0, true));
 		scrollPane.setBounds(10, 106, 940, 262);
-
+		//Color de la tabla
 		tablaClientes.getTableHeader().setBackground(new Color(182, 220, 255));
 		tablaClientes.getTableHeader().setForeground(new Color(135, 134, 133));
 		tablaClientes.setForeground(new Color(133, 111, 69));
-		
-//		tablaClientes.getTableHeader().setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		//Accion de quitar o poner lines en la tabla 
 		tablaClientes.setShowVerticalLines(false);
 		tablaClientes.setShowHorizontalLines(true);
+		//Dar color a las lineas de la tabla
 		tablaClientes.setGridColor(new Color(182,220,255));
-		
+		//Instancia del objeto del borde de la tabla
 		Border borde = BorderFactory.createLineBorder(new Color(182,220,255));
-		
+		//Asigna el borde instanciado a la tabla
 		tablaClientes.setBorder(borde);
 		tablaClientes.getTableHeader().setBorder(borde);
-		
+		//Otras asignaciones de estetica de la tabla
 		tablaClientes.setRowHeight(30); // Establece la altura de las filas
 		tablaClientes.setIntercellSpacing(new Dimension(0, 0)); // Establece el espaciado entre celdas
-		
 		
 		panelBuscar.add(scrollPane);
 		
@@ -345,6 +332,10 @@ public class BuscarClientes extends JPanel {
 
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Agregar
+	 * Dentro de este metodo quitamos el panel BuscarClientes y ponemos el panel de la clase AgregarCliente
+	 */	
 	private void btnAgregarActionPerformed(ActionEvent evt, JPanel panelBuscar) {
 		try {
 			panelAgregar = new AgregarCliente();
@@ -355,25 +346,15 @@ public class BuscarClientes extends JPanel {
 			panelBuscar.add(panelAgregar, BorderLayout.CENTER);
 			panelBuscar.revalidate();
 			panelBuscar.repaint();
-//			int idCliente = Integer.parseInt(txtIdCliente.getText());
-//			String tipoIdentificacion = (String) txtTipoIdentificacion.getSelectedItem();
-//			String primerNombre = txtPrimerNombre.getText();
-//			String segundoNombre = txtSegundoNombre.getText();
-//			String primerApellido = txtPrimerApellido.getText();
-//			String segundoApellido = txtSegundoApellido.getText();
-//			String direccion = txtDireccion.getText();
-//			String telefono = txtTelefono.getText();
-//			String correoElectronico = txtCorreoElectronico.getText();
-//			// Agregar el cliente a la base de datos
-//			JOptionPane.showMessageDialog(this,controlador.crearCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
-//					primerApellido, segundoApellido, direccion, telefono, correoElectronico));
-
-			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
 		}
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Actualizar
+	 * Dentro de este metodo quitamos el panel BuscarClientes y ponemos el panel de la clase ActualizarCliente
+	 */
 	private void btnActualizarActionPerformed(ActionEvent evt, JPanel panelBuscar) {
 		try {
 			panelActualizar = new ActualizarCliente();
@@ -384,38 +365,29 @@ public class BuscarClientes extends JPanel {
 			panelBuscar.add(panelActualizar, BorderLayout.CENTER);
 			panelBuscar.revalidate();
 			panelBuscar.repaint();
-//			int idCliente = Integer.parseInt(txtIdCliente.getText());
-//			String tipoIdentificacion = (String) txtTipoIdentificacion.getSelectedItem();
-//			String primerNombre = txtPrimerNombre.getText();
-//			String segundoNombre = txtSegundoNombre.getText();
-//			String primerApellido = txtPrimerApellido.getText();
-//			String segundoApellido = txtSegundoApellido.getText();
-//			String direccion = txtDireccion.getText();
-//			String telefono = txtTelefono.getText();
-//			String correoElectronico = txtCorreoElectronico.getText();
-//
-//			//Actualizar el cliente en la base de datos
-//			JOptionPane.showMessageDialog(this,controlador.modificarCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
-//					primerApellido, segundoApellido, direccion, telefono, correoElectronico));
-
-			// Actualizar la tabla
+			
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
 		}
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Eliminar
+	 */
 	private void btnEliminarActionPerformed(ActionEvent evt) {
 		try {
 			// Eliminar el cliente de la base de datos
 			JOptionPane.showMessageDialog(this,controlador.eliminarCliente(idCliente));
 			actualizarTabla(modeloTabla,controlador.listarClientes());
 
-			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
 		}
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Limpiar
+	 */
 	private void btnLimpiarActionPerformed(ActionEvent evt) {
 		txtIdCliente.setText("");
 		txtTipoIdentificacion.setSelectedItem("");
@@ -428,6 +400,9 @@ public class BuscarClientes extends JPanel {
 		txtCorreoElectronico.setText("");
 	}
 
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Buscar
+	 */
 	private void btnBuscarActionPerformed(ActionEvent evt) {
 		try {
 			Integer idCliente = null;
@@ -459,6 +434,9 @@ public class BuscarClientes extends JPanel {
 
 	}
 
+	/*
+	 * METODO PARA ACTUALIZAR LOS REGISTROS DE LA TABLA
+	 */
 	private DefaultTableModel actualizarTabla(DefaultTableModel modeloTabla,List<Cliente> listaClientes) {
 		// Limpiar la tabla
 		int rowCount = modeloTabla.getRowCount();
@@ -484,25 +462,9 @@ public class BuscarClientes extends JPanel {
 		return modeloTabla;
 	}
 
-	private void ListenerJtext(JTextField jtext, String text) {
-		jtext.setText(text);
-		jtext.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (jtext.getText().equals(text)) {
-					jtext.setText("");
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (jtext.getText().isEmpty()) {
-					jtext.setText(text);
-				}
-			}
-		});
-	}    
-	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DE SELECCIONAR UN REGISTRO DE LA TABLA Y OBTENER ESOS VALORES
+	 */
 	private void tabla_MouseClicked(java.awt.event.MouseEvent evt) {
 		int i = tablaClientes.getSelectedRow();
 		
