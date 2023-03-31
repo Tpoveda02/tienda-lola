@@ -1,7 +1,8 @@
+#PROYECTO 
 CREATE DATABASE TIENDA_LOLA;
 USE TIENDA_LOLA;
 
-
+# CREACIÓN DE LAS TABLAS Y SUS RELACIONES 
 CREATE TABLE USUARIO_ACCESO (
     id_usuario INT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL,
@@ -12,10 +13,10 @@ CREATE TABLE USUARIO_ACCESO (
 
 CREATE TABLE CLIENTE (
     id_cliente INT PRIMARY KEY,
-    tipo_identificacion ENUM('DNI', 'NIE', 'PASAPORTE','CC') NOT NULL,
+    tipo_identificacion ENUM('DNI', 'NIT', 'PASAPORTE','CC') NOT NULL,
     primer_nombre VARCHAR(50) NOT NULL,
     segundo_nombre VARCHAR(50) NOT NULL,
-    primer_apallido VARCHAR(50) NOT NULL,
+    primer_apellido VARCHAR(50) NOT NULL,
     segundo_apellido VARCHAR(50) NOT NULL,
     direccion VARCHAR(100) NOT NULL,
     telefono VARCHAR(20) NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE PROVEEDOR (
     tipo_identificacion ENUM('NIE', 'PASAPORTE','CC', 'NIT', 'RUT') NOT NULL,
     primer_nombre VARCHAR(50) NOT NULL,
     segundo_nombre VARCHAR(50) NOT NULL,
-    primer_apallido VARCHAR(50) NOT NULL,
+    primer_apellido VARCHAR(50) NOT NULL,
     segundo_apellido VARCHAR(50) NOT NULL,
     direccion VARCHAR(100) NOT NULL,
     telefono VARCHAR(20) NOT NULL,
@@ -48,12 +49,17 @@ CREATE TABLE categoria(
 CREATE TABLE PRODUCTO (
     id_producto INT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    gramos DECIMAL(10,5) NOT NULL,
+    tipo_contenido_neto ENUM('gr', 'ml') NOT NULL,
+    contenido_neto DECIMAL(10,5) NOT NULL,
+    valor_contenido DECIMAL(10,5) NOT NULL,
     empaque_general VARCHAR(255) NOT NULL,
     empaque VARCHAR(255) NOT NULL,
     descripcion VARCHAR(255) NOT NULL,
+    recomendaciones VARCHAR(255) NOT NULL,
+	precio_proveedor DECIMAL(10,2) NOT NULL,
+    porcentaje_iva DECIMAL(10,2) NOT NULL,
+    precio_sin_iva DECIMAL(10,2) NOT NULL,
     precio_venta DECIMAL(10,2) NOT NULL,
-    precio_proveedor DECIMAL(10,2) NOT NULL,
     fecha_vencimiento DATE NOT NULL,
     cantidad INT NOT NULL,
     id_categoria INT NOT NULL,
@@ -82,8 +88,6 @@ CREATE TABLE detalle_factura_cliente (
     id_producto INT NOT NULL,
     cantidad INT NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
-    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fecha_modificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_detalle_factura_cliente FOREIGN KEY (id_factura) REFERENCES factura_cliente(id_factura_cliente),
     CONSTRAINT fk_detalle_factura_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
 );
@@ -107,12 +111,14 @@ CREATE TABLE detalle_factura_proveedor (
     id_producto INT NOT NULL,
     cantidad INT NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
-    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fecha_modificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT fk_detalle_factura_proveedor_factura FOREIGN KEY (id_factura_proveedor)
     REFERENCES factura_proveedor(id_factura_proveedor),
     CONSTRAINT fk_detalle_factura_proveedor_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
 );
+
+#SENTENCIA PARA INGRESAR EL USUARIO ADMINISTRADOR POR DEFECTO
+INSERT INTO USUARIO_ACCESO VALUES (1,"Administrador",SHA2('TiendaLola01.', 256),now(),now());
+
 
 
 
