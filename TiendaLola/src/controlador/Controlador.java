@@ -6,13 +6,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import modelo.*;
-import vista.Clientes;
+import vista.Login;
 
 public class Controlador {
 
     //Declaración de variables
     static Connection conect;
-    Cliente cliente = new Cliente();
 
     // Conexión a la base de datos
     public Connection getConexion() {
@@ -20,7 +19,7 @@ public class Controlador {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/TIENDA_LOLA?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             String usuario = "root";
-            String contraseña = "root";
+            String contraseña = "Shoyo1010Kamado";
             conect = DriverManager.getConnection(url, usuario, contraseña);
             if(conect!=null) {
                 System.out.println("Conexión establecida con Mysql");
@@ -44,6 +43,7 @@ public class Controlador {
     //----CRUD CLIENTE----
     //Metodo obtener cliente(s) - recibe los valores de los JText
     public List<Cliente> listarClientes() {
+    	Cliente cliente = new Cliente();
         //Llama el metodo de listar clientes
         return cliente.listarClientes(getConexion());
     }
@@ -80,7 +80,7 @@ public class Controlador {
 
     public static void main(String args[]) {
         Controlador init = new Controlador();
-        Clientes view = new Clientes();
-        view.setVisible(true);
+        Login login = new Login();
+        login.setVisible(true);
     }
 }
