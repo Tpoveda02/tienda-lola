@@ -28,12 +28,12 @@ public class Usuario {
     }
 
     /*
-     * METODO BUSCAR
+     * METODO BUSCAR EL USUARIO
      */
     public Usuario getUsuario(Connection conect) {
         ArrayList<Usuario> listMaterial = new ArrayList<Usuario>();
         Usuario usuario = new Usuario();
-        String sqlSentence = "SELECT * FROM USUARIO_ACCESO WHERE id_usuario =" + 1;
+        String sqlSentence = "SELECT * FROM USUARIO_ACCESO WHERE id_usuario =" + 1;//Unicamente el usuario administrador
         try {
             Statement stmt = conect.createStatement();
             ResultSet request = stmt.executeQuery(sqlSentence);
@@ -48,17 +48,17 @@ public class Usuario {
         }
         return usuario;
     }
-
+    //Metodo que valida las credenciales con la BD - True Si no False
     public Boolean login(Usuario us, Connection conect){
         Usuario usuario = this.getUsuario(conect);
         String contrasenia = convertSHA256(us.getContrasenia());
-        System.out.println(contrasenia);
-        if(us != null && usuario.getContrasenia().equals(contrasenia)) {
+        //COmpara el nombre y contraseña digitados con la BD
+        if(us != null && usuario.getContrasenia().equals(contrasenia)&&usuario.getUsuario().equals(us.getUsuario())) {
             return true;
         }
         return false;
     }
-
+    //Método que cifra la contraseña en SHA256
     public String convertSHA256(String password) {
         MessageDigest md = null;
         try {

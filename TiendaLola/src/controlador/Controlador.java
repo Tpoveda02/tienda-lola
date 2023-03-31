@@ -9,9 +9,12 @@ import modelo.*;
 import vista.Clientes;
 
 public class Controlador {
+
+    //Declaración de variables
     static Connection conect;
     Cliente cliente = new Cliente();
 
+    // Conexión a la base de datos
     public Connection getConexion() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -35,6 +38,7 @@ public class Controlador {
     //Login - acceso al sistema
     public Boolean login(String usuario, String contrasenia) {
         Usuario us = new Usuario(1,usuario,contrasenia);
+        //Llama el metodo que valida el acceso
         return us.login(us,getConexion());
     }
     //----CRUD CLIENTE----
@@ -76,8 +80,6 @@ public class Controlador {
 
     public static void main(String args[]) {
         Controlador init = new Controlador();
-        System.out.println(init.crearCliente(2, "DNI", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
-        System.out.println(init.modificarCliente(2, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
         Clientes view = new Clientes();
         view.setVisible(true);
     }
