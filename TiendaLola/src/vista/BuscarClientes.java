@@ -227,7 +227,7 @@ public class BuscarClientes extends JPanel {
 		modeloTabla.addColumn("Teléfono");
 		modeloTabla.addColumn("Correo Electrónico");
 
-		tablaClientes = new JTable(actualizarTabla(modeloTabla));
+		tablaClientes = new JTable(actualizarTabla(modeloTabla,controlador.listarClientes()));
 		scrollPane = new JScrollPane(tablaClientes);
 		scrollPane.setBorder(new LineBorder(Color.WHITE, 0, true));
 		scrollPane.setBounds(10, 106, 940, 262);
@@ -282,7 +282,7 @@ public class BuscarClientes extends JPanel {
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnActualizarActionPerformed(evt, panelBuscar);
-				actualizarTabla(modeloTabla);
+				actualizarTabla(modeloTabla,controlador.listarClientes());
 			}
 		});
 		panelBuscar.add(btnActualizar);
@@ -296,7 +296,7 @@ public class BuscarClientes extends JPanel {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnEliminarActionPerformed(evt);
-				actualizarTabla(modeloTabla);
+				actualizarTabla(modeloTabla,controlador.listarClientes());
 			}
 		});
 		panelBuscar.add(btnEliminar);
@@ -310,7 +310,7 @@ public class BuscarClientes extends JPanel {
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnLimpiarActionPerformed(evt);
-				actualizarTabla(modeloTabla);
+				actualizarTabla(modeloTabla,controlador.listarClientes());
 			}
 		});
 		panelBuscar.add(btnLimpiar);
@@ -324,7 +324,6 @@ public class BuscarClientes extends JPanel {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnBuscarActionPerformed(evt);
-				actualizarTabla(modeloTabla);
 			}
 		});
 		panelBuscar.add(btnBuscar);
@@ -396,7 +395,7 @@ public class BuscarClientes extends JPanel {
 		try {
 			// Eliminar el cliente de la base de datos
 			JOptionPane.showMessageDialog(this,controlador.eliminarCliente(idCliente));
-			actualizarTabla(modeloTabla);
+			actualizarTabla(modeloTabla,controlador.listarClientes());
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
@@ -418,7 +417,9 @@ public class BuscarClientes extends JPanel {
 
 	private void btnBuscarActionPerformed(ActionEvent evt) {
 		try {
-			int idCliente = Integer.parseInt(txtIdCliente.getText());
+			Integer idCliente = null;
+			if(!txtIdCliente.getText().equals(""))
+				idCliente = Integer.parseInt(txtIdCliente.getText());
 			String tipoId = txtTipoIdentificacion.getSelectedItem().toString();
 			String primerNombre = txtPrimerNombre.getText();
 			String segundoNombre = txtSegundoNombre.getText();
@@ -431,30 +432,27 @@ public class BuscarClientes extends JPanel {
 			// Buscar el cliente en la base de datos
 			List<Cliente> clientes = controlador.buscarClientes(idCliente,tipoId,primerNombre,segundoNombre,primerApellido,
 					segundoApellido,direccion,telefono,correo);
-
 			if (clientes != null) {
-				txtTipoIdentificacion.setSelectedItem(clientes.get(0).getTipoIdentificacion());
-				txtPrimerNombre.setText(clientes.get(0).getPrimerNombre());
-				txtSegundoNombre.setText(clientes.get(0).getSegundoNombre());
-				txtPrimerApellido.setText(clientes.get(0).getPrimerApellido());
-				txtSegundoApellido.setText(clientes.get(0).getSegundoApellido());
-				txtDireccion.setText(clientes.get(0).getDireccion());
-				txtTelefono.setText(clientes.get(0).getTelefono());
-				txtCorreoElectronico.setText(clientes.get(0).getCorreoElectronico());
+				actualizarTabla(modeloTabla,clientes);
 			} else {
 				JOptionPane.showMessageDialog(this, "Cliente no encontrado.");
 			}
+
+
 		} catch (NumberFormatException ex) {
 			System.err.println(ex.getMessage());
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
 		}
+
 	}
 
-	private DefaultTableModel actualizarTabla(DefaultTableModel modeloTabla) {
+	private DefaultTableModel actualizarTabla(DefaultTableModel modeloTabla,List<Cliente> listaClientes) {
 		// Limpiar la tabla
-		modeloTabla.setRowCount(0);
-		// Obtener la lista de clientes desde la base de datos
-		List<Cliente> listaClientes = controlador.listarClientes();
+		int rowCount = modeloTabla.getRowCount();
+		for (int i = rowCount - 1; i >= 0; i--) {
+			modeloTabla.removeRow(i); // eliminar cada fila una por una
+		}
+
 		// Agregar cada cliente a la tabla
 		for (Cliente cliente : listaClientes) {
 			Object[] fila = new Object[9];
@@ -498,7 +496,6 @@ public class BuscarClientes extends JPanel {
 		TableModel modeloTabla = tablaClientes.getModel();
 		
 		idCliente = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
-		System.out.println(idCliente);
 		tipoIdentificacion = modeloTabla.getValueAt(i, 1).toString();
 		primerNombre = modeloTabla.getValueAt(i, 2).toString();
 		segundoNombre = modeloTabla.getValueAt(i, 3).toString();

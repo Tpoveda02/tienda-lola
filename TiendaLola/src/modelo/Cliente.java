@@ -8,7 +8,7 @@ import java.util.List;
 public class Cliente {
 
     //--------------DECLARACIÓN DE VARIABLES--------------
-    private int idCliente;
+    private Integer idCliente;
     private String tipoIdentificacion;
     private String primerNombre;
     private String segundoNombre;
@@ -22,7 +22,7 @@ public class Cliente {
     //---------------METODO CONSTRUCTOR------------------
 
 
-    public Cliente(int idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico) {
+    public Cliente(Integer idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico) {
         this.idCliente = idCliente;
         this.tipoIdentificacion = tipoIdentificacion;
         this.primerNombre = primerNombre;
@@ -33,6 +33,7 @@ public class Cliente {
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
     }
+
     //VALIDACIÓN ENUM PERMITIDOS
     public enum TipoIdentificacion {
         DNI,
@@ -40,6 +41,7 @@ public class Cliente {
         PASAPORTE,
         CC
     }
+
     public Cliente() {
 
     }
@@ -52,9 +54,9 @@ public class Cliente {
      */
     public List<Cliente> listarClientes(Connection conexion) {
         List<Cliente> clientes = new ArrayList<>();
-        try{
-             PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente");
-             ResultSet resultado = consulta.executeQuery();
+        try {
+            PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente");
+            ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 Cliente cliente = new Cliente();
                 cliente.setIdCliente(resultado.getInt("id_cliente"));
@@ -75,24 +77,29 @@ public class Cliente {
 
         return clientes;
     }
+
     public ArrayList<Cliente> buscarClientes(Cliente cliente, Connection conexion) {
         ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
         Cliente c = new Cliente();
         try {
-            PreparedStatement sentencia = conexion.prepareStatement( "SELECT * FROM CLIENTE WHERE " +
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM CLIENTE WHERE " +
                     "id_cliente LIKE ? AND tipo_identificacion LIKE ? " +
                     "AND primer_nombre LIKE ? AND segundo_nombre LIKE ? AND primer_apellido LIKE ? " +
                     "AND segundo_apellido LIKE ? AND direccion LIKE ? AND telefono LIKE ? " +
                     "AND correo_electronico LIKE ?");
-                sentencia.setString(1, "%" + idCliente + "%");
-                sentencia.setString(2, "%" + tipoIdentificacion + "%");
-                sentencia.setString(3, "%" + primerNombre + "%");
-                sentencia.setString(4, "%" + segundoNombre + "%");
-                sentencia.setString(5, "%" + primerApellido + "%");
-                sentencia.setString(6, "%" + segundoApellido + "%");
-                sentencia.setString(7, "%" + direccion + "%");
-                sentencia.setString(8, "%" + telefono + "%");
-                sentencia.setString(9, "%" + correoElectronico + "%");
+            if (cliente.getIdCliente() != null) {
+                sentencia.setString(1, "%" + cliente.getIdCliente() + "%");
+            } else {
+                sentencia.setString(1, "%%");
+            }
+            sentencia.setString(2, "%" + cliente.getTipoIdentificacion() + "%");
+            sentencia.setString(3, "%" + cliente.getPrimerNombre() + "%");
+            sentencia.setString(4, "%" + cliente.getSegundoNombre() + "%");
+            sentencia.setString(5, "%" + cliente.getPrimerApellido() + "%");
+            sentencia.setString(6, "%" + cliente.getSegundoApellido() + "%");
+            sentencia.setString(7, "%" + cliente.getDireccion() + "%");
+            sentencia.setString(8, "%" + cliente.getTelefono() + "%");
+            sentencia.setString(9, "%" + cliente.getCorreoElectronico() + "%");
             //Ejecuta la sentencia
             ResultSet resultado = sentencia.executeQuery();
             //Asigna los resultados a una lista de los mismos y recorre campo por campo según el registro
@@ -101,13 +108,14 @@ public class Cliente {
                 c.setTipoIdentificacion(resultado.getString("tipo_identificacion"));
                 c.setPrimerNombre(resultado.getString("primer_nombre"));
                 c.setSegundoNombre(resultado.getString("segundo_nombre"));
-                c.setPrimerNombre(resultado.getString("primer_apellido"));
+                c.setPrimerApellido(resultado.getString("primer_apellido"));
                 c.setSegundoApellido(resultado.getString("segundo_apellido"));
                 c.setDireccion(resultado.getString("direccion"));
                 c.setTelefono(resultado.getString("telefono"));
                 c.setCorreoElectronico(resultado.getString("correo_electronico"));
                 //Agrega un registro - cliente
                 listaClientes.add(c);
+                c = new Cliente();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -175,7 +183,7 @@ public class Cliente {
                 sentencia.setString(6, cliente.getDireccion());
                 sentencia.setString(7, cliente.getTelefono());
                 sentencia.setString(8, cliente.getCorreoElectronico());
-                sentencia.setTimestamp(9,cliente.getFechaModificación());
+                sentencia.setTimestamp(9, cliente.getFechaModificación());
                 sentencia.setInt(10, cliente.getIdCliente());
                 //Ejecuta la sentencia
                 sentencia.executeUpdate();
@@ -229,7 +237,7 @@ public class Cliente {
             TipoIdentificacion identificacion = TipoIdentificacion.valueOf(getTipoIdentificacion());
             // El valor ingresado es uno de los valores permitidos en el campo ENUM
         } catch (IllegalArgumentException e) {
-            mensajeError +=" El campo tipo de identifiacion ingresado no es uno de los valores permitidos.";
+            mensajeError += " El campo tipo de identifiacion ingresado no es uno de los valores permitidos.";
         }
         if (c.getTelefono().length() < 7 || c.getTelefono().length() > 10) {
             mensajeError += "El campo de teléfono debe tener entre 7 y 10 caracteres.\n";
@@ -237,13 +245,13 @@ public class Cliente {
         if (c.getPrimerNombre().length() < 3) {
             mensajeError += "El campo de primer nombre debe tener almenos 3 caracteres.\n";
         }
-        if (c.getSegundoNombre().length() <  3) {
+        if (c.getSegundoNombre().length() < 3) {
             mensajeError += "El campo de segundo nombre debe tener almenos 3 caracteres.\n";
         }
-        if (c.getPrimerApellido().length() <  3) {
+        if (c.getPrimerApellido().length() < 3) {
             mensajeError += "El campo de primer apellido debe tener almenos 3 caracteres.\n";
         }
-        if (c.getSegundoApellido().length() <  3) {
+        if (c.getSegundoApellido().length() < 3) {
             mensajeError += "El campo de segundo apellido debe tener almenos 3 caracteres.\n";
         }
         //Concatena y devuelve los errores
@@ -254,11 +262,11 @@ public class Cliente {
      *
      */
 
-    public int getIdCliente() {
+    public Integer getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
 

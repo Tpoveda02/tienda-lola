@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import modelo.*;
-import vista.ClienteGUI;
-import vista.Login;
+import vista.Clientes;
 
 public class Controlador {
     static Connection conect;
@@ -46,7 +45,7 @@ public class Controlador {
     }
 
     //Metodo obtener cliente(s) - recibe los valores de los JText
-    public List<Cliente> buscarClientes(int idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico){
+    public List<Cliente> buscarClientes(Integer idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico){
         //Instacia el cliente con los respectivos valores
         Cliente cliente = new Cliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre, primerApellido, segundoApellido, direccion, telefono, correoElectronico);
         //Llama el metodo de buscar clientes
@@ -79,7 +78,7 @@ public class Controlador {
         Controlador init = new Controlador();
         System.out.println(init.crearCliente(2, "DNI", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
         System.out.println(init.modificarCliente(2, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
-        ClienteGUI view = new ClienteGUI();
+        Clientes view = new Clientes();
         view.setVisible(true);
     }
 }
