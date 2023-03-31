@@ -79,12 +79,6 @@ public class AgregarCliente extends JPanel {
 		add(panelAgregar);
 		panelAgregar.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		panel.setBackground(new Color(164, 255, 255));
-		panel.setBounds(82, 23, 792, 389);
-		panelAgregar.add(panel);
-		
 		
 		// Labels
 		lblRegistroCliente = new JLabel("Registro del Cliente");
@@ -219,7 +213,11 @@ public class AgregarCliente extends JPanel {
 		});
 		panelAgregar.add(btnSalir);
 		
-		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
+		panel.setBackground(new Color(164, 255, 255));
+		panel.setBounds(82, 23, 792, 389);
+		panelAgregar.add(panel);
 
 	}
 

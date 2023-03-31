@@ -63,18 +63,10 @@ public class Login extends JFrame{
      * METODO PARA INICIALIZAR Y DAR ESTILO A TODOS LOS COMPONETES VISUALES DE LA VISTA DEL LOGIN
      */
 	public void initializarComponentes() {
-
-		//PANELES
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		panelFondo = new JPanel();
-		panelFondo.setBounds(198, 118, 592, 401);
-		panelFondo.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		panelFondo.setBackground(new Color(164, 255, 255));
-		contentPane.add(panelFondo);
 		
 		panelBarra = new JPanel();
 		panelBarra.setBounds(0, 70, 959, 31);
@@ -149,6 +141,12 @@ public class Login extends JFrame{
 		btnIniciarSesion.setForeground(new Color(255, 255, 255));
 
 		contentPane.add(btnIniciarSesion);
+		
+		panelFondo = new JPanel();
+		panelFondo.setBounds(198, 118, 592, 401);
+		panelFondo.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
+		panelFondo.setBackground(new Color(164, 255, 255));
+		contentPane.add(panelFondo);
 
 	}
 	
