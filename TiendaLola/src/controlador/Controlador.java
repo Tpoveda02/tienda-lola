@@ -19,7 +19,7 @@ public class Controlador {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/TIENDA_LOLA?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             String usuario = "root";
-            String contraseña = "Shoyo1010Kamado";
+            String contraseña = "root";
             conect = DriverManager.getConnection(url, usuario, contraseña);
             if(conect!=null) {
                 System.out.println("Conexión establecida con Mysql");
@@ -40,45 +40,18 @@ public class Controlador {
         //Llama el metodo que valida el acceso
         return us.login(us,getConexion());
     }
-    //----CRUD CLIENTE----
-    //Metodo obtener cliente(s) - recibe los valores de los JText
-    public List<Cliente> listarClientes() {
-    	Cliente cliente = new Cliente();
-        //Llama el metodo de listar clientes
-        return cliente.listarClientes(getConexion());
-    }
 
-    //Metodo obtener cliente(s) - recibe los valores de los JText
-    public List<Cliente> buscarClientes(Integer idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico){
-        //Instacia el cliente con los respectivos valores
-        Cliente cliente = new Cliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre, primerApellido, segundoApellido, direccion, telefono, correoElectronico);
-        //Llama el metodo de buscar clientes
-        return cliente.buscarClientes(cliente,getConexion());
-    }
-    //Metodo agregar cliente - recibe los valores de los JText
-    public String crearCliente(int idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico){
-        //Instacia el cliente con los respectivos valores
-        Cliente cliente = new Cliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre, primerApellido, segundoApellido, direccion, telefono, correoElectronico);
-        //Llama el metodo de crear cliente
-        return cliente.agregarCliente(cliente,getConexion());
-    }
-    //Metodo actualizar cliente - recibe los valores de los JText
-    public String modificarCliente(int idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico){
-        //Instacia el cliente con los respectivos valores
-        Cliente cliente = new Cliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre, primerApellido, segundoApellido, direccion, telefono, correoElectronico);
-        //Llama el metodo de actualizar cliente
-        return cliente.actualizarCliente(cliente,getConexion());
-    }
-    //Metodo eliminar cliente
-    public String eliminarCliente(int id){
-        //Instacia el cliente con el ID para eliminarlo
-        Cliente cliente = new Cliente();
-        cliente.setIdCliente(id);
-        //Llama el metodo de eliminar cliente
-        return cliente.eliminarCliente(cliente,getConexion());
-    }
 
     public static void main(String args[]) {
+        //PROBAR PROVEEDOR
+        /*
+        ProveedorControlador init = new ProveedorControlador();
+        System.out.println(init.crearProveedor(1000034812, "PASAPORTE", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
+        System.out.println(init.modificarProveedor(1000034812, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
+        System.out.println(init.eliminarProveedor(1000034812));
+        System.out.println(init.buscarProveedors(1000034812, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
+         */
+
         Controlador init = new Controlador();
         Login login = new Login();
         login.setVisible(true);

@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.ClienteControlador;
 import controlador.Controlador;
 import modelo.Cliente;
 import java.awt.Font;
@@ -29,7 +30,7 @@ import javax.swing.ImageIcon;
 public class AgregarCliente extends JPanel {
 	
 	//Objetod e la clase Controlador
-	private Controlador controlador;
+	private ClienteControlador clienteControlador;
 	//Objeto de la clase BuscarClientes
 	private BuscarClientes panelBuscar;
 	
@@ -64,7 +65,7 @@ public class AgregarCliente extends JPanel {
 	 * METODO CONSTRUCTOR
 	 */
 	public AgregarCliente() {
-		controlador = new Controlador();
+		clienteControlador = new ClienteControlador();
 		inicializarComponentes();
 		listaClientes = new ArrayList<Cliente>();
 	}
@@ -237,7 +238,7 @@ public class AgregarCliente extends JPanel {
 			String correoElectronico = txtCorreoElectronico.getText();
 			// Agregar el cliente a la base de datos
 			String mensaje = "";
-			mensaje = controlador.crearCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
+			mensaje = clienteControlador.crearCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
 					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
 			JOptionPane.showMessageDialog(this,mensaje);
 			

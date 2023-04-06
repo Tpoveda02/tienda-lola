@@ -4,6 +4,8 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Cliente {
 
@@ -233,8 +235,11 @@ public class Cliente {
 
     public String validarCamposCliente(Cliente c) {
         String mensajeError = "";
+        if ((c.getIdCliente()+"").length() < 7 || (c.getIdCliente()+"").length() > 10) {
+            mensajeError += "El campo de identificación debe tener entre 7 y 10 caracteres.\n";
+        }
         try {
-            TipoIdentificacion identificacion = TipoIdentificacion.valueOf(getTipoIdentificacion());
+            Proveedor.TipoIdentificacion identificacion = Proveedor.TipoIdentificacion.valueOf(getTipoIdentificacion());
             // El valor ingresado es uno de los valores permitidos en el campo ENUM
         } catch (IllegalArgumentException e) {
             mensajeError += " El campo tipo de identifiacion ingresado no es uno de los valores permitidos.";
@@ -254,8 +259,23 @@ public class Cliente {
         if (c.getSegundoApellido().length() < 3) {
             mensajeError += "El campo de segundo apellido debe tener almenos 3 caracteres.\n";
         }
+        if (!this.validarCorreo(c.getCorreoElectronico())) {
+            mensajeError += "El campo del correo es invalido, ingrese un correo valido.\n";
+        }
         //Concatena y devuelve los errores
         return mensajeError;
+    }
+    //Metodo para validar el correo
+    public boolean validarCorreo(String correo) {
+        // Expresión regular para validar correo electrónico
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+        // Compilar la expresión regular en un objeto Pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Verificar si el correo electrónico coincide con la expresión regular
+        Matcher matcher = pattern.matcher(correo);
+        return matcher.matches();
     }
     /*
      * METODOS GETTERS AND SETTERS

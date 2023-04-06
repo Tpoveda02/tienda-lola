@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import controlador.ClienteControlador;
 import controlador.Controlador;
 import modelo.Cliente;
 import javax.swing.JComboBox;
@@ -35,7 +36,7 @@ import javax.swing.DefaultComboBoxModel;
 public class BuscarClientes extends JPanel {
 
 	//Objeto de la clase Controlador
-	private Controlador controlador;
+	private ClienteControlador clienteControlador;
 	//Objeto de la clase PanelAgregar
 	private AgregarCliente panelAgregar;
 	//Objeto de la clase panelActualizar
@@ -85,7 +86,7 @@ public class BuscarClientes extends JPanel {
 	 * METODO CONSTRUCTOR
 	 */
 	public BuscarClientes() {
-		controlador = new Controlador();
+		clienteControlador = new ClienteControlador();
 		inicializarComponentes();
 		listaClientes = new ArrayList<Cliente>();
 	}
@@ -216,7 +217,7 @@ public class BuscarClientes extends JPanel {
 		modeloTabla.addColumn("Teléfono");
 		modeloTabla.addColumn("Correo Electrónico");
 
-		tablaClientes = new JTable(actualizarTabla(modeloTabla,controlador.listarClientes()));
+		tablaClientes = new JTable(actualizarTabla(modeloTabla,clienteControlador.listarClientes()));
 		scrollPane = new JScrollPane(tablaClientes);
 		scrollPane.setBorder(new LineBorder(Color.WHITE, 0, true));
 		scrollPane.setBounds(10, 106, 940, 262);
@@ -272,7 +273,7 @@ public class BuscarClientes extends JPanel {
 				//ValidaridCliente que no ha seleccionado ningun cliente//Si no mensaje
 				if(idCliente != 0) {
 					btnActualizarActionPerformed(evt, panelBuscar);
-					actualizarTabla(modeloTabla,controlador.listarClientes());
+					actualizarTabla(modeloTabla,clienteControlador.listarClientes());
 				}else {
 					JOptionPane.showMessageDialog(null,"Seleccione un Cliente");
 				}
@@ -292,7 +293,7 @@ public class BuscarClientes extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				if(idCliente != 0) {
 					btnEliminarActionPerformed(evt);
-					actualizarTabla(modeloTabla,controlador.listarClientes());
+					actualizarTabla(modeloTabla,clienteControlador.listarClientes());
 				}else {
 					JOptionPane.showMessageDialog(null,"Seleccione un Cliente");
 				}
@@ -310,7 +311,7 @@ public class BuscarClientes extends JPanel {
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnLimpiarActionPerformed(evt);
-				actualizarTabla(modeloTabla,controlador.listarClientes());
+				actualizarTabla(modeloTabla,clienteControlador.listarClientes());
 			}
 		});
 		panelBuscar.add(btnLimpiar);
@@ -377,8 +378,8 @@ public class BuscarClientes extends JPanel {
 	private void btnEliminarActionPerformed(ActionEvent evt) {
 		try {
 			// Eliminar el cliente de la base de datos
-			JOptionPane.showMessageDialog(this,controlador.eliminarCliente(idCliente));
-			actualizarTabla(modeloTabla,controlador.listarClientes());
+			JOptionPane.showMessageDialog(this,clienteControlador.eliminarCliente(idCliente));
+			actualizarTabla(modeloTabla,clienteControlador.listarClientes());
 
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
@@ -418,7 +419,7 @@ public class BuscarClientes extends JPanel {
 			String correo = txtCorreoElectronico.getText();
 
 			// Buscar el cliente en la base de datos
-			List<Cliente> clientes = controlador.buscarClientes(idCliente,tipoId,primerNombre,segundoNombre,primerApellido,
+			List<Cliente> clientes = clienteControlador.buscarClientes(idCliente,tipoId,primerNombre,segundoNombre,primerApellido,
 					segundoApellido,direccion,telefono,correo);
 			if (clientes != null) {
 				actualizarTabla(modeloTabla,clientes);

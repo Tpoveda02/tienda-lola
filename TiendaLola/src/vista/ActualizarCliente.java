@@ -19,13 +19,14 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.ClienteControlador;
 import controlador.Controlador;
 import modelo.Cliente;
 
 public class ActualizarCliente extends JPanel {
 	
 	//Objeto de la clase Controlador
-	private Controlador controlador;
+	private ClienteControlador clienteControlador;
 	//Objeto de la clase BuscarClientes
 	private BuscarClientes panelBuscar;
 	
@@ -59,8 +60,8 @@ public class ActualizarCliente extends JPanel {
 	 * METODO CONSTRUCTOR
 	 */
 	public ActualizarCliente() {
-		
-		controlador = new Controlador();
+
+		clienteControlador = new ClienteControlador();
 		panelBuscar = new BuscarClientes();
 		inicializarComponentes();
 		listaClientes = new ArrayList<Cliente>();
@@ -245,7 +246,7 @@ public class ActualizarCliente extends JPanel {
 			String correoElectronico = txtCorreoElectronico.getText();
 			
 			String mensaje = "";
-			mensaje = controlador.modificarCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
+			mensaje = clienteControlador.modificarCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
 					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
 			JOptionPane.showMessageDialog(this,mensaje);
 			limpiarCampos();
@@ -278,9 +279,9 @@ public class ActualizarCliente extends JPanel {
 	 */	
 	private void irPanelBuscar(ActionEvent evt, JPanel panelActualizar) {
 		try {
+			panelBuscar = new BuscarClientes();
 			panelBuscar.setSize(960, 440);
 			panelBuscar.setLocation(0, 0);
-
 			panelActualizar.removeAll();
 			panelActualizar.add(panelBuscar, BorderLayout.CENTER);
 			panelActualizar.revalidate();
