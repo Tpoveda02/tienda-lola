@@ -51,9 +51,19 @@ public class Controlador {
         System.out.println(init.eliminarProveedor(1000034812));
         System.out.println(init.buscarProveedors(1000034812, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
          */
+        //PROBAR CATEGORIA
 
+/*
+        CategoriaControlador init = new CategoriaControlador();
+        System.out.println(init.crearCategoria(0, "Bebidas", "Estante A - Refrigeradores"));
+        System.out.println(init.modificarCategoria(1, "Bebidas", "Estante F - Refrigeradores"));
+        System.out.println(init.eliminarCategoria(1));
+        System.out.println(init.buscarCategorias(1, "",""));
+
+ */
         Controlador init = new Controlador();
         Login login = new Login();
         login.setVisible(true);
+
     }
 }

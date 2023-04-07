@@ -19,7 +19,7 @@ public class Proveedor {
     private String direccion;
     private String telefono;
     private String correoElectronico;
-    private Timestamp fechaModificación;
+    private Timestamp fechaModificacion;
 
     //---------------METODO CONSTRUCTOR------------------
 
@@ -137,7 +137,7 @@ public class Proveedor {
                 try {
                     PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO PROVEEDOR (id_proveedor, tipo_identificacion, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, direccion, telefono, correo_electronico) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");//Sentencia para insertar el proveedor en la BD
-                    //Remplaza en la sentencia anterior los signos de interrogación en el orden que estan
+                    //Remplaza en la sentencia anterior los signos de interrogacion en el orden que estan
                     sentencia.setInt(1, proveedor.getIdProveedor());
                     sentencia.setString(2, proveedor.getTipoIdentificacion());
                     sentencia.setString(3, proveedor.getPrimerNombre());
@@ -149,13 +149,13 @@ public class Proveedor {
                     sentencia.setString(9, proveedor.getCorreoElectronico());
                     //Ejecuta la sentencia
                     sentencia.executeUpdate();
-                    //Cierra la conexión - sentencia
+                    //Cierra la conexion - sentencia
                     sentencia.close();
                     conexion.close();
                     return "Proveedor creado.";
                 } catch (SQLException e) {
                     System.err.println(e.getMessage());
-                    return "Error creación de proveedor, campos invalidos.";
+                    return "Error creacion de proveedor, campos invalidos.";
                 }
             } else {
                 return mensajeError;
@@ -169,7 +169,7 @@ public class Proveedor {
 
     public String actualizarProveedor(Proveedor proveedor, Connection conexion) {
         String mensajeError = this.validarCamposProveedor(proveedor);
-        proveedor.setFechaModificación(Timestamp.valueOf(LocalDateTime.now()));
+        proveedor.setFechaModificacion(Timestamp.valueOf(LocalDateTime.now()));
         if (mensajeError.equals("")) {//Verifica los campos - no sean null; Si no retorna los erroes
             try {
                 //Sentencia para actualizar
@@ -185,11 +185,11 @@ public class Proveedor {
                 sentencia.setString(6, proveedor.getDireccion());
                 sentencia.setString(7, proveedor.getTelefono());
                 sentencia.setString(8, proveedor.getCorreoElectronico());
-                sentencia.setTimestamp(9, proveedor.getFechaModificación());
+                sentencia.setTimestamp(9, proveedor.getFechaModificacion());
                 sentencia.setInt(10, proveedor.getIdProveedor());
                 //Ejecuta la sentencia
                 sentencia.executeUpdate();
-                //Cierra la conexión - sentencia
+                //Cierra la conexion - sentencia
                 sentencia.close();
                 conexion.close();
                 return "Proveedor actualizado.";
@@ -212,7 +212,7 @@ public class Proveedor {
             sentencia.setInt(1, proveedor.getIdProveedor());// El ID del proveedor que se desea eliminar
             //Ejecuta la sentencia
             int filasAfectadas = sentencia.executeUpdate();
-            //Cierra la conexión - sentencia
+            //Cierra la conexion - sentencia
             sentencia.close();
             conexion.close();
             if (filasAfectadas > 0) {
@@ -236,7 +236,7 @@ public class Proveedor {
     public String validarCamposProveedor(Proveedor p) {
         String mensajeError = "";
         if ((p.getIdProveedor()+"").length() < 7 || (p.getIdProveedor()+"").length() > 10) {
-            mensajeError += "El campo de identificación debe tener entre 7 y 10 caracteres.\n";
+            mensajeError += "El campo de identificacion debe tener entre 7 y 10 caracteres.\n";
         }
         try {
             TipoIdentificacion identificacion = TipoIdentificacion.valueOf(getTipoIdentificacion());
@@ -267,13 +267,13 @@ public class Proveedor {
     }
     //Metodo para validar el correo
     public boolean validarCorreo(String correo) {
-        // Expresión regular para validar correo electrónico
+        // Expresion regular para validar correo electionico
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
-        // Compilar la expresión regular en un objeto Pattern
+        // Compilar la expresion regular en un objeto Pattern
         Pattern pattern = Pattern.compile(regex);
 
-        // Verificar si el correo electrónico coincide con la expresión regular
+        // Verificar si el correo electionico coincide con la expresion regular
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches();
     }
@@ -354,11 +354,11 @@ public class Proveedor {
         this.correoElectronico = correoElectronico;
     }
 
-    public Timestamp getFechaModificación() {
-        return fechaModificación;
+    public Timestamp getFechaModificacion() {
+        return fechaModificacion;
     }
 
-    public void setFechaModificación(Timestamp fechaModificación) {
-        this.fechaModificación = fechaModificación;
+    public void setFechaModificacion(Timestamp fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 }

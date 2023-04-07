@@ -19,7 +19,7 @@ public class Cliente {
     private String direccion;
     private String telefono;
     private String correoElectronico;
-    private Timestamp fechaModificación;
+    private Timestamp fechaModificacion;
 
     //---------------METODO CONSTRUCTOR------------------
 
@@ -169,7 +169,7 @@ public class Cliente {
 
     public String actualizarCliente(Cliente cliente, Connection conexion) {
         String mensajeError = this.validarCamposCliente(cliente);
-        cliente.setFechaModificación(Timestamp.valueOf(LocalDateTime.now()));
+        cliente.setFechaModificacion(Timestamp.valueOf(LocalDateTime.now()));
         if (mensajeError.equals("")) {//Verifica los campos - no sean null; Si no retorna los erroes
             try {
                 //Sentencia para actualizar
@@ -185,7 +185,7 @@ public class Cliente {
                 sentencia.setString(6, cliente.getDireccion());
                 sentencia.setString(7, cliente.getTelefono());
                 sentencia.setString(8, cliente.getCorreoElectronico());
-                sentencia.setTimestamp(9, cliente.getFechaModificación());
+                sentencia.setTimestamp(9, cliente.getFechaModificacion());
                 sentencia.setInt(10, cliente.getIdCliente());
                 //Ejecuta la sentencia
                 sentencia.executeUpdate();
@@ -354,11 +354,11 @@ public class Cliente {
         this.correoElectronico = correoElectronico;
     }
 
-    public Timestamp getFechaModificación() {
-        return fechaModificación;
+    public Timestamp getFechaModificacion() {
+        return fechaModificacion;
     }
 
-    public void setFechaModificación(Timestamp fechaModificación) {
-        this.fechaModificación = fechaModificación;
+    public void setFechaModificacion(Timestamp fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 }
