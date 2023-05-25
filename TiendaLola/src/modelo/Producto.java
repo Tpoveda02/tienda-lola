@@ -173,7 +173,7 @@ public class Producto {
     /*
      * METODO CREAR
      */
-    public String crearProducto(Producto producto, Connection conexion) {
+    public String agregarProducto(Producto producto, Connection conexion) {
         String mensajeError = validarCamposProducto(producto, conexion);
         if (mensajeError.equals("")) { // Verifica los campos - no sean null; Si no retorna los errores
             try {
