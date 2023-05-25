@@ -174,47 +174,7 @@ public class Producto {
      * METODO CREAR
      */
 
-    public String agregarProducto(Producto producto, Connection conexion) {
-        ArrayList<Producto> sp = buscarProductos(producto.getIdProducto(),"","","" ,"","","","","","","","","","","","",conexion); //Busca el producto
-        if (sp.isEmpty() || sp.get(0).getIdProducto() != producto.getIdProducto()) { //Valida que el producto no exista
-            String mensajeError = this.validarCamposProducto(producto,conexion); //Verifica los campos - no sean null; Si no retorna los errores
-            if (mensajeError.equals("")) {
-                try {
-                    PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO PRODUCTO (id_producto, nombre, tipo_contenido_neto, contenido_neto, valor_contenido, empaque_general, empaque, descripcion, recomendaciones, precio_proveedor, porcentaje_iva, precio_sin_iva, precio_venta, fecha_vencimiento, cantidad, id_categoria) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); //Sentencia para insertar el producto en la BD
-                    //Remplaza en la sentencia anterior los signos de interrogación en el orden que están
-                    sentencia.setInt(1, producto.getIdProducto());
-                    sentencia.setString(2, producto.getNombre());
-                    sentencia.setString(3, producto.getTipoContenidoNeto());
-                    sentencia.setBigDecimal(4, producto.getContenidoNeto());
-                    sentencia.setBigDecimal(5, producto.getValorContenido());
-                    sentencia.setString(6, producto.getEmpaqueGeneral());
-                    sentencia.setString(7, producto.getEmpaque());
-                    sentencia.setString(8, producto.getDescripcion());
-                    sentencia.setString(9, producto.getRecomendaciones());
-                    sentencia.setBigDecimal(10, producto.getPrecioProveedor());
-                    sentencia.setBigDecimal(11, producto.getPorcentajeIva());
-                    sentencia.setBigDecimal(12, producto.getPrecioSinIva());
-                    sentencia.setBigDecimal(13, producto.getPrecioVenta());
-                    sentencia.setDate(14, producto.getFechaVencimiento());
-                    sentencia.setInt(15, producto.getCantidad());
-                    sentencia.setInt(16, producto.getCategoria().getIdCategoria());
-                    //Ejecuta la sentencia
-                    sentencia.executeUpdate();
-                    //Cierra la conexión - sentencia
-                    sentencia.close();
-                    conexion.close();
-                    return "Producto creado.";
-                } catch (SQLException e) {
-                    System.err.println(e.getMessage());
-                    return "Error creación de producto, campos inválidos.";
-                }
-            } else {
-                return mensajeError;
-            }
-        }
-        return "Producto ya registrado.";
-    }
+
     /*
      * METODO ACTUALIZAR
      */

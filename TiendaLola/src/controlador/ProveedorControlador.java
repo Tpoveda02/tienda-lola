@@ -12,7 +12,7 @@ public class ProveedorControlador {
        controlador = new Controlador();
    }
 
-    //----CRUD CLIENTE----
+    //----CRUD PROVEEDOR----
     //Metodo obtener proveedor(s) - recibe los valores de los JText
     public List<Proveedor> listarProveedors() {
         Proveedor proveedor = new Proveedor();

@@ -75,6 +75,7 @@ CREATE TABLE factura_cliente (
     correo_electronico VARCHAR(50) NOT NULL,
     fecha_factura DATE NOT NULL,
     total DECIMAL(10,2) NOT NULL,
+    cantidad_producto INT NOT NULL,
     id_cliente INT NOT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_modificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
