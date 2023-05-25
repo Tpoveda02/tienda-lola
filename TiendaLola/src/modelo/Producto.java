@@ -173,7 +173,44 @@ public class Producto {
     /*
      * METODO CREAR
      */
-
+    public String crearProducto(Producto producto, Connection conexion) {
+        String mensajeError = validarCamposProducto(producto, conexion);
+        if (mensajeError.equals("")) { // Verifica los campos - no sean null; Si no retorna los errores
+            try {
+                // Sentencia para insertar
+                PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO PRODUCTO (nombre, tipo_contenido_neto, contenido_neto," +
+                        " valor_contenido, empaque_general, empaque, descripcion, recomendaciones, precio_proveedor, porcentaje_iva, " +
+                        "precio_sin_iva, precio_venta, fecha_vencimiento, cantidad, id_categoria) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                sentencia.setString(1, producto.getNombre());
+                sentencia.setString(2, producto.getTipoContenidoNeto().toString());
+                sentencia.setBigDecimal(3, producto.getContenidoNeto());
+                sentencia.setBigDecimal(4, producto.getValorContenido());
+                sentencia.setString(5, producto.getEmpaqueGeneral());
+                sentencia.setString(6, producto.getEmpaque());
+                sentencia.setString(7, producto.getDescripcion());
+                sentencia.setString(8, producto.getRecomendaciones());
+                sentencia.setBigDecimal(9, producto.getPrecioProveedor());
+                sentencia.setBigDecimal(10, producto.getPorcentajeIva());
+                sentencia.setBigDecimal(11, producto.getPrecioSinIva());
+                sentencia.setBigDecimal(12, producto.getPrecioVenta());
+                sentencia.setDate(13, producto.getFechaVencimiento());
+                sentencia.setInt(14, producto.getCantidad());
+                sentencia.setInt(15, producto.getCategoria().getIdCategoria());
+                // Ejecuta la sentencia
+                sentencia.executeUpdate();
+                // Cierra la conexión - sentencia
+                sentencia.close();
+                conexion.close();
+                return "Producto creado.";
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        } else {
+            return mensajeError;
+        }
+        return "Producto no creado, campos inválidos";
+    }
 
     /*
      * METODO ACTUALIZAR
