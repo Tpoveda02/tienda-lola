@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetalleFacturaCliente {
+public class DetalleFacturaProveedor {
     /*
      * DECLARACIÓN DE VARIABLES
      */
-    private int idDetalleFacturaCliente;
-    private int idFacturaCliente;
+    private int idDetalleFacturaProveedor;
+    private int idFacturaProveedor;
     private int cantidad;
     private BigDecimal precio;
     private Producto producto;
@@ -20,15 +20,15 @@ public class DetalleFacturaCliente {
      * METODO CREAR
      */
 
-    public String agregarDetalleFactura(DetalleFacturaCliente detalleFacturaCliente, FacturaCliente factura, Connection conexion) {
+    public String agregarDetalleFactura(DetalleFacturaProveedor detalleFacturaProveedor, FacturaProveedor factura, Connection conexion) {
         PreparedStatement sentencia = null;
         try {
-            String sql = "INSERT INTO factura_cliente_producto (id_factura_cliente, id_producto, cantidad, precio) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO factura_proveedor_producto (id_factura_proveedor, id_producto, cantidad, precio) VALUES (?, ?, ?, ?, ?)";
             sentencia = conexion.prepareStatement(sql);
-            sentencia.setInt(1, factura.getIdFacturaCliente());
-            sentencia.setInt(2, detalleFacturaCliente.getProducto().getIdProducto());
-            sentencia.setInt(3, detalleFacturaCliente.getCantidad());
-            sentencia.setBigDecimal(4, detalleFacturaCliente.getProducto().getPrecioVenta().multiply(BigDecimal.valueOf(detalleFacturaCliente.getCantidad())));
+            sentencia.setInt(1, factura.getIdFacturaProveedor());
+            sentencia.setInt(2, detalleFacturaProveedor.getProducto().getIdProducto());
+            sentencia.setInt(3, detalleFacturaProveedor.getCantidad());
+            sentencia.setBigDecimal(4, detalleFacturaProveedor.getProducto().getPrecioVenta().multiply(BigDecimal.valueOf(detalleFacturaProveedor.getCantidad())));
             sentencia.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             sentencia.executeUpdate();
             //Ejecuta la sentencia
@@ -46,10 +46,10 @@ public class DetalleFacturaCliente {
     /*
      * METODO ELIMINAR
      */
-    public String eliminarDetalleFacturaPorIdFactura(int idFacturaCliente, Connection conexion) {
+    public String eliminarDetalleFacturaPorIdFactura(int idFacturaProveedor, Connection conexion) {
         try {
-            PreparedStatement statement = conexion.prepareStatement("DELETE FROM detalle_factura_cliente WHERE id_factura = ?");
-            statement.setInt(1, idFacturaCliente);
+            PreparedStatement statement = conexion.prepareStatement("DELETE FROM detalle_factura_proveedor WHERE id_factura = ?");
+            statement.setInt(1, idFacturaProveedor);
             statement.executeUpdate();
             conexion.close();
            return "Productos eliminados de la factura";
@@ -60,16 +60,16 @@ public class DetalleFacturaCliente {
     /*
      * METODO BUSCAR
      */
-    public List<DetalleFacturaCliente>  buscarPorIdFactura(int idFactura, Connection conexion) {
-            List<DetalleFacturaCliente> productos = new ArrayList<>();
+    public List<DetalleFacturaProveedor>  buscarPorIdFactura(int idFactura, Connection conexion) {
+            List<DetalleFacturaProveedor> productos = new ArrayList<>();
         try {
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM detalle_factura_cliente WHERE id_factura = ?");
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM detalle_factura_proveedor WHERE id_factura = ?");
             statement.setInt(1, idFactura);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                DetalleFacturaCliente productoDetalle = new DetalleFacturaCliente();
-                productoDetalle.setIdFacturaCliente(result.getInt("id_detalle_factura_cliente"));
-                productoDetalle.setIdFacturaCliente(result.getInt("id_factura_cliente"));
+                DetalleFacturaProveedor productoDetalle = new DetalleFacturaProveedor();
+                productoDetalle.setIdFacturaProveedor(result.getInt("id_detalle_factura_proveedor"));
+                productoDetalle.setIdFacturaProveedor(result.getInt("id_factura_proveedor"));
                 Producto producto =  new Producto();
                 producto = producto.buscarProductos(result.getInt("id_producto"),"","","","","","","","","","","","","","","",conexion).get(0);
                 productoDetalle.setProducto(producto);
@@ -79,7 +79,7 @@ public class DetalleFacturaCliente {
             }
             conexion.close();
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al buscar registros por id_factura en la tabla detalle_factura_cliente: " + ex.getMessage());
+            System.out.println("Ocurrió un error al buscar registros por id_factura en la tabla detalle_factura_proveedor: " + ex.getMessage());
         }
         return productos;
     }
@@ -88,12 +88,12 @@ public class DetalleFacturaCliente {
      * METODO GETTERS AND SETTERS
      */
 
-    public int getIdFacturaCliente() {
-        return idFacturaCliente;
+    public int getIdFacturaProveedor() {
+        return idFacturaProveedor;
     }
 
-    public void setIdFacturaCliente(int idFacturaCliente) {
-        this.idFacturaCliente = idFacturaCliente;
+    public void setIdFacturaProveedor(int idFacturaProveedor) {
+        this.idFacturaProveedor = idFacturaProveedor;
     }
 
     public int getCantidad() {

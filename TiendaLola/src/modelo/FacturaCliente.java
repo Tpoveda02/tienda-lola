@@ -27,7 +27,7 @@ public class FacturaCliente {
     public FacturaCliente() {}
 
     // Constructor con parámetros
-    public FacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Cliente idCliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
+    public FacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
         this.idFacturaCliente = idFacturaCliente;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -40,7 +40,7 @@ public class FacturaCliente {
     }
 
     // Método para insertar una factura de cliente en la base de datos
-    public String insertarFacturaCliente(FacturaCliente factura, Connection conexion) throws SQLException {
+    public String insertarFacturaCliente(FacturaCliente factura, Connection conexion)  {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -68,10 +68,18 @@ public class FacturaCliente {
         return "Factura creada";
         } finally {
             if (resultSet != null) {
-                resultSet.close();
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
             if (statement != null) {
-                statement.close();
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
             return "Error creando la factura";
         }
@@ -97,13 +105,16 @@ public class FacturaCliente {
         }
     }
 
-    public List<FacturaCliente> buscarFacturaCliente(Connection conexion) {
+    // METODO PARA LISTAR TODAS LAS FACTURAS
+    public List<FacturaCliente> listarFacturasCliente(Connection conexion) {
         List<FacturaCliente> facturaClientes = new ArrayList<>();
+        DetalleFacturaCliente detalleFacturaProductosCliente = new DetalleFacturaCliente();
         try {
             PreparedStatement statement = conexion.prepareStatement("SELECT * FROM factura_cliente");
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 FacturaCliente facturaCliente = new FacturaCliente();
+                facturaCliente.setIdFacturaCliente(result.getInt("id_factura_cliente"));
                 facturaCliente.setDireccion(result.getString("direccion"));
                 facturaCliente.setTelefono(result.getString("telefono"));
                 facturaCliente.setCorreoElectronico(result.getString("correo_electronico"));
@@ -112,6 +123,7 @@ public class FacturaCliente {
                 facturaCliente.setCantidadProducto(result.getInt("cantidad_producto"));
                 cliente.setIdCliente(result.getInt("id_cliente"));
                 facturaCliente.setCliente(cliente.buscarClientes(cliente,conexion).get(0));
+                facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(),conexion));
                 facturaClientes.add(facturaCliente);
             }
             conexion.close();
@@ -120,7 +132,52 @@ public class FacturaCliente {
         }
         return facturaClientes;
     }
-
+    // METODO PAR BUSCAR UNA FACTURA POR UN CAMPO ESPECÍFICO
+    public ArrayList<FacturaCliente> buscarFacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, String fechaFactura, String total, String cantidadProducto, String idCliente, Connection conexion) {
+        ArrayList<FacturaCliente> listaFacturasCliente = new ArrayList<FacturaCliente>();
+        try {
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM FACTURA_CLIENTE WHERE " +
+                    "id_factura_cliente LIKE ? AND direccion LIKE ? AND correo_electronico LIKE ?  AND fecha_factura LIKE ? " +
+                    "AND telefono LIKE ? AND cantidad_producto LIKE ? AND total LIKE ? " + "AND id_cliente LIKE ? ");
+            if (idFacturaCliente != null) {
+                sentencia.setString(1, "%" + idFacturaCliente + "%");
+            } else {
+                sentencia.setString(1, "%%");
+            }
+            sentencia.setString(2, "%" + direccion + "%");
+            sentencia.setString(3,"%" + correoElectronico + "%");
+            sentencia.setString(4,"%" + fechaFactura + "%");
+            sentencia.setString(5, "%" + telefono + "%");
+            sentencia.setString(6, "%" + cantidadProducto + "%");
+            sentencia.setString(7, "%" + total + "%");
+            sentencia.setString(8, "%" + idCliente + "%");
+            // Ejecuta la sentencia
+            ResultSet resultado = sentencia.executeQuery();
+            // Asigna los resultados a una lista de los mismos y recorre campo por campo según el registro
+            while (resultado.next()) {
+                FacturaCliente facturaCliente = new FacturaCliente();
+                facturaCliente.setIdFacturaCliente(resultado.getInt("id_factura_cliente"));
+                facturaCliente.setDireccion(resultado.getString("direccion"));
+                facturaCliente.setTelefono(resultado.getString("telefono"));
+                facturaCliente.setCorreoElectronico(resultado.getString("correo_electronico"));
+                facturaCliente.setFechaFactura(resultado.getTimestamp("fecha_factura"));
+                facturaCliente.setTotal(resultado.getBigDecimal("total"));
+                facturaCliente.setCantidadProducto(resultado.getInt("cantidad_producto"));
+                //Buscar el cliente de esa factura
+                Cliente c = new Cliente();
+                c.setIdCliente(resultado.getInt("id_cliente"));
+                Cliente cliente = c.buscarClientes(c,conexion).get(0);
+                //Asignar el cliente
+                facturaCliente.setCliente(cliente);
+                // Agrega un registro - factura
+                listaFacturasCliente.add(facturaCliente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // Retorna la lista con los productos
+        return listaFacturasCliente;
+    }
     /*
      * METODOS GETTERS AND SETTERS
      *
