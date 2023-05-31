@@ -1,20 +1,18 @@
 package vista;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,25 +24,22 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import controlador.ClienteControlador;
 import controlador.Controlador;
-import modelo.Cliente;
-import javax.swing.JComboBox;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
+import controlador.ProveedorControlador;
+import modelo.Proveedor;
 
-public class BuscarClientes extends JPanel {
+public class BuscarProveedor extends JPanel {
 
 	//Objeto de la clase Controlador
-	private ClienteControlador clienteControlador;
+	private ProveedorControlador proveedorControlador;
 	//Objeto de la clase PanelAgregar
-	private AgregarCliente panelAgregar;
+	private AgregarProveedor panelAgregar;
 	//Objeto de la clase panelActualizar
-	private ActualizarCliente panelActualizar;
-	
+	private ActualizarProveedor panelActualizar;
+
 	//--------------------Variables-------------------
-	private List<Cliente> listaClientes;
-	private JLabel lblIdCliente;
+	private List<Proveedor> listaProveedor;
+	private JLabel lblIdProveedor;
 	private JLabel lblTipoIdentificacion; 
 	private JLabel lblPrimerNombre; 
 	private JLabel lblSegundoNombre; 
@@ -53,7 +48,7 @@ public class BuscarClientes extends JPanel {
 	private JLabel lblDireccion; 
 	private JLabel lblTelefono; 
 	private JLabel lblCorreoElectronico;
-	private JTextField txtIdCliente; 
+	private JTextField txtIdProveedor; 
 	private JComboBox txtTipoIdentificacion;
 	private JTextField txtPrimerNombre; 
 	private JTextField txtSegundoNombre; 
@@ -62,17 +57,17 @@ public class BuscarClientes extends JPanel {
 	private JTextField txtDireccion;
 	private JTextField txtTelefono; 
 	private JTextField txtCorreoElectronico;
-	private JTable tablaClientes;
+	private JTable tablaProveedores;
 	private JScrollPane scrollPane;
 	private DefaultTableModel modeloTabla;
 	private JButton btnAgregar; 
 	private JButton btnActualizar; 
 	private JButton btnInactivar; 
-	private JButton btnActivar; 
+	private JButton btnActivar;
 	private JButton btnLimpiar; 
 	private JButton btnBuscar;
-	
-	public static int idCliente = 0;		//Validar que no ha seleccionado ningun cliente
+
+	public static int idProveedor = 0;		//Validar que no ha seleccionado ningun proveedor
 	public static String tipoIdentificacion;
 	public static String primerNombre;
 	public static String segundoNombre;
@@ -82,18 +77,17 @@ public class BuscarClientes extends JPanel {
 	public static String telefono;
 	public static String correoElectronico;
 
-
 	/*
 	 * METODO CONSTRUCTOR
 	 */
-	public BuscarClientes() {
-		clienteControlador = new ClienteControlador();
+	public BuscarProveedor() {
+		proveedorControlador = new ProveedorControlador();
 		inicializarComponentes();
-		listaClientes = new ArrayList<Cliente>();
+		listaProveedor = new ArrayList<Proveedor>();
 	}
 
 	/*
-	 * METODO PARA INICIALIZAR Y DAR ESTILO A TODOS LOS COMPONETES VISUALES DE LA VISTA DE LA CLASE BuscarClientes
+	 * METODO PARA INICIALIZAR Y DAR ESTILO A TODOS LOS COMPONETES VISUALES DE LA VISTA DE LA CLASE BuscarProveedor
 	 */
 	private void inicializarComponentes() {
 		setLayout(null);
@@ -103,10 +97,10 @@ public class BuscarClientes extends JPanel {
 		panelBuscar.setLayout(null);
 
 		// Labels
-		lblIdCliente = new JLabel("ID Cliente:");
-		lblIdCliente.setBounds(20, 0, 80, 20);
-		lblIdCliente.setForeground(new Color(135, 134, 133));
-		panelBuscar.add(lblIdCliente);
+		lblIdProveedor = new JLabel("ID Proveedor:");
+		lblIdProveedor.setBounds(20, 0, 80, 20);
+		lblIdProveedor.setForeground(new Color(135, 134, 133));
+		panelBuscar.add(lblIdProveedor);
 
 		lblTipoIdentificacion = new JLabel("Tipo Identificación:");
 		lblTipoIdentificacion.setBounds(180, 0, 120, 20);
@@ -150,11 +144,11 @@ public class BuscarClientes extends JPanel {
 
 
 		// TextFields
-		txtIdCliente = new JTextField();
-		txtIdCliente.setBounds(20, 23, 150, 20);
-		txtIdCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		txtIdCliente.setText("");
-		panelBuscar.add(txtIdCliente);
+		txtIdProveedor = new JTextField();
+		txtIdProveedor.setBounds(20, 23, 150, 20);
+		txtIdProveedor.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
+		txtIdProveedor.setText("");
+		panelBuscar.add(txtIdProveedor);
 
 
 		txtTipoIdentificacion = new JComboBox();
@@ -208,7 +202,7 @@ public class BuscarClientes extends JPanel {
 
 		// Tabla
 		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID Cliente");
+		modeloTabla.addColumn("ID Proveedor");
 		modeloTabla.addColumn("Tipo Identificación");
 		modeloTabla.addColumn("Primer Nombre");
 		modeloTabla.addColumn("Segundo Nombre");
@@ -218,31 +212,31 @@ public class BuscarClientes extends JPanel {
 		modeloTabla.addColumn("Teléfono");
 		modeloTabla.addColumn("Correo Electrónico");
 
-		tablaClientes = new JTable(actualizarTabla(modeloTabla,clienteControlador.listarClientes()));
-		scrollPane = new JScrollPane(tablaClientes);
+		tablaProveedores = new JTable(actualizarTabla(modeloTabla,proveedorControlador.listarProveedors()));
+		scrollPane = new JScrollPane(tablaProveedores);
 		scrollPane.setBorder(new LineBorder(Color.WHITE, 0, true));
 		scrollPane.setBounds(10, 106, 940, 262);
 		//Color de la tabla
-		tablaClientes.getTableHeader().setBackground(new Color(182, 220, 255));
-		tablaClientes.getTableHeader().setForeground(new Color(135, 134, 133));
-		tablaClientes.setForeground(new Color(133, 111, 69));
+		tablaProveedores.getTableHeader().setBackground(new Color(182, 220, 255));
+		tablaProveedores.getTableHeader().setForeground(new Color(135, 134, 133));
+		tablaProveedores.setForeground(new Color(133, 111, 69));
 		//Accion de quitar o poner lines en la tabla 
-		tablaClientes.setShowVerticalLines(false);
-		tablaClientes.setShowHorizontalLines(true);
+		tablaProveedores.setShowVerticalLines(false);
+		tablaProveedores.setShowHorizontalLines(true);
 		//Dar color a las lineas de la tabla
-		tablaClientes.setGridColor(new Color(182,220,255));
+		tablaProveedores.setGridColor(new Color(182,220,255));
 		//Instancia del objeto del borde de la tabla
 		Border borde = BorderFactory.createLineBorder(new Color(182,220,255));
 		//Asigna el borde instanciado a la tabla
-		tablaClientes.setBorder(borde);
-		tablaClientes.getTableHeader().setBorder(borde);
+		tablaProveedores.setBorder(borde);
+		tablaProveedores.getTableHeader().setBorder(borde);
 		//Otras asignaciones de estetica de la tabla
-		tablaClientes.setRowHeight(30); // Establece la altura de las filas
-		tablaClientes.setIntercellSpacing(new Dimension(0, 0)); // Establece el espaciado entre celdas
-		
+		tablaProveedores.setRowHeight(30); // Establece la altura de las filas
+		tablaProveedores.setIntercellSpacing(new Dimension(0, 0)); // Establece el espaciado entre celdas
+
 		panelBuscar.add(scrollPane);
-		
-		tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+
+		tablaProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				tabla_MouseClicked(evt);
 			}
@@ -271,10 +265,10 @@ public class BuscarClientes extends JPanel {
 		btnActualizar.setForeground(new Color(255, 255, 255));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				//ValidaridCliente que no ha seleccionado ningun cliente//Si no mensaje
-				if(idCliente != 0) {
+				//ValidaridCliente que no ha seleccionado ningun proveedor//Si no mensaje
+				if(idProveedor != 0) {
 					btnActualizarActionPerformed(evt, panelBuscar);
-					actualizarTabla(modeloTabla,clienteControlador.listarClientes());
+					actualizarTabla(modeloTabla,proveedorControlador.listarProveedors());
 				}else {
 					JOptionPane.showMessageDialog(null,"Seleccione un Cliente");
 				}
@@ -292,9 +286,9 @@ public class BuscarClientes extends JPanel {
 		btnInactivar.setForeground(new Color(255, 255, 255));
 		btnInactivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				if(idCliente != 0) {
+				if(idProveedor != 0) {
 					btnInactivarActionPerformed(evt);
-					actualizarTabla(modeloTabla,clienteControlador.listarClientes());
+					actualizarTabla(modeloTabla,proveedorControlador.listarProveedors());
 				}else {
 					JOptionPane.showMessageDialog(null,"Seleccione un Cliente");
 				}
@@ -311,9 +305,9 @@ public class BuscarClientes extends JPanel {
 		btnActivar.setForeground(new Color(255, 255, 255));
 		btnActivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				if(idCliente != 0) {
+				if(idProveedor != 0) {
 					btnActivarActionPerformed(evt);
-					actualizarTabla(modeloTabla,clienteControlador.listarClientes());
+					actualizarTabla(modeloTabla,proveedorControlador.listarProveedors());
 				}else {
 					JOptionPane.showMessageDialog(null,"Seleccione un Cliente");
 				}
@@ -331,7 +325,7 @@ public class BuscarClientes extends JPanel {
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnLimpiarActionPerformed(evt);
-				actualizarTabla(modeloTabla,clienteControlador.listarClientes());
+				actualizarTabla(modeloTabla,proveedorControlador.listarProveedors());
 			}
 		});
 		panelBuscar.add(btnLimpiar);
@@ -359,7 +353,7 @@ public class BuscarClientes extends JPanel {
 	 */	
 	private void btnAgregarActionPerformed(ActionEvent evt, JPanel panelBuscar) {
 		try {
-			panelAgregar = new AgregarCliente();
+			panelAgregar = new AgregarProveedor();
 			panelAgregar.setSize(960, 440);
 			panelAgregar.setLocation(0, 0);
 
@@ -368,7 +362,7 @@ public class BuscarClientes extends JPanel {
 			panelBuscar.revalidate();
 			panelBuscar.repaint();
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
 		}
 	}
 
@@ -378,7 +372,7 @@ public class BuscarClientes extends JPanel {
 	 */
 	private void btnActualizarActionPerformed(ActionEvent evt, JPanel panelBuscar) {
 		try {
-			panelActualizar = new ActualizarCliente();
+			panelActualizar = new ActualizarProveedor();
 			panelActualizar.setSize(960, 440);
 			panelActualizar.setLocation(0, 0);
 
@@ -386,9 +380,9 @@ public class BuscarClientes extends JPanel {
 			panelBuscar.add(panelActualizar, BorderLayout.CENTER);
 			panelBuscar.revalidate();
 			panelBuscar.repaint();
-			
+
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
 		}
 	}
 
@@ -398,11 +392,11 @@ public class BuscarClientes extends JPanel {
 	private void btnInactivarActionPerformed(ActionEvent evt) {
 		try {
 			// Eliminar el cliente de la base de datos
-			JOptionPane.showMessageDialog(this,clienteControlador.eliminarCliente(idCliente));
-			actualizarTabla(modeloTabla,clienteControlador.listarClientes());
+			JOptionPane.showMessageDialog(this,proveedorControlador.eliminarProveedor(idProveedor));
+			actualizarTabla(modeloTabla,proveedorControlador.listarProveedors());
 
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
 		}
 	}
 	
@@ -411,9 +405,12 @@ public class BuscarClientes extends JPanel {
 	 */
 	private void btnActivarActionPerformed(ActionEvent evt) {
 		try {
-			
+			// Eliminar el producto de la base de datos
+//			JOptionPane.showMessageDialog(this,productoControlador.eliminarProducto(idProducto));
+//			actualizarTabla(modeloTabla,productoControlador.listarProductos());
 
 		} catch (NumberFormatException ex) {
+//			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
 		}
 	}
 
@@ -421,7 +418,7 @@ public class BuscarClientes extends JPanel {
 	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Limpiar
 	 */
 	private void btnLimpiarActionPerformed(ActionEvent evt) {
-		txtIdCliente.setText("");
+		txtIdProveedor.setText("");
 		txtTipoIdentificacion.setSelectedItem("");
 		txtPrimerNombre.setText("");
 		txtSegundoNombre.setText("");
@@ -437,9 +434,9 @@ public class BuscarClientes extends JPanel {
 	 */
 	private void btnBuscarActionPerformed(ActionEvent evt) {
 		try {
-			Integer idCliente = null;
-			if(!txtIdCliente.getText().equals(""))
-				idCliente = Integer.parseInt(txtIdCliente.getText());
+			Integer idProveedor = null;
+			if(!txtIdProveedor.getText().equals(""))
+				idProveedor = Integer.parseInt(txtIdProveedor.getText());
 			String tipoId = txtTipoIdentificacion.getSelectedItem().toString();
 			String primerNombre = txtPrimerNombre.getText();
 			String segundoNombre = txtSegundoNombre.getText();
@@ -450,18 +447,18 @@ public class BuscarClientes extends JPanel {
 			String correo = txtCorreoElectronico.getText();
 
 			// Buscar el cliente en la base de datos
-			List<Cliente> clientes = clienteControlador.buscarClientes(idCliente,tipoId,primerNombre,segundoNombre,primerApellido,
+			List<Proveedor> proveedores = proveedorControlador.buscarProveedors(idProveedor,tipoId,primerNombre,segundoNombre,primerApellido,
 					segundoApellido,direccion,telefono,correo);
-			if (clientes != null) {
-				actualizarTabla(modeloTabla,clientes);
+			if (proveedores != null) {
+				actualizarTabla(modeloTabla,proveedores);
 			} else {
-				JOptionPane.showMessageDialog(this, "Cliente no encontrado.");
+				JOptionPane.showMessageDialog(this, "proveedor no encontrado.");
 			}
 
 
 		} catch (NumberFormatException ex) {
 			System.err.println(ex.getMessage());
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
 		}
 
 	}
@@ -469,7 +466,7 @@ public class BuscarClientes extends JPanel {
 	/*
 	 * METODO PARA ACTUALIZAR LOS REGISTROS DE LA TABLA
 	 */
-	private DefaultTableModel actualizarTabla(DefaultTableModel modeloTabla,List<Cliente> listaClientes) {
+	private DefaultTableModel actualizarTabla(DefaultTableModel modeloTabla,List<Proveedor> listaProveedores) {
 		// Limpiar la tabla
 		int rowCount = modeloTabla.getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
@@ -477,20 +474,20 @@ public class BuscarClientes extends JPanel {
 		}
 
 		// Agregar cada cliente a la tabla
-		for (Cliente cliente : listaClientes) {
+		for (Proveedor proveedor : listaProveedores) {
 			Object[] fila = new Object[9];
-			fila[0] = cliente.getIdCliente();
-			fila[1] = cliente.getTipoIdentificacion();
-			fila[2] = cliente.getPrimerNombre();
-			fila[3] = cliente.getSegundoNombre();
-			fila[4] = cliente.getPrimerApellido();
-			fila[5] = cliente.getSegundoApellido();
-			fila[6] = cliente.getDireccion();
-			fila[7] = cliente.getTelefono();
-			fila[8] = cliente.getCorreoElectronico();
+			fila[0] = proveedor.getIdProveedor();
+			fila[1] = proveedor.getTipoIdentificacion();
+			fila[2] = proveedor.getPrimerNombre();
+			fila[3] = proveedor.getSegundoNombre();
+			fila[4] = proveedor.getPrimerApellido();
+			fila[5] = proveedor.getSegundoApellido();
+			fila[6] = proveedor.getDireccion();
+			fila[7] = proveedor.getTelefono();
+			fila[8] = proveedor.getCorreoElectronico();
 			modeloTabla.addRow(fila);
 		}
-		
+
 		return modeloTabla;
 	}
 
@@ -498,11 +495,11 @@ public class BuscarClientes extends JPanel {
 	 * METODO PARA REALIZAR LA ACCIÓN DE SELECCIONAR UN REGISTRO DE LA TABLA Y OBTENER ESOS VALORES
 	 */
 	private void tabla_MouseClicked(java.awt.event.MouseEvent evt) {
-		int i = tablaClientes.getSelectedRow();
-		
-		TableModel modeloTabla = tablaClientes.getModel();
-		
-		idCliente = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
+		int i = tablaProveedores.getSelectedRow();
+
+		TableModel modeloTabla = tablaProveedores.getModel();
+
+		idProveedor = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
 		tipoIdentificacion = modeloTabla.getValueAt(i, 1).toString();
 		primerNombre = modeloTabla.getValueAt(i, 2).toString();
 		segundoNombre = modeloTabla.getValueAt(i, 3).toString();
@@ -511,7 +508,7 @@ public class BuscarClientes extends JPanel {
 		direccion = modeloTabla.getValueAt(i, 6).toString();
 		telefono = modeloTabla.getValueAt(i, 7).toString();
 		correoElectronico = modeloTabla.getValueAt(i, 8).toString();
-		
+
 	}
 
 }

@@ -35,7 +35,13 @@ public class Clientes extends JFrame {
 	//Objeto de la clase Login
 	private Login login;
 	//Objeto de la clase BuscarClientes 
-	private BuscarClientes panelBuscar;
+	private BuscarClientes panelBuscarCliente;
+	//Objeto de la calse BuscarCategoria
+	private BuscarCategoria panelBuscarCategoria;
+	//Objeto de la calse BuscarProveedor
+	private BuscarProveedor panelBuscarProveedor;
+	//Objeto de la calse BuscarProducto
+	private BuscarProducto panelBuscarProducto;
 
 	//--------------Variables--------------
 	private JPanel contentPane;
@@ -83,7 +89,7 @@ public class Clientes extends JFrame {
 		panelCrud.setBackground(new Color(164, 255, 255));
 		contentPane.add(panelCrud);
 		panelCrud.setLayout(null);
-		
+
 		panelMenu = new JPanel();
 		panelMenu.setBounds(0, 70, 960, 46);
 		panelMenu.setBackground(new Color(182, 220, 255));
@@ -101,7 +107,7 @@ public class Clientes extends JFrame {
 		lblNombreApp.setForeground(new Color(135, 134, 133));
 		lblNombreApp.setFont(new Font("Tahoma", Font.BOLD, 23));
 		contentPane.add(lblNombreApp);
-		
+
 		lblCorreoTienda = new JLabel("tiendaLola@tienda.com");
 		lblCorreoTienda.setForeground(new Color(135,134,133));
 		lblCorreoTienda.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -121,13 +127,14 @@ public class Clientes extends JFrame {
 		contentPane.add(lblDireccionTienda);
 
 		//BOTONES
-		btnCategorias = new JButton("Categorias");
+		btnCategorias = new JButton("Categorías");
 		btnCategorias.setBorder(new MatteBorder(0, 1, 0, 1, (Color) Color.WHITE));
 		btnCategorias.setForeground(new Color(135, 134, 133));
 		btnCategorias.setBackground(new Color(182, 220, 225));
 		btnCategorias.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCategorias.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent evt) {
+				btnCategoriasActionPerformed(evt);
 			}
 		});
 		btnCategorias.setBounds(800, 0, 160, 46);
@@ -138,20 +145,31 @@ public class Clientes extends JFrame {
 		btnProductos.setForeground(new Color(135, 134, 133));
 		btnProductos.setBackground(new Color(182, 220, 225));
 		btnProductos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnProductos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				btnProductosActionPerformed(evt);
+			}
+		});
 		btnProductos.setBounds(640, 0, 160, 46);
 		panelMenu.add(btnProductos);
 
-		btnCliente = new JButton("Cliente");
+		btnCliente = new JButton("Clientes");
 		btnCliente.setBorder(new MatteBorder(0, 1, 0, 1, (Color) Color.WHITE));
 		btnCliente.setForeground(new Color(255, 255, 255));
 		btnCliente.setBackground(new Color(182, 220, 225));
 		btnCliente.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				btnClientesActionPerformed(evt);
+			}
+		});
 		btnCliente.setBounds(480, 0, 160, 46);
 		panelMenu.add(btnCliente);
 
-		btnProveedor = new JButton("Proveedor");
+		btnProveedor = new JButton("Proveedores");
 		btnProveedor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent evt) {
+				btnProveedoresActionPerformed(evt);
 			}
 		});
 		btnProveedor.setBorder(new MatteBorder(0, 1, 0, 1, (Color) Color.WHITE));
@@ -166,6 +184,11 @@ public class Clientes extends JFrame {
 		btnFacProveedor.setForeground(new Color(135, 134, 133));
 		btnFacProveedor.setBackground(new Color(182, 220, 225));
 		btnFacProveedor.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnFacProveedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				btnFacProveedorActionPerformed(evt);
+			}
+		});
 		btnFacProveedor.setBounds(160, 0, 160, 46);
 		panelMenu.add(btnFacProveedor);
 
@@ -175,19 +198,20 @@ public class Clientes extends JFrame {
 		btnFacCliente.setForeground(new Color(135, 134, 133));
 		btnFacCliente.setBackground(new Color(182, 220, 225));
 		btnFacCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent evt) {
+				btnFacClienteActionPerformed(evt);
 			}
 		});
 		btnFacCliente.setBounds(0, 0, 160, 46);
 		panelMenu.add(btnFacCliente);
 
 		//Acción para llamar la clase BuscarClientes dentro del panelCrud
-		panelBuscar = new BuscarClientes();
-		panelBuscar.setSize(960, 440);
-		panelBuscar.setLocation(0, 0);
+		panelBuscarCliente = new BuscarClientes();
+		panelBuscarCliente.setSize(960, 440);
+		panelBuscarCliente.setLocation(0, 0);
 
 		panelCrud.removeAll();
-		panelCrud.add(panelBuscar, BorderLayout.CENTER);
+		panelCrud.add(panelBuscarCliente, BorderLayout.CENTER);
 
 		btnCerrarSesion = new JButton("");
 		btnCerrarSesion.addActionListener(new ActionListener() {
@@ -216,4 +240,157 @@ public class Clientes extends JFrame {
 			JOptionPane.showMessageDialog(this, "Error al cerrar sesión.");
 		}
 	}
+
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Categorias
+	 */
+	private void btnCategoriasActionPerformed(ActionEvent evt) {
+		try {
+			btnCategorias.setForeground(new Color(255, 255, 255));
+			btnFacCliente.setForeground(new Color(135, 134, 133));
+			btnFacProveedor.setForeground(new Color(135, 134, 133));
+			btnProductos.setForeground(new Color(135, 134, 133));
+			btnCliente.setForeground(new Color(135, 134, 133));
+			btnProveedor.setForeground(new Color(135, 134, 133));
+			//Acción para llamar la clase BuscarCategoria dentro del panelCrud
+			panelBuscarCategoria = new BuscarCategoria();
+			panelBuscarCategoria.setSize(960, 440);
+			panelBuscarCategoria.setLocation(0, 0);
+
+			panelCrud.removeAll();
+			panelCrud.add(panelBuscarCategoria, BorderLayout.CENTER);
+			panelCrud.revalidate();
+			panelCrud.repaint();
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "Acción incorrecta...");
+		}
+	}
+
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Proveedores
+	 */
+	private void btnProveedoresActionPerformed(ActionEvent evt) {
+		try {
+			btnCategorias.setForeground(new Color(135, 134, 133));
+			btnFacCliente.setForeground(new Color(135, 134, 133));
+			btnFacProveedor.setForeground(new Color(135, 134, 133));
+			btnProductos.setForeground(new Color(135, 134, 133));
+			btnCliente.setForeground(new Color(135, 134, 133));
+			btnProveedor.setForeground(new Color(255, 255, 255));
+			//Acción para llamar la clase BuscarProveedor dentro del panelCrud
+			panelBuscarProveedor = new BuscarProveedor();
+			panelBuscarProveedor.setSize(960, 440);
+			panelBuscarProveedor.setLocation(0, 0);
+
+			panelCrud.removeAll();
+			panelCrud.add(panelBuscarProveedor, BorderLayout.CENTER);
+			panelCrud.revalidate();
+			panelCrud.repaint();
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "Acción incorrecta...");
+		}
+	}
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Clientes
+	 */
+	private void btnClientesActionPerformed(ActionEvent evt) {
+		try {
+			btnCategorias.setForeground(new Color(135, 134, 133));
+			btnFacCliente.setForeground(new Color(135, 134, 133));
+			btnFacProveedor.setForeground(new Color(135, 134, 133));
+			btnProductos.setForeground(new Color(135, 134, 133));
+			btnCliente.setForeground(new Color(255, 255, 255));
+			btnProveedor.setForeground(new Color(135, 134, 133));
+			
+			
+//			//Acción para llamar la clase BuscarClientes dentro del panelCrud
+			panelBuscarCliente = new BuscarClientes();
+			panelBuscarCliente.setSize(960, 440);
+			panelBuscarCliente.setLocation(0, 0);
+			panelCrud.removeAll();
+			
+			panelCrud.add(panelBuscarCliente, BorderLayout.CENTER);
+			panelCrud.revalidate();
+			panelCrud.repaint();
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "Acción incorrecta...");
+		}
+	}
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Productos
+	 */
+	private void btnProductosActionPerformed(ActionEvent evt) {
+		try {
+			btnCategorias.setForeground(new Color(135, 134, 133));
+			btnFacCliente.setForeground(new Color(135, 134, 133));
+			btnFacProveedor.setForeground(new Color(135, 134, 133));
+			btnProductos.setForeground(new Color(255, 255, 255));
+			btnCliente.setForeground(new Color(135, 134, 133));
+			btnProveedor.setForeground(new Color(135, 134, 133));
+			//Acción para llamar la clase BuscarProducto dentro del panelCrud
+			panelBuscarProducto = new BuscarProducto();
+			panelBuscarProducto.setSize(960, 440);
+			panelBuscarProducto.setLocation(0, 0);
+
+			panelCrud.removeAll();
+			panelCrud.add(panelBuscarProducto, BorderLayout.CENTER);
+			panelCrud.revalidate();
+			panelCrud.repaint();
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "Acción incorrecta...");
+		}
+	}
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Facturas Cliente
+	 */
+	private void btnFacClienteActionPerformed(ActionEvent evt) {
+		try {
+			btnCategorias.setForeground(new Color(135, 134, 133));
+			btnFacCliente.setForeground(new Color(255, 255, 255));
+			btnFacProveedor.setForeground(new Color(135, 134, 133));
+			btnProductos.setForeground(new Color(135, 134, 133));
+			btnCliente.setForeground(new Color(135, 134, 133));
+			btnProveedor.setForeground(new Color(135, 134, 133));
+//			//Acción para llamar la clase BuscarProveedor dentro del panelCrud
+//			panelBuscarProveedor = new BuscarProveedor();
+//			panelBuscarProveedor.setSize(960, 440);
+//			panelBuscarProveedor.setLocation(0, 0);
+//
+//			panelCrud.removeAll();
+//			panelCrud.add(panelBuscarProveedor, BorderLayout.CENTER);
+//			panelCrud.revalidate();
+//			panelCrud.repaint();
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "Acción incorrecta...");
+		}
+	}
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Facturas Proveedor
+	 */
+	private void btnFacProveedorActionPerformed(ActionEvent evt) {
+		try {
+			btnCategorias.setForeground(new Color(135, 134, 133));
+			btnFacCliente.setForeground(new Color(135, 134, 133));
+			btnFacProveedor.setForeground(new Color(255, 255, 255));
+			btnProductos.setForeground(new Color(135, 134, 133));
+			btnCliente.setForeground(new Color(135, 134, 133));
+			btnProveedor.setForeground(new Color(135, 134, 133));
+//			//Acción para llamar la clase BuscarProveedor dentro del panelCrud
+//			panelBuscarProveedor = new BuscarProveedor();
+//			panelBuscarProveedor.setSize(960, 440);
+//			panelBuscarProveedor.setLocation(0, 0);
+//
+			panelCrud.removeAll();
+//			panelCrud.add(panelBuscarProveedor, BorderLayout.CENTER);
+			panelCrud.revalidate();
+			panelCrud.repaint();
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "Acción incorrecta...");
+		}
+	}
 }
+
