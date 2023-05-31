@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FacturaProveedor {
     //--------------DECLARACIÓN DE VARIABLES--------------
-    private int idFacturaProveedor;
+    private Integer idFacturaProveedor;
     private String direccion;
     private String telefono;
     private String correoElectronico;
@@ -25,7 +25,7 @@ public class FacturaProveedor {
     public FacturaProveedor() {}
 
     // Constructor con parámetros
-    public FacturaProveedor(int idFacturaProveedor, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
+    public FacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
         this.idFacturaProveedor = idFacturaProveedor;
         this.direccion = direccion;
         this.telefono = telefono;

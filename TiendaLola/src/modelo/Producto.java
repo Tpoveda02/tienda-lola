@@ -30,7 +30,7 @@ public class Producto {
     public Producto() {}
 
     // Constructor con parámetros
-    public Producto(int idProducto, String nombre, String tipoContenidoNeto,
+    public Producto(Integer idProducto, String nombre, String tipoContenidoNeto,
                     BigDecimal contenidoNeto, BigDecimal valorContenido, String empaqueGeneral,
                     String empaque, String descripcion, String recomendaciones, BigDecimal precioProveedor,
                     BigDecimal porcentajeIva, BigDecimal precioSinIva, BigDecimal precioVenta,

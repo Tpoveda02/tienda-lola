@@ -10,7 +10,7 @@ public class DetalleFacturaCliente {
     /*
      * DECLARACIÓN DE VARIABLES
      */
-    private int idDetalleFacturaCliente;
+    private Integer idDetalleFacturaCliente;
     private int idFacturaCliente;
     private int cantidad;
     private BigDecimal precio;

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FacturaCliente {
     //--------------DECLARACIÓN DE VARIABLES--------------
-    private int idFacturaCliente;
+    private Integer idFacturaCliente;
     private String direccion;
     private String telefono;
     private String correoElectronico;

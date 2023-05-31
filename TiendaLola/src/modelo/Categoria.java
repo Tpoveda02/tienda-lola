@@ -13,7 +13,7 @@ public class Categoria {
     private Timestamp fechaModificacion;
 
     //---------------METODO CONSTRUCTOR------------------
-    public Categoria(int idCategoria, String nombre, String descripcion) {
+    public Categoria(Integer idCategoria, String nombre, String descripcion) {
         this.idCategoria = idCategoria;
         this.nombre = nombre;
         this.descripcion = descripcion;
