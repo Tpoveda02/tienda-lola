@@ -21,7 +21,7 @@ public class CategoriaControlador {
     }
 
     //Metodo obtener categoria(s) - recibe los valores de los JText
-    public List<Categoria> buscarCategorias(int idCategoria, String nombre, String descripcion){
+    public List<Categoria> buscarCategorias(Integer idCategoria, String nombre, String descripcion){
         //Instacia la categoria con los respectivos valores
         Categoria categoria = new Categoria(idCategoria, nombre, descripcion);
         //Llama el metodo de buscar categorias

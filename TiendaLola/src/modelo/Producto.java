@@ -308,9 +308,6 @@ public class Producto {
         if (p.getContenidoNeto().compareTo(BigDecimal.ZERO) <= 0 ) {
             mensajeError += "El campo de contenido neto del producto debe ser mayor a 0.\n";
         }
-        if (p.getValorContenido().compareTo(BigDecimal.ZERO) <= 0) {
-            mensajeError += "El campo de valor de contenido del producto debe ser mayor a 0.\n";
-        }
         if (p.getEmpaqueGeneral().length() < 3) {
             mensajeError += "El campo de empaque general del producto debe tener al menos 3 caracteres.\n";
         }
@@ -331,9 +328,6 @@ public class Producto {
         }
         if (p.getPrecioSinIva().compareTo(BigDecimal.ZERO) <= 0) {
             mensajeError += "El campo de precio sin IVA del producto debe ser mayor a 0.\n";
-        }
-        if (p.getPrecioVenta().compareTo(BigDecimal.ZERO) <= 0) {
-            mensajeError += "El campo de precio de venta del producto debe ser mayor a 0.\n";
         }
         if (p.getFechaVencimiento() == null) {
             mensajeError += "El campo de fecha de vencimiento del producto es obligatorio.\n";
