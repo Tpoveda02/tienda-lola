@@ -19,12 +19,14 @@ public class Cliente {
     private String direccion;
     private String telefono;
     private String correoElectronico;
+    private Boolean estado;
     private Timestamp fechaModificacion;
 
     //---------------METODO CONSTRUCTOR------------------
 
 
-    public Cliente(Integer idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico) {
+    public Cliente(Integer idCliente, String tipoIdentificacion, String primerNombre, String segundoNombre,
+                   String primerApellido, String segundoApellido, String direccion, String telefono, String correoElectronico, Boolean estado) {
         this.idCliente = idCliente;
         this.tipoIdentificacion = tipoIdentificacion;
         this.primerNombre = primerNombre;
@@ -34,6 +36,7 @@ public class Cliente {
         this.direccion = direccion;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
+        this.estado = estado;
     }
 
     //VALIDACIÓN ENUM PERMITIDOS
@@ -352,6 +355,14 @@ public class Cliente {
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public Timestamp getFechaModificacion() {

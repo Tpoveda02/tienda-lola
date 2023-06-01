@@ -73,19 +73,15 @@ public class ActualizarCategoria extends JPanel {
 		panelActualizar.add(lblDatosCategoria);
 
 		lblDescripcion = new JLabel("Descripción:");
-		lblDescripcion.setBounds(150, 135, 120, 20);
+		lblDescripcion.setBounds(393, 81, 120, 20);
 		lblDescripcion.setForeground(new Color(135, 134, 133));
 		panelActualizar.add(lblDescripcion);
 
 		lblNombreCategoria = new JLabel("Nombre:");
-		lblNombreCategoria.setBounds(393, 81, 120, 20);
+		lblNombreCategoria.setBounds(150, 81, 80, 20);
 		lblNombreCategoria.setForeground(new Color(135, 134, 133));
 		panelActualizar.add(lblNombreCategoria);
 
-		lblIdCategoria = new JLabel("ID Categoría:");
-		lblIdCategoria.setBounds(150, 81, 80, 20);
-		lblIdCategoria.setForeground(new Color(135, 134, 133));
-		panelActualizar.add(lblIdCategoria);
 
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(ActualizarCategoria.class.getResource("/media/ImagenCategoria.png")));
@@ -94,20 +90,15 @@ public class ActualizarCategoria extends JPanel {
 
 
 		// TextFields
-		txtIdCategoria = new JTextField();
-		txtIdCategoria.setBounds(150, 104, 200, 20);
-		txtIdCategoria.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		txtIdCategoria.setText(panelBuscar.idCategoria + "");
-		panelActualizar.add(txtIdCategoria);
 
 		txtDescripcion = new JTextField();
-		txtDescripcion.setBounds(150, 158, 443, 80);
+		txtDescripcion.setBounds(393, 104, 200, 20);
 		txtDescripcion.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtDescripcion.setText(panelBuscar.descripcion);
 		panelActualizar.add(txtDescripcion);
 
 		txtNombreCategoria = new JTextField();
-		txtNombreCategoria.setBounds(393, 104, 200, 20);
+		txtNombreCategoria.setBounds(150, 104, 200, 20);
 		txtNombreCategoria.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		txtNombreCategoria.setText(panelBuscar.nombreCategoria);
 		panelActualizar.add(txtNombreCategoria);
@@ -115,7 +106,7 @@ public class ActualizarCategoria extends JPanel {
 
 		// Botones
 		btnActualizar = new JButton("Actualizar");
-		btnActualizar.setBounds(485, 260, 100, 30);
+		btnActualizar.setBounds(485, 160, 100, 30);
 		btnActualizar.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		btnActualizar.setBackground(new Color(192, 192, 192));
 		btnActualizar.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -128,7 +119,7 @@ public class ActualizarCategoria extends JPanel {
 		panelActualizar.add(btnActualizar);
 
 		btnSalir = new JButton("Salir");
-		btnSalir.setBounds(360, 260, 100, 30);
+		btnSalir.setBounds(360, 160, 100, 30);
 		btnSalir.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		btnSalir.setBackground(new Color(192, 192, 192));
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -153,12 +144,12 @@ public class ActualizarCategoria extends JPanel {
 	 */	
 	private void btnActualizarActionPerformed(ActionEvent evt, JPanel panelActualizar) {
 		try {
-			int idCategoria = Integer.parseInt(txtIdCategoria.getText());
+			int idCategoria = panelBuscar.idCategoria;
 			String descripcion = txtDescripcion.getText();
 			String nombre = txtNombreCategoria.getText();
 
 			String mensaje = "";
-			mensaje = categoriaControlador.modificarCategoria(idCategoria, nombre, descripcion);
+			mensaje = categoriaControlador.modificarCategoria(idCategoria, nombre, descripcion, true);
 			JOptionPane.showMessageDialog(this,mensaje);
 			limpiarCampos();
 			if(mensaje.equals("Categoria actualizada.")) {

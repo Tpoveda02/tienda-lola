@@ -1,6 +1,6 @@
 package modelo;
 
-import java.math.BigDecimal;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class DetalleFacturaProveedor {
     private Integer idDetalleFacturaProveedor;
     private int idFacturaProveedor;
     private int cantidad;
-    private BigDecimal precio;
+    private Integer precio;
     private Producto producto;
 
     /*
@@ -28,7 +28,7 @@ public class DetalleFacturaProveedor {
             sentencia.setInt(1, factura.getIdFacturaProveedor());
             sentencia.setInt(2, detalleFacturaProveedor.getProducto().getIdProducto());
             sentencia.setInt(3, detalleFacturaProveedor.getCantidad());
-            sentencia.setBigDecimal(4, detalleFacturaProveedor.getProducto().getPrecioVenta().multiply(BigDecimal.valueOf(detalleFacturaProveedor.getCantidad())));
+            sentencia.setInt(4, detalleFacturaProveedor.getPrecio());
             sentencia.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             sentencia.executeUpdate();
             //Ejecuta la sentencia
@@ -71,10 +71,10 @@ public class DetalleFacturaProveedor {
                 productoDetalle.setIdFacturaProveedor(result.getInt("id_detalle_factura_proveedor"));
                 productoDetalle.setIdFacturaProveedor(result.getInt("id_factura_proveedor"));
                 Producto producto =  new Producto();
-                producto = producto.buscarProductos(result.getInt("id_producto"),"","","","","","","","","","","","","","","",conexion).get(0);
+                producto = producto.buscarProductos(result.getInt("id_producto"),"","","","","","","","","","","","","","","",null,conexion).get(0);
                 productoDetalle.setProducto(producto);
                 productoDetalle.setCantidad(result.getInt("cantidad"));
-                productoDetalle.setPrecio(result.getBigDecimal("precio"));
+                productoDetalle.setPrecio(result.getInt("precio"));
                 productos.add(productoDetalle);
             }
             conexion.close();
@@ -104,11 +104,11 @@ public class DetalleFacturaProveedor {
         this.cantidad = cantidad;
     }
 
-    public BigDecimal getPrecio() {
+    public Integer getPrecio() {
         return precio;
     }
 
-    public void setPrecio(BigDecimal precio) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
 

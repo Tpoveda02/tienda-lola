@@ -1,6 +1,6 @@
 package modelo;
 
-import java.math.BigDecimal;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,10 +11,24 @@ public class DetalleFacturaCliente {
      * DECLARACIÓN DE VARIABLES
      */
     private Integer idDetalleFacturaCliente;
-    private int idFacturaCliente;
+    private Integer idFacturaCliente;
     private int cantidad;
-    private BigDecimal precio;
+    private Integer precio;
     private Producto producto;
+
+    /*
+     * METODO CONSTRUCTOR
+     */
+
+    public DetalleFacturaCliente(Integer idDetalleFacturaCliente, Integer idFacturaCliente, int cantidad, Integer precio, Producto producto) {
+        this.idDetalleFacturaCliente = idDetalleFacturaCliente;
+        this.idFacturaCliente = idFacturaCliente;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.producto = producto;
+    }
+
+    public DetalleFacturaCliente(){}
 
     /*
      * METODO CREAR
@@ -28,7 +42,7 @@ public class DetalleFacturaCliente {
             sentencia.setInt(1, factura.getIdFacturaCliente());
             sentencia.setInt(2, detalleFacturaCliente.getProducto().getIdProducto());
             sentencia.setInt(3, detalleFacturaCliente.getCantidad());
-            sentencia.setBigDecimal(4, detalleFacturaCliente.getProducto().getPrecioVenta().multiply(BigDecimal.valueOf(detalleFacturaCliente.getCantidad())));
+            sentencia.setInt(4, detalleFacturaCliente.getPrecio());
             sentencia.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             sentencia.executeUpdate();
             //Ejecuta la sentencia
@@ -71,10 +85,10 @@ public class DetalleFacturaCliente {
                 productoDetalle.setIdFacturaCliente(result.getInt("id_detalle_factura_cliente"));
                 productoDetalle.setIdFacturaCliente(result.getInt("id_factura_cliente"));
                 Producto producto =  new Producto();
-                producto = producto.buscarProductos(result.getInt("id_producto"),"","","","","","","","","","","","","","","",conexion).get(0);
+                producto = producto.buscarProductos(result.getInt("id_producto"),"","","","","","","","","","","","","","","",null,conexion).get(0);
                 productoDetalle.setProducto(producto);
                 productoDetalle.setCantidad(result.getInt("cantidad"));
-                productoDetalle.setPrecio(result.getBigDecimal("precio"));
+                productoDetalle.setPrecio(result.getInt("precio"));
                 productos.add(productoDetalle);
             }
             conexion.close();
@@ -104,11 +118,11 @@ public class DetalleFacturaCliente {
         this.cantidad = cantidad;
     }
 
-    public BigDecimal getPrecio() {
+    public Integer getPrecio() {
         return precio;
     }
 
-    public void setPrecio(BigDecimal precio) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
 

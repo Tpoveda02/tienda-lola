@@ -1,6 +1,6 @@
 package modelo;
 
-import java.math.BigDecimal;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,9 @@ public class FacturaProveedor {
     private String correoElectronico;
     private Timestamp fechaFactura;
     private int cantidadProducto;
-    private BigDecimal total;
+    private Integer total;
     private Proveedor proveedor;
+    private Boolean estado;
     private Timestamp fechaModificacion;
 
     private List<DetalleFacturaProveedor> detalleProductosFacturaProveedor;
@@ -25,7 +26,8 @@ public class FacturaProveedor {
     public FacturaProveedor() {}
 
     // Constructor con parámetros
-    public FacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
+    public FacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico,
+                            Timestamp fechaFactura, Integer total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor, Boolean estado) {
         this.idFacturaProveedor = idFacturaProveedor;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -35,6 +37,7 @@ public class FacturaProveedor {
         this.proveedor = proveedor;
         this.detalleProductosFacturaProveedor = detalleProductosFacturaProveedor;
         this.detalleFacturaProveedor = new DetalleFacturaProveedor();
+        this.estado = estado;
     }
 
     // Método para insertar una factura de proveedor en la base de datos
@@ -48,7 +51,7 @@ public class FacturaProveedor {
             statement.setString(1, factura.getDireccion());
             statement.setString(2, factura.getTelefono());
             statement.setString(3, factura.getCorreoElectronico());
-            statement.setBigDecimal(4, factura.getTotal());
+            statement.setInt(4, factura.getTotal());
             statement.setInt(5, factura.getProveedor().getIdProveedor());
             statement.executeUpdate();
 
@@ -117,7 +120,7 @@ public class FacturaProveedor {
                 facturaProveedor.setTelefono(result.getString("telefono"));
                 facturaProveedor.setCorreoElectronico(result.getString("correo_electronico"));
                 facturaProveedor.setFechaFactura(result.getTimestamp("fecha_factura"));
-                facturaProveedor.setTotal(result.getBigDecimal("total"));
+                facturaProveedor.setTotal(result.getInt("total"));
                 facturaProveedor.setCantidadProducto(result.getInt("cantidad_producto"));
                 proveedor.setIdProveedor(result.getInt("id_proveedor"));
                 facturaProveedor.setProveedor(proveedor.buscarProveedors(proveedor,conexion).get(0));
@@ -159,7 +162,7 @@ public class FacturaProveedor {
                 facturaProveedor.setTelefono(resultado.getString("telefono"));
                 facturaProveedor.setCorreoElectronico(resultado.getString("correo_electronico"));
                 facturaProveedor.setFechaFactura(resultado.getTimestamp("fecha_factura"));
-                facturaProveedor.setTotal(resultado.getBigDecimal("total"));
+                facturaProveedor.setTotal(resultado.getInt("total"));
                 facturaProveedor.setCantidadProducto(resultado.getInt("cantidad_producto"));
                 //Buscar el proveedor de esa factura
                 Proveedor c = new Proveedor();
@@ -229,11 +232,11 @@ public class FacturaProveedor {
         this.cantidadProducto = cantidadProducto;
     }
 
-    public BigDecimal getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(BigDecimal total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 
@@ -260,4 +263,12 @@ public class FacturaProveedor {
     public void setProductos(List<DetalleFacturaProveedor> productos) {
         this.detalleProductosFacturaProveedor = productos;
     }
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
 }

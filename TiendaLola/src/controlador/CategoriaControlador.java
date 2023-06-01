@@ -21,23 +21,23 @@ public class CategoriaControlador {
     }
 
     //Metodo obtener categoria(s) - recibe los valores de los JText
-    public List<Categoria> buscarCategorias(Integer idCategoria, String nombre, String descripcion){
+    public List<Categoria> buscarCategorias(Integer idCategoria, String nombre, String descripcion, Boolean estado){
         //Instacia la categoria con los respectivos valores
-        Categoria categoria = new Categoria(idCategoria, nombre, descripcion);
+        Categoria categoria = new Categoria(idCategoria, nombre, descripcion, estado);
         //Llama el metodo de buscar categorias
         return categoria.buscarCategorias(categoria,controlador.getConexion());
     }
     //Metodo agregar categoria - recibe los valores de los JText
-    public String crearCategoria(int idCategoria, String nombre, String descripcion){
+    public String crearCategoria(Integer idCategoria, String nombre, String descripcion, Boolean estado){
         //Instacia la categoria con los respectivos valores
-        Categoria categoria = new Categoria(idCategoria, nombre, descripcion);
+        Categoria categoria = new Categoria(idCategoria, nombre, descripcion, estado);
         //Llama el metodo de crear categoria
         return categoria.agregarCategoria(categoria,controlador.getConexion());
     }
     //Metodo actualizar categoria - recibe los valores de los JText
-    public String modificarCategoria(int idCategoria, String nombre, String descripcion){
+    public String modificarCategoria(Integer idCategoria, String nombre, String descripcion, Boolean estado){
         //Instacia la categoria con los respectivos valores
-        Categoria categoria = new Categoria(idCategoria, nombre, descripcion);
+        Categoria categoria = new Categoria(idCategoria, nombre, descripcion, estado);
         //Llama el metodo de actualizar categoria
         return categoria.actualizarCategoria(categoria,controlador.getConexion());
     }

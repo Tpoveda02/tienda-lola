@@ -10,13 +10,15 @@ public class Categoria {
     private Integer idCategoria;
     private String nombre;
     private String descripcion;
+    private Boolean estado;
     private Timestamp fechaModificacion;
 
     //---------------METODO CONSTRUCTOR------------------
-    public Categoria(Integer idCategoria, String nombre, String descripcion) {
+    public Categoria(Integer idCategoria, String nombre, String descripcion, Boolean estado) {
         this.idCategoria = idCategoria;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.estado = estado;
     }
 
     public Categoria() {
@@ -34,8 +36,8 @@ public class Categoria {
                 int id = resultSet.getInt("id_categoria");
                 String nombre = resultSet.getString("nombre");
                 String descripcion = resultSet.getString("descripcion");
-
-                Categoria categoria = new Categoria(id, nombre, descripcion);
+                Boolean estado = resultSet.getBoolean("estado");
+                Categoria categoria = new Categoria(id, nombre, descripcion, estado);
                 categorias.add(categoria);
             }
         } catch (SQLException e) {
@@ -48,16 +50,24 @@ public class Categoria {
     //MÉTODO DE BUSQUEDA ESPECÍFICA
     public ArrayList<Categoria> buscarCategorias(Categoria categoria, Connection conexion) {
         ArrayList<Categoria> listaCategorias = new ArrayList<Categoria>();
+
         try {
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM categoria WHERE " +
-                    "id_categoria LIKE ? AND nombre LIKE ? AND descripcion LIKE ?");
+                    "id_categoria LIKE ? AND nombre LIKE ? AND descripcion LIKE ? AND estado LIKE ?");
             if (categoria.getIdCategoria() != null) {
                 sentencia.setString(1, "%" + categoria.getIdCategoria() + "%");
+                System.out.println(categoria.getIdCategoria());
             } else {
                 sentencia.setString(1, "%%");
             }
             sentencia.setString(2, "%" + categoria.getNombre() + "%");
             sentencia.setString(3, "%" + categoria.getDescripcion() + "%");
+            if (categoria.getEstado() != null) {
+                sentencia.setBoolean(4, categoria.getEstado());
+            }else {
+                sentencia.setString(4, "%%");
+            }
+
             // Ejecuta la sentencia
             ResultSet resultado = sentencia.executeQuery();
             // Asigna los resultados a una lista de las mismas y recorre campo por campo según el registro
@@ -66,6 +76,7 @@ public class Categoria {
                 c.setIdCategoria(resultado.getInt("id_categoria"));
                 c.setNombre(resultado.getString("nombre"));
                 c.setDescripcion(resultado.getString("descripcion"));
+                c.setEstado(resultado.getBoolean("estado"));
                 // Agrega un registro - categoría
                 listaCategorias.add(c);
             }
@@ -77,14 +88,15 @@ public class Categoria {
     }
 
     public String agregarCategoria(Categoria categoria, Connection conexion) {
-        ArrayList<Categoria> sc = buscarCategorias(categoria, conexion); //Busca el cliente
-        if (sc.isEmpty() || sc.get(0).getIdCategoria() != categoria.getIdCategoria()) {//valida quel cliente no exista
+        ArrayList<Categoria> sc = buscarCategorias(new Categoria(null,categoria.getNombre(),"",true), conexion); //Busca la categoria
+        if (sc.isEmpty() || !sc.get(0).getNombre().equals(categoria.getNombre())) {//valida que la categoria no exista
             String mensajeError = this.validarCamposCategoria(categoria);//Verifica los campos - no sean null; Si no retorna los erroes
             if (mensajeError.equals("")) {
                 try {
                     PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO categoria(nombre, descripcion) VALUES (?, ?)");
                     sentencia.setString(1, categoria.getNombre());
                     sentencia.setString(2, categoria.getDescripcion());
+                    sentencia.setBoolean(3, categoria.getEstado());
                     //Ejecuta la sentencia
                     sentencia.executeUpdate();
                     //Cierra la conexión - sentencia
@@ -104,31 +116,36 @@ public class Categoria {
 
 
     public String actualizarCategoria(Categoria categoria, Connection conexion) {
-        String mensajeError = this.validarCamposCategoria(categoria);
-        categoria.setFechaModificacion(Timestamp.valueOf(LocalDateTime.now()));
-        if (mensajeError.equals("")) {//Verifica los campos - no sean null; Si no retorna los erroes
-            String sql = "UPDATE categoria SET nombre = ?, descripcion = ?, fecha_modificacion = ? WHERE id_categoria = ?";
+        ArrayList<Categoria> sc = buscarCategorias(new Categoria(null,categoria.getNombre(),"",null), conexion); //Busca la categoria
+        if (sc.isEmpty() || !sc.get(0).getNombre().equals(categoria.getNombre())) {//valida que la categoria no exista
+            String mensajeError = this.validarCamposCategoria(categoria);
+            categoria.setFechaModificacion(Timestamp.valueOf(LocalDateTime.now()));
+            if (mensajeError.equals("")) {//Verifica los campos - no sean null; Si no retorna los erroes
+                String sql = "UPDATE categoria SET nombre = ?, descripcion = ?, fecha_modificacion = ?, estado = ? WHERE id_categoria = ?";
 
-            try {
-                PreparedStatement sentencia = conexion.prepareStatement(sql);
-                sentencia.setString(1, categoria.getNombre());
-                sentencia.setString(2, categoria.getDescripcion());
-                sentencia.setTimestamp(3, categoria.getFechaModificacion());
-                sentencia.setInt(4, categoria.getIdCategoria());
-                //Ejecuta la sentencia
-                sentencia.executeUpdate();
-                //Cierra la conexión - sentencia
-                sentencia.close();
-                conexion.close();
-                return "Categoria actualizada.";
-            } catch (SQLException e) {
-                e.printStackTrace();
+                try {
+                    PreparedStatement sentencia = conexion.prepareStatement(sql);
+                    sentencia.setString(1, categoria.getNombre());
+                    sentencia.setString(2, categoria.getDescripcion());
+                    sentencia.setTimestamp(3, categoria.getFechaModificacion());
+                    sentencia.setBoolean(4, categoria.getEstado());
+                    sentencia.setInt(5, categoria.getIdCategoria());
+                    //Ejecuta la sentencia
+                    sentencia.executeUpdate();
+                    //Cierra la conexión - sentencia
+                    sentencia.close();
+                    conexion.close();
+                    return "Categoria actualizada.";
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                return mensajeError;
             }
-
-        } else {
-            return mensajeError;
+            return "Categoría no actualizada, campos invalidos";
         }
-        return "Categoría no actualizada, campos invalidos";
+        return "Error: Categoría ya existe con esos campos.";
     }
 
     public String eliminarCategoria(Categoria categoria, Connection conexion) {
@@ -197,6 +214,14 @@ public class Categoria {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
 
     public Timestamp getFechaModificacion() {
         return fechaModificacion;

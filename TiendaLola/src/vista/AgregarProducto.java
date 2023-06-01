@@ -3,9 +3,10 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.desktop.SystemEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
@@ -294,37 +295,36 @@ public class AgregarProducto extends JPanel {
 			int idProducto = Integer.parseInt(txtIdProducto.getText());
 			String nombre = txtNombreProducto.getText();
 			String tipoContenidoNeto = (String) txtTipoContenido.getSelectedItem();
-			BigDecimal contenidoNeto = new BigDecimal(txtContenidoNeto.getText());
+			Integer contenidoNeto = new Integer(txtContenidoNeto.getText());
 			String empaqueGeneral = txtEmpaqueGeneral.getText();
 			String empaque = txtEmpaque.getText();
 			String descripcion = txtDescripcion.getText();
 			String recomendaciones = txtRecomendaciones.getText();
-			BigDecimal precioProveedor = new BigDecimal(txtPrecioProveedor.getText());
-			BigDecimal porcentajeIva = new BigDecimal(txtPorcentajeIva.getText());
-			BigDecimal precioSinIva = new BigDecimal(txtPrecioSinIva.getText());
+			Integer precioProveedor = new Integer(txtPrecioProveedor.getText());
+			Integer porcentajeIva = new Integer(txtPorcentajeIva.getText());
+			Integer precioSinIva = new Integer(txtPrecioSinIva.getText());
 			Date fechaVencimiento = new Date(dateFechaVencimiento.getDate().getTime());
 			System.out.println(fechaVencimiento);
 			int cantidad = Integer.parseInt(txtCantidad.getText());
 			
-			Categoria categoria = categoriaControl.buscarCategorias(null, (String)txtCategoria.getSelectedItem(), "").get(0);
-			
+			Categoria categoria = categoriaControl.buscarCategorias(null, (String)txtCategoria.getSelectedItem(), "",null).get(0);
 			
 			// Agregar el producto a la base de datos
 			String mensaje = "";
 			
-			mensaje = productoControlador.crearProducto(idProducto, nombre, tipoContenidoNeto, contenidoNeto, new BigDecimal(0), 
+			mensaje = productoControlador.crearProducto(idProducto, nombre, tipoContenidoNeto, contenidoNeto, new Integer(0), 
 					empaqueGeneral, empaque, descripcion, recomendaciones, precioProveedor, porcentajeIva, precioSinIva, 
-					new BigDecimal(0), fechaVencimiento, cantidad, categoria);
+					new Integer(0), fechaVencimiento, cantidad, categoria,true);
 			JOptionPane.showMessageDialog(this,mensaje);
 			
 			//Volver al panel anterior
-			if(mensaje.equals("Cliente creado.")) {
-				irPanelBuscar(evt, panelAgregar);				
+			if(mensaje.equals("Producto creado.")) {
+				irPanelBuscar(evt, panelAgregar);
 			}
 
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
 		}
 	}
 
@@ -336,7 +336,7 @@ public class AgregarProducto extends JPanel {
 			irPanelBuscar(evt, panelAgregar);
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
 		}
 	}
 	
@@ -356,7 +356,7 @@ public class AgregarProducto extends JPanel {
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
 		}
 	}
 	

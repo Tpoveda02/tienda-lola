@@ -1,6 +1,6 @@
 package controlador;
 
-import java.math.BigDecimal;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -55,31 +55,35 @@ public class Controlador {
         System.out.println(init.buscarProveedors(1000034812, "CC", "Juan", "Carlos", "García", "Pérez", "Calle Mayor 1", "1234567", "juan.carlos@gmail.com"));
          */
         //PROBAR CATEGORIA
-
 /*
         CategoriaControlador init = new CategoriaControlador();
         System.out.println(init.crearCategoria(0, "Bebidas", "Estante A - Refrigeradores"));
-        System.out.println(init.modificarCategoria(1, "Bebidas", "Estante F - Refrigeradores"));
-        System.out.println(init.eliminarCategoria(1));
-        System.out.println(init.buscarCategorias(1, "",""));
+
+        System.out.println(init.buscarCategorias(null, "Bebidas",""));
+
+        System.out.println(init.buscarCategorias(null, "Bebidas","").get(0).getIdCategoria());
+
 
  */
 
+/*
         ProductoControlador init = new ProductoControlador();
         Categoria c = new Categoria(1,"","");
-        System.out.println(init.crearProducto( 1, "Café colombiano", "gr", new BigDecimal("250"), new BigDecimal("10000"),
+        System.out.println(init.crearProducto( 1, "Café colombiano", "gr", new Integer("250"), new Integer("10000"),
                 "Bolsa", "Aluminio", "Café tostado y molido 100% arábica", "Mantener en lugar fresco y seco",
-                new BigDecimal("8000"), new BigDecimal("19"), new BigDecimal("8403.36"), new BigDecimal("10000"),
+                new Integer("8000"), new Integer("19"), new Integer("8403.36"), new Integer("10000"),
                 new Date(2024, 12, 31), 100, c));
-        System.out.println(init.modificarProducto(1, "Café colombiano", "gr", new BigDecimal("250"), new BigDecimal("10000"),
+        System.out.println(init.modificarProducto(1, "Café colombiano", "gr", new Integer("250"), new Integer("10000"),
                 "Bolsa", "Aluminio", "Café tostado y molido 100% arábica", "Mantener en lugar fresco y seco",
-                new BigDecimal("8000"), new BigDecimal("19"), new BigDecimal("8403.36"), new BigDecimal("10000"),
+                new Integer("8000"), new Integer("19"), new Integer("8403.36"), new Integer("10000"),
                 new Date(2024, 12, 31), 100, c));
         System.out.println(init.eliminarProducto(1));
-/*
+
+ */
+
         Controlador init = new Controlador();
         Login login = new Login();
         login.setVisible(true);
- */
+
     }
 }

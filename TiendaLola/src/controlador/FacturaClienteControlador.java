@@ -2,7 +2,7 @@ package controlador;
 
 import modelo.*;
 
-import java.math.BigDecimal;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -32,9 +32,9 @@ public class FacturaClienteControlador {
     }
 
     //Metodo agregar factura cliente - recibe los valores de los JText
-    public String crearFacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
+    public String crearFacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
         //Instacia la factura con los respectivos valores
-        FacturaCliente facturaCliente = new FacturaCliente(idFacturaCliente,direccion,telefono,correoElectronico,fechaFactura,total,cliente,detalleProductosFacturaCliente);
+        FacturaCliente facturaCliente = new FacturaCliente(idFacturaCliente,direccion,telefono,correoElectronico,fechaFactura,total,cliente,detalleProductosFacturaCliente,null);
         //Llama el metodo de buscar facturasCliente
         return facturaCliente.insertarFacturaCliente(facturaCliente, controlador.getConexion());
     }

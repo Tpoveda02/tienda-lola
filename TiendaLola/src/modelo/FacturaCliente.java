@@ -1,6 +1,6 @@
 package modelo;
 
-import java.math.BigDecimal;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,8 +15,9 @@ public class FacturaCliente {
     private String correoElectronico;
     private Timestamp fechaFactura;
     private int cantidadProducto;
-    private BigDecimal total;
+    private Integer total;
     private Cliente cliente;
+    private Boolean estado;
     private Timestamp fechaModificacion;
 
     private List<DetalleFacturaCliente> detalleProductosFacturaCliente;
@@ -27,7 +28,8 @@ public class FacturaCliente {
     public FacturaCliente() {}
 
     // Constructor con parámetros
-    public FacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
+    public FacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura,
+                          Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente, Boolean estado) {
         this.idFacturaCliente = idFacturaCliente;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -37,6 +39,7 @@ public class FacturaCliente {
         this.cliente = cliente;
         this.detalleProductosFacturaCliente = detalleProductosFacturaCliente;
         this.detalleFacturaCliente = new DetalleFacturaCliente();
+        this.estado = estado;
     }
 
     // Método para insertar una factura de cliente en la base de datos
@@ -50,7 +53,7 @@ public class FacturaCliente {
             statement.setString(1, factura.getDireccion());
             statement.setString(2, factura.getTelefono());
             statement.setString(3, factura.getCorreoElectronico());
-            statement.setBigDecimal(4, factura.getTotal());
+            statement.setInt(4, factura.getTotal());
             statement.setInt(5, factura.getCliente().getIdCliente());
             statement.executeUpdate();
 
@@ -119,7 +122,7 @@ public class FacturaCliente {
                 facturaCliente.setTelefono(result.getString("telefono"));
                 facturaCliente.setCorreoElectronico(result.getString("correo_electronico"));
                 facturaCliente.setFechaFactura(result.getTimestamp("fecha_factura"));
-                facturaCliente.setTotal(result.getBigDecimal("total"));
+                facturaCliente.setTotal(result.getInt("total"));
                 facturaCliente.setCantidadProducto(result.getInt("cantidad_producto"));
                 cliente.setIdCliente(result.getInt("id_cliente"));
                 facturaCliente.setCliente(cliente.buscarClientes(cliente,conexion).get(0));
@@ -161,7 +164,7 @@ public class FacturaCliente {
                 facturaCliente.setTelefono(resultado.getString("telefono"));
                 facturaCliente.setCorreoElectronico(resultado.getString("correo_electronico"));
                 facturaCliente.setFechaFactura(resultado.getTimestamp("fecha_factura"));
-                facturaCliente.setTotal(resultado.getBigDecimal("total"));
+                facturaCliente.setTotal(resultado.getInt("total"));
                 facturaCliente.setCantidadProducto(resultado.getInt("cantidad_producto"));
                 //Buscar el cliente de esa factura
                 Cliente c = new Cliente();
@@ -231,11 +234,11 @@ public class FacturaCliente {
         this.cantidadProducto = cantidadProducto;
     }
 
-    public BigDecimal getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(BigDecimal total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 
@@ -262,4 +265,13 @@ public class FacturaCliente {
     public void setProductos(List<DetalleFacturaCliente> productos) {
         this.detalleProductosFacturaCliente = productos;
     }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
 }

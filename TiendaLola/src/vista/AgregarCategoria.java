@@ -73,20 +73,16 @@ public class AgregarCategoria extends JPanel {
 		panelAgregar.add(lblRegistroCategoria);
 
 		lblDescripcion = new JLabel("Descripción:");
-		lblDescripcion.setBounds(150, 135, 120, 20);
+		lblDescripcion.setBounds(393, 81, 120, 20);
 		lblDescripcion.setForeground(new Color(135, 134, 133));
 		panelAgregar.add(lblDescripcion);
 
 		lblNombreCategoria = new JLabel("Nombre:");
-		lblNombreCategoria.setBounds(393, 81, 120, 20);
+		lblNombreCategoria.setBounds(150, 81, 80, 20);
 		lblNombreCategoria.setForeground(new Color(135, 134, 133));
 		panelAgregar.add(lblNombreCategoria);
-		
-		lblIdCategoria = new JLabel("ID Categoría:");
-		lblIdCategoria.setBounds(150, 81, 80, 20);
-		lblIdCategoria.setForeground(new Color(135, 134, 133));
-		panelAgregar.add(lblIdCategoria);
-		
+
+
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(AgregarCategoria.class.getResource("/media/ImagenCategoria.png")));
 		lblNewLabel.setBounds(640, 100, 200, 190);
@@ -94,24 +90,20 @@ public class AgregarCategoria extends JPanel {
 
 
 		// TextFields
-		txtIdCategoria = new JTextField();
-		txtIdCategoria.setBounds(150, 104, 200, 20);
-		txtIdCategoria.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		panelAgregar.add(txtIdCategoria);
 
 		txtDescripcion = new JTextField();
-		txtDescripcion.setBounds(150, 158, 443, 80);
+		txtDescripcion.setBounds(393, 104, 200, 20);
 		txtDescripcion.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtDescripcion);
 
 		txtNombreCategoria = new JTextField();
-		txtNombreCategoria.setBounds(393, 104, 200, 20);
+		txtNombreCategoria.setBounds(150, 104, 200, 20);
 		txtNombreCategoria.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtNombreCategoria);
 
 		// Botones
 		btnGuardar = new JButton("Guardar");
-		btnGuardar.setBounds(485, 260, 100, 30);
+		btnGuardar.setBounds(485, 160, 100, 30);
 		btnGuardar.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		btnGuardar.setBackground(new Color(192, 192, 192));
 		btnGuardar.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -124,7 +116,7 @@ public class AgregarCategoria extends JPanel {
 		panelAgregar.add(btnGuardar);
 
 		btnSalir = new JButton("Salir");
-		btnSalir.setBounds(360, 260, 100, 30);
+		btnSalir.setBounds(360, 160, 100, 30);
 		btnSalir.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		btnSalir.setBackground(new Color(192, 192, 192));
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -149,12 +141,11 @@ public class AgregarCategoria extends JPanel {
 	 */	
 	private void btnGuardarActionPerformed(ActionEvent evt, JPanel panelAgregar) {
 		try {
-			int idCategoria = Integer.parseInt(txtIdCategoria.getText());
 			String descripcion = txtDescripcion.getText();
 			String nombre = txtNombreCategoria.getText();
 			// Agregar la categoria a la base de datos
 			String mensaje = "";
-			mensaje = categoriaControlador.crearCategoria(idCategoria, nombre, descripcion);
+			mensaje = categoriaControlador.crearCategoria(null, nombre, descripcion, true);
 			JOptionPane.showMessageDialog(this,mensaje);
 			
 			//Volver al panel anterior

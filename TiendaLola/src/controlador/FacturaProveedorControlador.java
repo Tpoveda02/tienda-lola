@@ -4,7 +4,7 @@ import modelo.Proveedor;
 import modelo.DetalleFacturaProveedor;
 import modelo.FacturaProveedor;
 
-import java.math.BigDecimal;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -34,9 +34,9 @@ public class FacturaProveedorControlador {
     }
 
     //Metodo agregar factura proveedor - recibe los valores de los JText
-    public String crearFacturaProveedor(int idFacturaProveedor, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, BigDecimal total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
+    public String crearFacturaProveedor(int idFacturaProveedor, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, Integer total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
         //Instacia la factura con los respectivos valores
-        FacturaProveedor facturaProveedor = new FacturaProveedor(idFacturaProveedor,direccion,telefono,correoElectronico,fechaFactura,total,proveedor,detalleProductosFacturaProveedor);
+        FacturaProveedor facturaProveedor = new FacturaProveedor(idFacturaProveedor,direccion,telefono,correoElectronico,fechaFactura,total,proveedor,detalleProductosFacturaProveedor,null);
         //Llama el metodo de buscar facturasProveedor
         return facturaProveedor.insertarFacturaProveedor(facturaProveedor, controlador.getConexion());
     }

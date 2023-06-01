@@ -6,13 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,9 +23,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import controlador.Controlador;
+import controlador.CategoriaControlador;
 import controlador.ProductoControlador;
-import modelo.Cliente;
+import java.util.Date;
+
+import modelo.Categoria;
 import modelo.Producto;
 
 public class BuscarProducto extends JPanel {
@@ -38,6 +39,8 @@ public class BuscarProducto extends JPanel {
 	//Objeto de la clase panelActualizar
 	private ActualizarProducto panelActualizar;
 
+	//Objeto de la clase Controlador Categoria
+	private CategoriaControlador categoriaControlador;
 	//--------------------Variables-------------------
 	private List<Producto> listaProductos;
 	private JLabel lblIdProducto;
@@ -61,24 +64,36 @@ public class BuscarProducto extends JPanel {
 	private JButton btnBuscar;
 
 	public static int idProducto = 0;		//Validar que no ha seleccionado ningun cliente
+
 	public static String nombre;
 	public static String tipoContenidoNeto;
 	public static String contenidoNeto;
 	public static String valorContenido;
+
+	public static String empaqueGeneral;
+
+	public static String empaque;
 	public static String precioProveedor;
+	public static String porcentajeIva;
+	public static String porcentajeSinIva;
 	public static String precioVenta;
-	public static String fechaVencimiento;
+	public static Date fechaVencimiento;
 	public static String cantidad;
+
 	public static String categoria;
+	public static String recomendaciones;
 
-
+	public static String descripcion;
+	public static Boolean estado;
 	/*
 	 * METODO CONSTRUCTOR
 	 */
+
 	public BuscarProducto() {
 		productoControlador = new ProductoControlador();
 		inicializarComponentes();
 		listaProductos = new ArrayList<Producto>();
+		categoriaControlador = new CategoriaControlador();
 	}
 
 	/*
@@ -163,6 +178,7 @@ public class BuscarProducto extends JPanel {
 		modeloTabla.addColumn("Precio Proveedor");
 		modeloTabla.addColumn("Precio");
 		modeloTabla.addColumn("Cantidad");
+		modeloTabla.addColumn("Estado");
 
 		tablaProductos = new JTable(actualizarTabla(modeloTabla,productoControlador.listarProductos()));
 		scrollPane = new JScrollPane(tablaProductos);
@@ -324,14 +340,18 @@ public class BuscarProducto extends JPanel {
 	 */
 	private void btnActualizarActionPerformed(ActionEvent evt, JPanel panelBuscar) {
 		try {
-			panelActualizar = new ActualizarProducto();
-			panelActualizar.setSize(960, 440);
-			panelActualizar.setLocation(0, 0);
+			if(estado == true) {
+				panelActualizar = new ActualizarProducto();
+				panelActualizar.setSize(960, 440);
+				panelActualizar.setLocation(0, 0);
 
-			panelBuscar.removeAll();
-			panelBuscar.add(panelActualizar, BorderLayout.CENTER);
-			panelBuscar.revalidate();
-			panelBuscar.repaint();
+				panelBuscar.removeAll();
+				panelBuscar.add(panelActualizar, BorderLayout.CENTER);
+				panelBuscar.revalidate();
+				panelBuscar.repaint();
+			}else {
+				JOptionPane.showMessageDialog(this, "El producto está inactivo");
+			}
 
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
@@ -342,14 +362,26 @@ public class BuscarProducto extends JPanel {
 	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Inactivar
 	 */
 	private void btnInactivarActionPerformed(ActionEvent evt) {
-		try {
-			// Eliminar el producto de la base de datos
-			JOptionPane.showMessageDialog(this,productoControlador.eliminarProducto(idProducto));
-			actualizarTabla(modeloTabla,productoControlador.listarProductos());
-
+		//try {
+			if(estado == true) {
+				// Eliminar el producto de la base de datos
+				JOptionPane.showMessageDialog(this,
+						productoControlador.modificarProducto(idProducto,nombre,tipoContenidoNeto,
+								new Integer(contenidoNeto),new Integer(valorContenido),
+								empaqueGeneral,empaque,recomendaciones, descripcion,
+								new Integer(precioProveedor), new Integer(porcentajeIva),
+								new Integer(porcentajeSinIva),new Integer(precioVenta),new java.sql.Date(fechaVencimiento.getDate()),
+								Integer.parseInt(cantidad), categoriaControlador.buscarCategorias(null,categoria,"",true).get(0), false));
+				actualizarTabla(modeloTabla, productoControlador.listarProductos());
+			}else{
+				JOptionPane.showMessageDialog(this, "El producto ya está inactivo");
+			}
+/*
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
 		}
+
+ */
 	}
 	
 	/*
@@ -357,9 +389,19 @@ public class BuscarProducto extends JPanel {
 	 */
 	private void btnActivarActionPerformed(ActionEvent evt) {
 		try {
-			// Eliminar el producto de la base de datos
-//			JOptionPane.showMessageDialog(this,productoControlador.eliminarProducto(idProducto));
-//			actualizarTabla(modeloTabla,productoControlador.listarProductos());
+			if(estado == false) {
+				// Eliminar el producto de la base de datos
+				JOptionPane.showMessageDialog(this,
+						productoControlador.modificarProducto(idProducto,nombre,tipoContenidoNeto,
+								new Integer(contenidoNeto),new Integer(valorContenido),
+								empaqueGeneral,empaque,recomendaciones, descripcion,
+								new Integer(precioProveedor), new Integer(porcentajeIva),
+								new Integer(porcentajeSinIva),new Integer(precioVenta),new java.sql.Date(fechaVencimiento.getDate()),
+								Integer.parseInt(cantidad), categoriaControlador.buscarCategorias(null,categoria,"",true).get(0), true));
+				actualizarTabla(modeloTabla, productoControlador.listarProductos());
+			}else{
+				JOptionPane.showMessageDialog(this, "El producto ya está activo");
+			}
 
 		} catch (NumberFormatException ex) {
 //			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
@@ -391,7 +433,7 @@ public class BuscarProducto extends JPanel {
 			String cantidadb = txtCantidad.getText();
 
 			// Buscar el cliente en la base de datos
-			List<Producto> productos = productoControlador.buscarProductos(idProductob,"","","","","","","","","","","",preciob,fechaCaducidadb,cantidadb,categoriab);
+			List<Producto> productos = productoControlador.buscarProductos(idProductob,"","","","","","","","","","","",preciob,fechaCaducidadb,cantidadb,categoriab, null);
 			if (productos != null) {
 				actualizarTabla(modeloTabla,productos);
 			} else {
@@ -418,17 +460,22 @@ public class BuscarProducto extends JPanel {
 
 		// Agregar cada cliente a la tabla
 		for (Producto producto : listaProductos) {
-			Object[] fila = new Object[9];
+			Object[] fila = new Object[11];
 			fila[0] = producto.getIdProducto();
 			fila[1] = producto.getFechaVencimiento();
 			fila[2] = producto.getNombre();
 			fila[3] = producto.getTipoContenidoNeto();
 			fila[4] = producto.getContenidoNeto();
 			fila[5] = producto.getValorContenido();
-			fila[6] = producto.getCategoria();
+			fila[6] = producto.getCategoria().getNombre();
 			fila[7] = producto.getPrecioProveedor();
 			fila[8] = producto.getPrecioVenta();
-			fila[9] = producto.getCantidad();			
+			fila[9] = producto.getCantidad();
+			if(producto.getEstado() == true){
+				fila[10] = "Activo";
+			}else{
+				fila[10] = "Inactivo";
+			}
 			modeloTabla.addRow(fila);
 		}
 
@@ -444,15 +491,25 @@ public class BuscarProducto extends JPanel {
 		TableModel modeloTabla = tablaProductos.getModel();
 
 		idProducto = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
-		fechaVencimiento = modeloTabla.getValueAt(i, 1).toString();
-		nombre = modeloTabla.getValueAt(i, 2).toString();
-		tipoContenidoNeto = modeloTabla.getValueAt(i, 3).toString();
-		contenidoNeto = modeloTabla.getValueAt(i, 4).toString();
-		valorContenido = modeloTabla.getValueAt(i, 5).toString();
-		categoria = modeloTabla.getValueAt(i, 6).toString();
-		precioProveedor = modeloTabla.getValueAt(i, 7).toString();
-		precioVenta = modeloTabla.getValueAt(i, 8).toString();
-		cantidad = modeloTabla.getValueAt(i, 9).toString();
+		Producto producto = productoControlador.buscarProductos(idProducto,"","","","","","","",
+				"","","","","","","","",null).get(0);
+		fechaVencimiento = producto.getFechaVencimiento();
+		nombre = producto.getNombre();
+		tipoContenidoNeto = producto.getTipoContenidoNeto();
+		contenidoNeto = producto.getContenidoNeto() +"";
+		valorContenido = producto.getValorContenido() +"";
+		System.out.println(producto.getValorContenido() +"");
+		empaqueGeneral = producto.getEmpaqueGeneral();
+		empaque = producto.getEmpaque();
+		precioProveedor = producto.getPrecioProveedor() +"";
+		porcentajeIva = producto.getPorcentajeIva() + "";
+		porcentajeSinIva = producto.getPrecioSinIva() + "";
+		precioVenta = producto.getPrecioVenta() + "";
+		cantidad = producto.getCantidad() + "";
+		categoria = producto.getCategoria().getNombre();
+		recomendaciones = producto.getRecomendaciones();
+		descripcion = producto.getDescripcion();
+		estado = producto.getEstado();
 
 	}
 }
