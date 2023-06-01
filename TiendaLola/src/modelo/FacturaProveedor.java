@@ -23,11 +23,12 @@ public class FacturaProveedor {
     private DetalleFacturaProveedor detalleFacturaProveedor;
 
     // Constructor vacío
-    public FacturaProveedor() {}
+    public FacturaProveedor() {
+    }
 
     // Constructor con parámetros
     public FacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico,
-                            Timestamp fechaFactura,int cantidadProducto, Double total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
+                            Timestamp fechaFactura, int cantidadProducto, Double total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
         this.idFacturaProveedor = idFacturaProveedor;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -41,12 +42,12 @@ public class FacturaProveedor {
     }
 
     // Método para insertar una factura de proveedor en la base de datos
-    public String insertarFacturaProveedor(FacturaProveedor factura, Connection conexion)  {
+    public String insertarFacturaProveedor(FacturaProveedor factura, Connection conexion) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             // Insertar la factura
-            String sql = "INSERT INTO factura_proveedor (direccion, telefono, correo_electronico, cantidad_producto,total, id_proveedor) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO factura_proveedor (direccion, telefono, correo_electronico, cantidad_producto,total, id_proveedor) VALUES (?, ?, ?, ?, ?,?)";
             statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, factura.getDireccion());
             statement.setString(2, factura.getTelefono());
@@ -64,27 +65,14 @@ public class FacturaProveedor {
 
             // Insertar los productos en la factura
             for (DetalleFacturaProveedor producto : factura.getProductos()) {
-                detalleFacturaProveedor.agregarDetalleFactura(producto,factura,conexion);
+                detalleFacturaProveedor.agregarDetalleFactura(producto, factura, conexion);
             }
 
-        return "Factura creada";
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            return "Error creando la factura";
+            return "Factura creada";
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al buscar registros por id_factura_proveedor en la tabla factura_proveedor: " + ex.getMessage());
         }
+        return "Error creando la factura";
     }
 
 
@@ -101,12 +89,12 @@ public class FacturaProveedor {
                 facturaProveedor.setDireccion(result.getString("direccion"));
                 facturaProveedor.setTelefono(result.getString("telefono"));
                 facturaProveedor.setCorreoElectronico(result.getString("correo_electronico"));
-                facturaProveedor.setFechaFactura(result.getTimestamp("fecha_factura"));
+                facturaProveedor.setFechaFactura(result.getTimestamp("fecha_factura_proveedor"));
                 facturaProveedor.setTotal(result.getDouble("total"));
                 facturaProveedor.setCantidadProducto(result.getInt("cantidad_producto"));
-                Proveedor proveedor = new Proveedor(result.getInt("id_proveedor"),"","","","","","","","",true);
-                facturaProveedor.setProveedor(proveedor.buscarProveedors(proveedor,conexion).get(0));
-                facturaProveedor.setProductos(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(),conexion));
+                Proveedor proveedor = new Proveedor(result.getInt("id_proveedor"), "", "", "", "", "", "", "", "", true);
+                facturaProveedor.setProveedor(proveedor.buscarProveedors(proveedor, conexion).get(0));
+                facturaProveedor.setProductos(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(), conexion));
                 facturaProveedors.add(facturaProveedor);
             }
             conexion.close();
@@ -115,6 +103,7 @@ public class FacturaProveedor {
         }
         return facturaProveedors;
     }
+
     // METODO PAR BUSCAR UNA FACTURA POR UN CAMPO ESPECÍFICO
     public ArrayList<FacturaProveedor> buscarFacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico, String fechaFactura, String total, String cantidadProducto, String idProveedor, Connection conexion) {
         ArrayList<FacturaProveedor> listaFacturasProveedor = new ArrayList<FacturaProveedor>();
@@ -129,8 +118,8 @@ public class FacturaProveedor {
                 sentencia.setString(1, "%%");
             }
             sentencia.setString(2, "%" + direccion + "%");
-            sentencia.setString(3,"%" + correoElectronico + "%");
-            sentencia.setString(4,"%" + fechaFactura + "%");
+            sentencia.setString(3, "%" + correoElectronico + "%");
+            sentencia.setString(4, "%" + fechaFactura + "%");
             sentencia.setString(5, "%" + telefono + "%");
             sentencia.setString(6, "%" + cantidadProducto + "%");
             sentencia.setString(7, "%" + total + "%");
@@ -138,24 +127,21 @@ public class FacturaProveedor {
             // Ejecuta la sentencia
             ResultSet resultado = sentencia.executeQuery();
             // Asigna los resultados a una lista de los mismos y recorre campo por campo según el registro
+            System.out.println(resultado);
             while (resultado.next()) {
-
                 FacturaProveedor facturaProveedor = new FacturaProveedor();
                 facturaProveedor.setIdFacturaProveedor(resultado.getInt("id_factura_proveedor"));
                 facturaProveedor.setDireccion(resultado.getString("direccion"));
                 facturaProveedor.setTelefono(resultado.getString("telefono"));
                 facturaProveedor.setCorreoElectronico(resultado.getString("correo_electronico"));
-                facturaProveedor.setFechaFactura(resultado.getTimestamp("fecha_factura"));
+                facturaProveedor.setFechaFactura(resultado.getTimestamp("fecha_factura_proveedor"));
                 facturaProveedor.setTotal(resultado.getDouble("total"));
                 facturaProveedor.setCantidadProducto(resultado.getInt("cantidad_producto"));
                 //Buscar el proveedor de esa factura
-                Proveedor c = new Proveedor();
-                c.setIdProveedor(resultado.getInt("id_proveedor"));
-                Proveedor proveedor = c.buscarProveedors(c,conexion).get(0);
-                System.out.println(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(),conexion));
-                facturaProveedor.setProductos(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(),conexion));
-                //Asignar el proveedor
-                facturaProveedor.setProveedor(proveedor);
+                Proveedor proveedor = new Proveedor(resultado.getInt("id_proveedor"), "", "", "", "", "", "", "", "", true);
+                facturaProveedor.setProveedor(proveedor.buscarProveedors(proveedor, conexion).get(0));
+                System.out.println(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(), conexion));
+                facturaProveedor.setProductos(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(), conexion));
                 // Agrega un registro - factura
                 listaFacturasProveedor.add(facturaProveedor);
             }

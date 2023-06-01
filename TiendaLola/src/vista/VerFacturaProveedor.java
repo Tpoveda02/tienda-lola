@@ -21,6 +21,8 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.FacturaClienteControlador;
+import controlador.FacturaProveedorControlador;
 import modelo.DetalleFacturaCliente;
 import modelo.DetalleFacturaProveedor;
 
@@ -29,7 +31,7 @@ public class VerFacturaProveedor extends JPanel {
 	//Objeto de la clase BuscarClientes
 	private BuscarFacturaProveedor panelBuscar;
 
-
+	private FacturaProveedorControlador controladorFacturaProveedor;
 	//-------------------Variables-----------------
 	private List<DetalleFacturaProveedor> detalleProductos;
 	private JLabel lblRegistroCategoria;
@@ -176,12 +178,12 @@ public class VerFacturaProveedor extends JPanel {
 		modeloTabla.addColumn("Total");
 
 		//		detalleProductos = new ArrayList<DetalleFacturaCliente>();
-		if(detalleProductos == null) {
-			tablaProductos = new JTable(actualizarTabla(modeloTabla,new ArrayList<DetalleFacturaProveedor>()));
-		}else {
-			tablaProductos = new JTable(actualizarTabla(modeloTabla,detalleProductos));
+		List<DetalleFacturaProveedor> listaDetalle = new ArrayList<>();
+		System.out.println(panelBuscar.idFactura);
+		listaDetalle = controladorFacturaProveedor.buscarFacturasProveedor(panelBuscar.idFactura,
+				"", "", "", "", "", "", "").get(0).getProductos();
 
-		}
+		tablaProductos = new JTable(actualizarTabla(modeloTabla,listaDetalle));
 
 
 		scrollPane = new JScrollPane(tablaProductos);

@@ -297,7 +297,7 @@ public class BuscarFacturaProveedor extends JPanel {
 			pnlBuscarFacCliente.repaint();
 
 		} catch (NumberFormatException ex) {
-//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID factura debe ser un número entero.");
 		}
 	}
 	
