@@ -32,7 +32,7 @@ public class FacturaClienteControlador {
     }
 
     //Metodo agregar factura cliente - recibe los valores de los JText
-    public String crearFacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
+    public String crearFacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
         //Instacia la factura con los respectivos valores
         FacturaCliente facturaCliente = new FacturaCliente(idFacturaCliente,direccion,telefono,correoElectronico,fechaFactura,total,cliente,detalleProductosFacturaCliente);
         //Llama el metodo de buscar facturasCliente
