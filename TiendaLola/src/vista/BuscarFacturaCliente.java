@@ -61,7 +61,7 @@ public class BuscarFacturaCliente extends JPanel {
 	private JButton btnBuscar;
 
 	public static int idFactura = 0; // Validar que no ha seleccionado ningun cliente
-	public static String idCliente;
+	public static int idCliente;
 	public static String nombreCliente;
 	public static String fecha;
 	public static String numeroProductos;
@@ -319,26 +319,20 @@ public class BuscarFacturaCliente extends JPanel {
 	 */
 	private void btnBuscarActionPerformed(ActionEvent evt) {
 		try {
-//			Integer idCliente = null;
-//			if(!txtIdFactura.getText().equals(""))
-//				idCliente = Integer.parseInt(txtIdFactura.getText());
-//			String tipoId = txtIdCliente.getSelectedItem().toString();
-//			String primerNombre = txtNombreCliente.getText();
-//			String segundoNombre = txtFecha.getText();
-//			String primerApellido = txtNumeroProductos.getText();
-//			String segundoApellido = txtValorTotal.getText();
-//			String direccion = txtDireccion.getText();
-//			String telefono = txtTelefono.getText();
-//			String correo = txtCorreoElectronico.getText();
-//
-//			// Buscar el cliente en la base de datos
-//			List<Cliente> clientes = controlador.buscarClientes(idCliente,tipoId,primerNombre,segundoNombre,primerApellido,
-//					segundoApellido,direccion,telefono,correo);
-//			if (clientes != null) {
-//				actualizarTabla(modeloTabla,clientes);
-//			} else {
-//				JOptionPane.showMessageDialog(this, "Cliente no encontrado.");
-//			}
+			Integer idFacturaCliente = null;
+			if(!txtIdFactura.getText().equals(""))
+				idCliente = Integer.parseInt(txtIdFactura.getText());
+			String fecha = txtFecha.getText();
+			String numeroProductos = txtNumeroProductos.getText();
+			String valorTotal = txtValorTotal.getText();
+
+			// Buscar el cliente en la base de datos
+			List<FacturaCliente> clientes = facClienteControlador.buscarFacturasCliente(idCliente,"","","",fecha,valorTotal,numeroProductos,idCliente + "");
+			if (clientes != null) {
+				actualizarTabla(modeloTabla,clientes);
+			} else {
+				JOptionPane.showMessageDialog(this, "Cliente no encontrado.");
+			}
 
 
 		} catch (NumberFormatException ex) {
@@ -382,7 +376,7 @@ public class BuscarFacturaCliente extends JPanel {
 		TableModel modeloTabla = tablaFacClientes.getModel();
 
 		idFactura = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
-		idCliente = modeloTabla.getValueAt(i, 1).toString();
+		idCliente = Integer.parseInt(modeloTabla.getValueAt(i, 1).toString());
 		nombreCliente = modeloTabla.getValueAt(i, 2).toString();
 		fecha = modeloTabla.getValueAt(i, 3).toString();
 		numeroProductos = modeloTabla.getValueAt(i, 4).toString();
