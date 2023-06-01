@@ -52,12 +52,10 @@ public class AgregarFacturaCliente extends JPanel {
 	//-------------------Variables-----------------
 	public static List<DetalleFacturaCliente> detalleProductos;
 	private JLabel lblRegistroCategoria;
-	private JLabel lblIdFactura;
 	private JLabel lblCorreo; 
 	private JLabel lblTelefono; 
 	private JLabel lblDireccion;
 	private JLabel lblCliente;
-	private JTextField txtIdFactura; 
 	private JTextField txtCorreo; 
 	private JTextField txtTelefono; 
 	private JTextField txtDireccion;
@@ -108,14 +106,9 @@ public class AgregarFacturaCliente extends JPanel {
 		panelAgregar.add(lblCorreo);
 
 		lblTelefono = new JLabel("Telefono:");
-		lblTelefono.setBounds(323, 81, 120, 20);
+		lblTelefono.setBounds(80, 81, 120, 20);
 		lblTelefono.setForeground(new Color(135, 134, 133));
 		panelAgregar.add(lblTelefono);
-
-		lblIdFactura = new JLabel("ID Factura:");
-		lblIdFactura.setBounds(80, 81, 80, 20);
-		lblIdFactura.setForeground(new Color(135, 134, 133));
-		panelAgregar.add(lblIdFactura);
 
 		lblDireccion = new JLabel("Dirección:");
 		lblDireccion.setForeground(new Color(135, 134, 133));
@@ -124,15 +117,8 @@ public class AgregarFacturaCliente extends JPanel {
 
 		lblCliente = new JLabel("Cliente:");
 		lblCliente.setForeground(new Color(135, 134, 133));
-		lblCliente.setBounds(323, 189, 80, 20);
+		lblCliente.setBounds(323, 81, 80, 20);
 		panelAgregar.add(lblCliente);
-
-
-		// TextFields
-		txtIdFactura = new JTextField();
-		txtIdFactura.setBounds(80, 104, 200, 20);
-		txtIdFactura.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		panelAgregar.add(txtIdFactura);
 
 		txtCorreo = new JTextField();
 		txtCorreo.setBounds(80, 158, 443, 20);
@@ -140,14 +126,14 @@ public class AgregarFacturaCliente extends JPanel {
 		panelAgregar.add(txtCorreo);
 
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(323, 104, 200, 20);
+		txtTelefono.setBounds(80, 104, 200, 20);
 		txtTelefono.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtTelefono);
 
 		txtCliente = new JComboBox();
 		txtCliente.setModel(new DefaultComboBoxModel(obtenerClientes()));
 		txtCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		txtCliente.setBounds(323, 212, 200, 20);
+		txtCliente.setBounds(323, 104, 200, 20);
 		panelAgregar.add(txtCliente);
 
 		txtDireccion = new JTextField();
