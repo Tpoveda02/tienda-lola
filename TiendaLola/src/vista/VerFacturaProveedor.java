@@ -129,7 +129,7 @@ public class VerFacturaProveedor extends JPanel {
 		txtIdCliente = new JTextField();
 		txtIdCliente.setBounds(323, 104, 200, 20);
 		txtIdCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		txtIdCliente.setText(panelBuscar.idCliente + "");
+		txtIdCliente.setText(panelBuscar.idProveedor + "");
 		txtIdCliente.setEditable(false);
 		panelAgregar.add(txtIdCliente);
 

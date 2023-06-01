@@ -61,7 +61,7 @@ public class BuscarFacturaCliente extends JPanel {
 	private JButton btnBuscar;
 
 	public static int idFactura = 0; // Validar que no ha seleccionado ningun cliente
-	public static int idCliente;
+	public static String idCliente;
 	public static String nombreCliente;
 	public static String fecha;
 	public static String numeroProductos;
@@ -321,13 +321,14 @@ public class BuscarFacturaCliente extends JPanel {
 		try {
 			Integer idFacturaCliente = null;
 			if(!txtIdFactura.getText().equals(""))
-				idCliente = Integer.parseInt(txtIdFactura.getText());
+				idFactura = Integer.parseInt(txtIdFactura.getText());
+			idCliente = txtIdCliente.getText();
 			String fecha = txtFecha.getText();
 			String numeroProductos = txtNumeroProductos.getText();
 			String valorTotal = txtValorTotal.getText();
 
 			// Buscar el cliente en la base de datos
-			List<FacturaCliente> clientes = facClienteControlador.buscarFacturasCliente(idCliente,"","","",fecha,valorTotal,numeroProductos,idCliente + "");
+			List<FacturaCliente> clientes = facClienteControlador.buscarFacturasCliente(idFactura,"","","",fecha,valorTotal,numeroProductos,idCliente);
 			if (clientes != null) {
 				actualizarTabla(modeloTabla,clientes);
 			} else {
@@ -376,7 +377,7 @@ public class BuscarFacturaCliente extends JPanel {
 		TableModel modeloTabla = tablaFacClientes.getModel();
 
 		idFactura = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
-		idCliente = Integer.parseInt(modeloTabla.getValueAt(i, 1).toString());
+		idCliente = modeloTabla.getValueAt(i, 1).toString();
 		nombreCliente = modeloTabla.getValueAt(i, 2).toString();
 		fecha = modeloTabla.getValueAt(i, 3).toString();
 		numeroProductos = modeloTabla.getValueAt(i, 4).toString();
