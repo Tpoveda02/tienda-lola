@@ -23,12 +23,16 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.FacturaClienteControlador;
+import controlador.FacturaProveedorControlador;
 import modelo.DetalleFacturaCliente;
 
 public class VerFacturaCliente extends JPanel {
 
 	//Objeto de la clase BuscarClientes
 	private BuscarFacturaCliente panelBuscar;
+	//objeto de la Clase FacturaClienteControlador
+	private FacturaClienteControlador controladorFacturaCliente;
 
 	//-------------------Variables-----------------
 	private List<DetalleFacturaCliente> detalleProductos;
@@ -57,6 +61,8 @@ public class VerFacturaCliente extends JPanel {
 	 * METODO CONSTRUCTOR
 	 */
 	public VerFacturaCliente() {
+		controladorFacturaCliente = new FacturaClienteControlador();
+		detalleProductos = new ArrayList<DetalleFacturaCliente>();
 		inicializarComponentes();
 	}
 	
@@ -176,13 +182,15 @@ public class VerFacturaCliente extends JPanel {
 		modeloTabla.addColumn("Cantidad");
 		modeloTabla.addColumn("Total");
 
-		//		detalleProductos = new ArrayList<DetalleFacturaCliente>();
-		if(detalleProductos == null) {
-			tablaProductos = new JTable(actualizarTabla(modeloTabla,new ArrayList<DetalleFacturaCliente>()));
-		}else {
-			tablaProductos = new JTable(actualizarTabla(modeloTabla,detalleProductos));
-
-		}
+		List<DetalleFacturaCliente> listaDetalle = controladorFacturaCliente.buscarFacturasCliente(panelBuscar.idFactura, 
+				"", "", "", "", "", "", panelBuscar.idCliente).get(0).getProductos();
+		tablaProductos = new JTable(actualizarTabla(modeloTabla,listaDetalle));
+//		if(detalleProductos == null) {
+//			tablaProductos = new JTable(actualizarTabla(modeloTabla,new ArrayList<DetalleFacturaCliente>()));
+//		}else {
+//			tablaProductos = new JTable(actualizarTabla(modeloTabla,detalleProductos));
+//
+//		}
 
 
 		scrollPane = new JScrollPane(tablaProductos);
