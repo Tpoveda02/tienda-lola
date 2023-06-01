@@ -13,8 +13,22 @@ public class DetalleFacturaProveedor {
     private Integer idDetalleFacturaProveedor;
     private int idFacturaProveedor;
     private int cantidad;
-    private Integer precio;
+    private Double precio;
     private Producto producto;
+
+    /*
+     * METODO CONSTRUCTOR
+     */
+
+    public DetalleFacturaProveedor(Integer idDetalleFacturaCliente, Integer idFacturaCliente, int cantidad, Double precio, Producto producto) {
+        this.idDetalleFacturaProveedor = idDetalleFacturaCliente;
+        this.idFacturaProveedor = idFacturaCliente;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.producto = producto;
+    }
+
+    public DetalleFacturaProveedor(){}
 
     /*
      * METODO CREAR
@@ -23,12 +37,12 @@ public class DetalleFacturaProveedor {
     public String agregarDetalleFactura(DetalleFacturaProveedor detalleFacturaProveedor, FacturaProveedor factura, Connection conexion) {
         PreparedStatement sentencia = null;
         try {
-            String sql = "INSERT INTO factura_proveedor_producto (id_factura_proveedor, id_producto, cantidad, precio) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO factura_proveedor_producto (id_factura_proveedor, id_producto, cantidad, precio) VALUES (?, ?, ?, ?)";
             sentencia = conexion.prepareStatement(sql);
             sentencia.setInt(1, factura.getIdFacturaProveedor());
             sentencia.setInt(2, detalleFacturaProveedor.getProducto().getIdProducto());
             sentencia.setInt(3, detalleFacturaProveedor.getCantidad());
-            sentencia.setInt(4, detalleFacturaProveedor.getPrecio());
+            sentencia.setDouble(4, detalleFacturaProveedor.getPrecio());
             sentencia.executeUpdate();
             //Ejecuta la sentencia
             sentencia.executeUpdate();
@@ -58,7 +72,7 @@ public class DetalleFacturaProveedor {
                 producto = producto.buscarProductos(result.getInt("id_producto"),"","","","","","","","","","","","","","","",null,conexion).get(0);
                 productoDetalle.setProducto(producto);
                 productoDetalle.setCantidad(result.getInt("cantidad"));
-                productoDetalle.setPrecio(result.getInt("precio"));
+                productoDetalle.setPrecio(result.getDouble("precio"));
                 productos.add(productoDetalle);
             }
             conexion.close();
@@ -88,11 +102,11 @@ public class DetalleFacturaProveedor {
         this.cantidad = cantidad;
     }
 
-    public Integer getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
