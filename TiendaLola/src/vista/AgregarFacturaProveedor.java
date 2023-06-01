@@ -50,12 +50,10 @@ public class AgregarFacturaProveedor extends JPanel {
 	public static List<DetalleFacturaProveedor> detalleProductos;
 	private JLabel lblRegistroCategoria;
 	private JLabel lblRegistroFactura;
-	private JLabel lblIdFactura;
 	private JLabel lblCorreo; 
 	private JLabel lblTelefono; 
 	private JLabel lblDireccion;
 	private JLabel lblProveedor;
-	private JTextField txtIdFactura; 
 	private JTextField txtCorreo; 
 	private JTextField txtTelefono; 
 	private JTextField txtDireccion;
@@ -103,14 +101,9 @@ public class AgregarFacturaProveedor extends JPanel {
 		panelAgregar.add(lblCorreo);
 
 		lblTelefono = new JLabel("Telefono:");
-		lblTelefono.setBounds(323, 81, 120, 20);
+		lblTelefono.setBounds(80, 81, 120, 20);
 		lblTelefono.setForeground(new Color(135, 134, 133));
 		panelAgregar.add(lblTelefono);
-
-		lblIdFactura = new JLabel("ID Factura:");
-		lblIdFactura.setBounds(80, 81, 80, 20);
-		lblIdFactura.setForeground(new Color(135, 134, 133));
-		panelAgregar.add(lblIdFactura);
 
 		lblDireccion = new JLabel("Dirección:");
 		lblDireccion.setForeground(new Color(135, 134, 133));
@@ -119,15 +112,8 @@ public class AgregarFacturaProveedor extends JPanel {
 
 		lblProveedor = new JLabel("Proveedor:");
 		lblProveedor.setForeground(new Color(135, 134, 133));
-		lblProveedor.setBounds(323, 189, 80, 20);
+		lblProveedor.setBounds(323, 81, 80, 20);
 		panelAgregar.add(lblProveedor);
-
-
-		// TextFields
-		txtIdFactura = new JTextField();
-		txtIdFactura.setBounds(80, 104, 200, 20);
-		txtIdFactura.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		panelAgregar.add(txtIdFactura);
 
 		txtCorreo = new JTextField();
 		txtCorreo.setBounds(80, 158, 443, 20);
@@ -135,14 +121,14 @@ public class AgregarFacturaProveedor extends JPanel {
 		panelAgregar.add(txtCorreo);
 
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(323, 104, 200, 20);
+		txtTelefono.setBounds(80, 104, 200, 20);
 		txtTelefono.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtTelefono);
 
 		txtProveedor = new JComboBox();
 		txtProveedor.setModel(new DefaultComboBoxModel(obtenerProveedores()));
 		txtProveedor.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		txtProveedor.setBounds(323, 212, 200, 20);
+		txtProveedor.setBounds(323, 104, 200, 20);
 		panelAgregar.add(txtProveedor);
 
 		txtDireccion = new JTextField();
