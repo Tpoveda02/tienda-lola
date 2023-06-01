@@ -184,7 +184,7 @@ public class AgregarProducto extends JPanel {
 		panelAgregar.add(txtIdProducto);
 
 		txtTipoContenido = new JComboBox();
-		txtTipoContenido.setModel(new DefaultComboBoxModel(new String[] {"", "gr", "ml"}));
+		txtTipoContenido.setModel(new DefaultComboBoxModel(new String[] {"", "g", "ml"}));
 		txtTipoContenido.setBounds(630, 104, 200, 20);
 		txtTipoContenido.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
 		panelAgregar.add(txtTipoContenido);
@@ -295,14 +295,14 @@ public class AgregarProducto extends JPanel {
 			int idProducto = Integer.parseInt(txtIdProducto.getText());
 			String nombre = txtNombreProducto.getText();
 			String tipoContenidoNeto = (String) txtTipoContenido.getSelectedItem();
-			Integer contenidoNeto = new Integer(txtContenidoNeto.getText());
+			Double contenidoNeto = new Double(txtContenidoNeto.getText());
 			String empaqueGeneral = txtEmpaqueGeneral.getText();
 			String empaque = txtEmpaque.getText();
 			String descripcion = txtDescripcion.getText();
 			String recomendaciones = txtRecomendaciones.getText();
-			Integer precioProveedor = new Integer(txtPrecioProveedor.getText());
-			Integer porcentajeIva = new Integer(txtPorcentajeIva.getText());
-			Integer precioSinIva = new Integer(txtPrecioSinIva.getText());
+			Double precioProveedor = new Double(txtPrecioProveedor.getText());
+			Double porcentajeIva = new Double(txtPorcentajeIva.getText());
+			Double precioSinIva = new Double(txtPrecioSinIva.getText());
 			Date fechaVencimiento = new Date(dateFechaVencimiento.getDate().getTime());
 			int cantidad = Integer.parseInt(txtCantidad.getText());
 			
@@ -311,9 +311,9 @@ public class AgregarProducto extends JPanel {
 			// Agregar el producto a la base de datos
 			String mensaje = "";
 			
-			mensaje = productoControlador.crearProducto(idProducto, nombre, tipoContenidoNeto, contenidoNeto, new Integer(0), 
+			mensaje = productoControlador.crearProducto(idProducto, nombre, tipoContenidoNeto, contenidoNeto, new Double(0),
 					empaqueGeneral, empaque, descripcion, recomendaciones, precioProveedor, porcentajeIva, precioSinIva, 
-					new Integer(0), fechaVencimiento, cantidad, categoria,true);
+					new Double(0), fechaVencimiento, cantidad, categoria,true);
 			JOptionPane.showMessageDialog(this,mensaje);
 			
 			//Volver al panel anterior

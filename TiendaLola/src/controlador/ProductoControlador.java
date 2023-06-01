@@ -32,7 +32,7 @@ public class ProductoControlador {
     }
 
     //Metodo agregar producto - recibe los valores de los JText
-    public String crearProducto(int idProducto, String nombre, String tipoContenidoNeto, Integer contenidoNeto, Integer valorContenido, String empaqueGeneral, String empaque, String descripcion, String recomendaciones, Integer precioProveedor, Integer porcentajeIva, Integer precioSinIva, Integer precioVenta, Date fechaVencimiento, int cantidad, Categoria categoria, Boolean estado) {
+    public String crearProducto(int idProducto, String nombre, String tipoContenidoNeto, Double contenidoNeto, Double valorContenido, String empaqueGeneral, String empaque, String descripcion, String recomendaciones, Double precioProveedor, Double porcentajeIva, Double precioSinIva, Double precioVenta, Date fechaVencimiento, int cantidad, Categoria categoria, Boolean estado) {
         //Instacia el producto con los respectivos valores
         Producto producto = new Producto(idProducto, nombre, tipoContenidoNeto, contenidoNeto, valorContenido, empaqueGeneral, empaque, descripcion, recomendaciones, precioProveedor, porcentajeIva, precioSinIva, precioVenta, fechaVencimiento, cantidad, categoria, estado);
         //Llama el metodo de crear producto
@@ -40,7 +40,7 @@ public class ProductoControlador {
     }
 
     //Metodo actualizar producto - recibe los valores de los JText
-    public String modificarProducto(int idProducto, String nombre, String tipoContenidoNeto, Integer contenidoNeto, Integer valorContenido, String empaqueGeneral, String empaque, String descripcion, String recomendaciones, Integer precioProveedor, Integer porcentajeIva, Integer precioSinIva, Integer precioVenta, Date fechaVencimiento, int cantidad, Categoria categoria, Boolean estado) {
+    public String modificarProducto(int idProducto, String nombre, String tipoContenidoNeto, Double contenidoNeto, Double valorContenido, String empaqueGeneral, String empaque, String descripcion, String recomendaciones, Double precioProveedor, Double porcentajeIva, Double precioSinIva, Double precioVenta, Date fechaVencimiento, int cantidad, Categoria categoria, Boolean estado) {
         //Instacia el producto con los respectivos valores
         Producto producto = new Producto(idProducto, nombre, tipoContenidoNeto, contenidoNeto, valorContenido, empaqueGeneral, empaque, descripcion, recomendaciones, precioProveedor, porcentajeIva, precioSinIva, precioVenta, fechaVencimiento, cantidad, categoria, estado);
         //Llama el metodo de actualizar producto

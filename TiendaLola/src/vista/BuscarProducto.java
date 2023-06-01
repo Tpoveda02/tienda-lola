@@ -368,10 +368,10 @@ public class BuscarProducto extends JPanel {
 				// Eliminar el producto de la base de datos
 				JOptionPane.showMessageDialog(this,
 						productoControlador.modificarProducto(idProducto,nombre,tipoContenidoNeto,
-								new Integer(contenidoNeto),new Integer(valorContenido),
+								new Double(contenidoNeto),new Double(valorContenido),
 								empaqueGeneral,empaque,recomendaciones, descripcion,
-								new Integer(precioProveedor), new Integer(porcentajeIva),
-								new Integer(porcentajeSinIva),new Integer(precioVenta),new java.sql.Date(fechaVencimiento.getDate()),
+								new Double(precioProveedor), new Double(porcentajeIva),
+								new Double(porcentajeSinIva),new Double(precioVenta),new java.sql.Date(fechaVencimiento.getDate()),
 								Integer.parseInt(cantidad), categoriaControlador.buscarCategorias(null,categoria,"",true).get(0), false));
 				actualizarTabla(modeloTabla, productoControlador.listarProductos());
 			}else{
@@ -393,10 +393,10 @@ public class BuscarProducto extends JPanel {
 				// Eliminar el producto de la base de datos
 				JOptionPane.showMessageDialog(this,
 						productoControlador.modificarProducto(idProducto,nombre,tipoContenidoNeto,
-								new Integer(contenidoNeto),new Integer(valorContenido),
+								new Double(contenidoNeto),new Double(valorContenido),
 								empaqueGeneral,empaque,recomendaciones, descripcion,
-								new Integer(precioProveedor), new Integer(porcentajeIva),
-								new Integer(porcentajeSinIva),new Integer(precioVenta),new java.sql.Date(fechaVencimiento.getDate()),
+								new Double(precioProveedor), new Double(porcentajeIva),
+								new Double(porcentajeSinIva),new Double(precioVenta),new java.sql.Date(fechaVencimiento.getDate()),
 								Integer.parseInt(cantidad), categoriaControlador.buscarCategorias(null,categoria,"",true).get(0), true));
 				actualizarTabla(modeloTabla, productoControlador.listarProductos());
 			}else{
@@ -465,12 +465,13 @@ public class BuscarProducto extends JPanel {
 			fila[1] = producto.getFechaVencimiento();
 			fila[2] = producto.getNombre();
 			fila[3] = producto.getTipoContenidoNeto();
-			fila[4] = producto.getContenidoNeto();
-			fila[5] = producto.getValorContenido();
+			fila[4] = producto.getContenidoNeto()+ " " + producto.getTipoContenidoNeto();
+			fila[5] =  producto.getTipoContenidoNeto() + " a $"+producto.getValorContenido();;
 			fila[6] = producto.getCategoria().getNombre();
-			fila[7] = producto.getPrecioProveedor();
-			fila[8] = producto.getPrecioVenta();
+			fila[7] = "$"+producto.getPrecioProveedor();
+			fila[8] = "$"+producto.getPrecioVenta();
 			fila[9] = producto.getCantidad();
+
 			if(producto.getEstado() == true){
 				fila[10] = "Activo";
 			}else{
@@ -496,14 +497,14 @@ public class BuscarProducto extends JPanel {
 		fechaVencimiento = producto.getFechaVencimiento();
 		nombre = producto.getNombre();
 		tipoContenidoNeto = producto.getTipoContenidoNeto();
-		contenidoNeto = producto.getTipoContenidoNeto() + " a $"+producto.getContenidoNeto();
-		valorContenido = producto.getValorContenido() + " " + producto.getTipoContenidoNeto();
+		contenidoNeto = producto.getContenidoNeto() +"";
+		valorContenido = producto.getValorContenido() +"";
 		empaqueGeneral = producto.getEmpaqueGeneral();
 		empaque = producto.getEmpaque();
-		precioProveedor = "$"+producto.getPrecioProveedor();
-		porcentajeIva = producto.getPorcentajeIva() + "%";
-		porcentajeSinIva = "$"+producto.getPrecioSinIva() + "";
-		precioVenta = "$"+producto.getPrecioVenta() + "";
+		precioProveedor = producto.getPrecioProveedor() +"";
+		porcentajeIva = producto.getPorcentajeIva() + "";
+		porcentajeSinIva = producto.getPrecioSinIva() + "";
+		precioVenta = producto.getPrecioVenta() + "";
 		cantidad = producto.getCantidad() + "";
 		categoria = producto.getCategoria().getNombre();
 		recomendaciones = producto.getRecomendaciones();

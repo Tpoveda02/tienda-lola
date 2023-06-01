@@ -11,16 +11,16 @@ public class Producto {
     private Integer idProducto;
     private String nombre;
     private String tipoContenidoNeto;
-    private Integer contenidoNeto;
-    private Integer valorContenido;
+    private Double contenidoNeto;
+    private Double valorContenido;
     private String empaqueGeneral;
     private String empaque;
     private String descripcion;
     private String recomendaciones;
-    private Integer precioProveedor;
-    private Integer porcentajeIva;
-    private Integer precioSinIva;
-    private Integer precioVenta;
+    private Double precioProveedor;
+    private Double porcentajeIva;
+    private Double precioSinIva;
+    private Double precioVenta;
     private Date fechaVencimiento;
     private int cantidad;
     private Categoria categoria;
@@ -32,9 +32,9 @@ public class Producto {
 
     // Constructor con parámetros
     public Producto(Integer idProducto, String nombre, String tipoContenidoNeto,
-                    Integer contenidoNeto, Integer valorContenido, String empaqueGeneral,
-                    String empaque, String descripcion, String recomendaciones, Integer precioProveedor,
-                    Integer porcentajeIva, Integer precioSinIva, Integer precioVenta,
+                    Double contenidoNeto, Double valorContenido, String empaqueGeneral,
+                    String empaque, String descripcion, String recomendaciones, Double precioProveedor,
+                    Double porcentajeIva, Double precioSinIva, Double precioVenta,
                     Date fechaVencimiento, int cantidad, Categoria categoria, Boolean estado) {
         this.idProducto = idProducto;
         this.nombre = nombre;
@@ -74,16 +74,16 @@ public class Producto {
                 producto.setIdProducto(resultado.getInt("id_producto"));
                 producto.setNombre(resultado.getString("nombre"));
                 producto.setTipoContenidoNeto(resultado.getString("tipo_contenido_neto"));
-                producto.setContenidoNeto(resultado.getInt("contenido_neto"));
-                producto.setValorContenido(resultado.getInt("valor_contenido"));
+                producto.setContenidoNeto(resultado.getDouble("contenido_neto"));
+                producto.setValorContenido(resultado.getDouble("valor_contenido"));
                 producto.setEmpaqueGeneral(resultado.getString("empaque_general"));
                 producto.setEmpaque(resultado.getString("empaque"));
                 producto.setDescripcion(resultado.getString("descripcion"));
                 producto.setRecomendaciones(resultado.getString("recomendaciones"));
-                producto.setPrecioProveedor(resultado.getInt("precio_proveedor"));
-                producto.setPorcentajeIva(resultado.getInt("porcentaje_iva"));
-                producto.setPrecioSinIva(resultado.getInt("precio_sin_iva"));
-                producto.setPrecioVenta(resultado.getInt("precio_venta"));
+                producto.setPrecioProveedor(resultado.getDouble("precio_proveedor"));
+                producto.setPorcentajeIva(resultado.getDouble("porcentaje_iva"));
+                producto.setPrecioSinIva(resultado.getDouble("precio_sin_iva"));
+                producto.setPrecioVenta(resultado.getDouble("precio_venta"));
                 producto.setFechaVencimiento(resultado.getDate("fecha_vencimiento"));
                 producto.setCantidad(resultado.getInt("cantidad"));
 
@@ -151,16 +151,16 @@ public class Producto {
                 p.setIdProducto(resultado.getInt("id_producto"));
                 p.setNombre(resultado.getString("nombre"));
                 p.setTipoContenidoNeto(resultado.getString("tipo_contenido_neto"));
-                p.setContenidoNeto(resultado.getInt("contenido_neto"));
-                p.setValorContenido(resultado.getInt("valor_contenido"));
+                p.setContenidoNeto(resultado.getDouble("contenido_neto"));
+                p.setValorContenido(resultado.getDouble("valor_contenido"));
                 p.setEmpaqueGeneral(resultado.getString("empaque_general"));
                 p.setEmpaque(resultado.getString("empaque"));
                 p.setDescripcion(resultado.getString("descripcion"));
                 p.setRecomendaciones(resultado.getString("recomendaciones"));
-                p.setPrecioProveedor(resultado.getInt("precio_proveedor"));
-                p.setPorcentajeIva(resultado.getInt("porcentaje_iva"));
-                p.setPrecioSinIva(resultado.getInt("precio_sin_iva"));
-                p.setPrecioVenta(resultado.getInt("precio_venta"));
+                p.setPrecioProveedor(resultado.getDouble("precio_proveedor"));
+                p.setPorcentajeIva(resultado.getDouble("porcentaje_iva"));
+                p.setPrecioSinIva(resultado.getDouble("precio_sin_iva"));
+                p.setPrecioVenta(resultado.getDouble("precio_venta"));
                 p.setFechaVencimiento(resultado.getDate("fecha_vencimiento"));
                 p.setCantidad(resultado.getInt("cantidad"));
                 p.setEstado(resultado.getBoolean("estado"));
@@ -193,7 +193,7 @@ public class Producto {
                         "VALUES (?, ?, ?, calcular_valor_contenido(calcular_precio_venta(?, ?),?), ?, ?, ?, ?, ?, ?, ?, calcular_precio_venta(?, ?), ?, ?, ?, ?)");
                 sentencia.setString(1, producto.getNombre());
                 sentencia.setString(2, producto.getTipoContenidoNeto());
-                sentencia.setInt(3, producto.getContenidoNeto());
+                sentencia.setDouble(3, producto.getContenidoNeto());
                 sentencia.setDouble(4, producto.getPrecioSinIva()); // Valor para el parámetro de la función 1
                 sentencia.setDouble(5, producto.getPorcentajeIva());// Valor para el parámetro de la función 1
                 sentencia.setDouble(6, producto.getContenidoNeto()); // Valor para el parámetro de la función 2
@@ -201,9 +201,9 @@ public class Producto {
                 sentencia.setString(8, producto.getEmpaque());
                 sentencia.setString(9, producto.getDescripcion());
                 sentencia.setString(10, producto.getRecomendaciones());
-                sentencia.setInt(11, producto.getPrecioProveedor());
-                sentencia.setInt(12, producto.getPorcentajeIva());
-                sentencia.setInt(13, producto.getPrecioSinIva());
+                sentencia.setDouble(11, producto.getPrecioProveedor());
+                sentencia.setDouble(12, producto.getPorcentajeIva());
+                sentencia.setDouble(13, producto.getPrecioSinIva());
                 sentencia.setDouble(14, producto.getPrecioSinIva()); // Valor para el parámetro de la función2
                 sentencia.setDouble(15, producto.getPorcentajeIva()); // Valor para el parámetro de la función2
                 sentencia.setDate(16, producto.getFechaVencimiento());
@@ -241,7 +241,7 @@ public class Producto {
                         "fecha_vencimiento = ?, cantidad = ?, id_categoria = ?, fecha_modificacion = ?, estado = ? WHERE id_producto = ?");
                 sentencia.setString(1, producto.getNombre());
                 sentencia.setString(2, producto.getTipoContenidoNeto());
-                sentencia.setInt(3, producto.getContenidoNeto());
+                sentencia.setDouble(3, producto.getContenidoNeto());
                 sentencia.setDouble(4, producto.getPrecioSinIva()); // Valor para el parámetro de la función 1
                 sentencia.setDouble(5, producto.getPorcentajeIva());// Valor para el parámetro de la función 1
                 sentencia.setDouble(6, producto.getContenidoNeto()); // Valor para el parámetro de la función 2
@@ -249,9 +249,9 @@ public class Producto {
                 sentencia.setString(8, producto.getEmpaque());
                 sentencia.setString(9, producto.getDescripcion());
                 sentencia.setString(10, producto.getRecomendaciones());
-                sentencia.setInt(11, producto.getPrecioProveedor());
-                sentencia.setInt(12, producto.getPorcentajeIva());
-                sentencia.setInt(13, producto.getPrecioSinIva());
+                sentencia.setDouble(11, producto.getPrecioProveedor());
+                sentencia.setDouble(12, producto.getPorcentajeIva());
+                sentencia.setDouble(13, producto.getPrecioSinIva());
                 sentencia.setDouble(14, producto.getPrecioSinIva()); // Valor para el parámetro de la función2
                 sentencia.setDouble(15, producto.getPorcentajeIva()); // Valor para el parámetro de la función2
                 sentencia.setDate(16, producto.getFechaVencimiento());
@@ -359,19 +359,19 @@ public class Producto {
         this.tipoContenidoNeto = tipoContenidoNeto;
     }
 
-    public Integer getContenidoNeto() {
+    public Double getContenidoNeto() {
         return contenidoNeto;
     }
 
-    public void setContenidoNeto(Integer contenidoNeto) {
+    public void setContenidoNeto(Double contenidoNeto) {
         this.contenidoNeto = contenidoNeto;
     }
 
-    public Integer getValorContenido() {
+    public Double getValorContenido() {
         return valorContenido;
     }
 
-    public void setValorContenido(Integer valorContenido) {
+    public void setValorContenido(Double valorContenido) {
         this.valorContenido = valorContenido;
     }
 
@@ -407,35 +407,35 @@ public class Producto {
         this.recomendaciones = recomendaciones;
     }
 
-    public Integer getPrecioProveedor() {
+    public Double getPrecioProveedor() {
         return precioProveedor;
     }
 
-    public void setPrecioProveedor(Integer precioProveedor) {
+    public void setPrecioProveedor(Double precioProveedor) {
         this.precioProveedor = precioProveedor;
     }
 
-    public Integer getPorcentajeIva() {
+    public Double getPorcentajeIva() {
         return porcentajeIva;
     }
 
-    public void setPorcentajeIva(Integer porcentajeIva) {
+    public void setPorcentajeIva(Double porcentajeIva) {
         this.porcentajeIva = porcentajeIva;
     }
 
-    public Integer getPrecioSinIva() {
+    public Double getPrecioSinIva() {
         return precioSinIva;
     }
 
-    public void setPrecioSinIva(Integer precioSinIva) {
+    public void setPrecioSinIva(Double precioSinIva) {
         this.precioSinIva = precioSinIva;
     }
 
-    public Integer getPrecioVenta() {
+    public Double getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(Integer precioVenta) {
+    public void setPrecioVenta(Double precioVenta) {
         this.precioVenta = precioVenta;
     }
 
