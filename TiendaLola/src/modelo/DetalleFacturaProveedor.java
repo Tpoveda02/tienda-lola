@@ -11,7 +11,7 @@ public class DetalleFacturaProveedor {
      * DECLARACIÓN DE VARIABLES
      */
     private Integer idDetalleFacturaProveedor;
-    private int idFacturaProveedor;
+    private Integer idFacturaProveedor;
     private int cantidad;
     private Double precio;
     private Producto producto;
@@ -86,11 +86,11 @@ public class DetalleFacturaProveedor {
      * METODO GETTERS AND SETTERS
      */
 
-    public int getIdFacturaProveedor() {
+    public Integer getIdFacturaProveedor() {
         return idFacturaProveedor;
     }
 
-    public void setIdFacturaProveedor(int idFacturaProveedor) {
+    public void setIdFacturaProveedor(Integer idFacturaProveedor) {
         this.idFacturaProveedor = idFacturaProveedor;
     }
 
