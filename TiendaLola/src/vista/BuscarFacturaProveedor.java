@@ -311,6 +311,7 @@ public class BuscarFacturaProveedor extends JPanel {
 		txtFecha.setText("");
 		txtNumeroProductos.setText("");
 		txtValorTotal.setText("");
+		actualizarTabla(modeloTabla, facProveedorControlador.listarFacturasProveedor());
 	}
 	
 	/*
@@ -320,14 +321,14 @@ public class BuscarFacturaProveedor extends JPanel {
 		try {
 			Integer idFacturaProveedor = null;
 			if(!txtIdFactura.getText().equals(""))
-				idFactura = Integer.parseInt(txtIdFactura.getText());
+				idFacturaProveedor = Integer.parseInt(txtIdFactura.getText());
 			idProveedor = txtIdProveedor.getText();
 			String fecha = txtFecha.getText();
 			String numeroProductos = txtNumeroProductos.getText();
 			String valorTotal = txtValorTotal.getText();
 
 			// Buscar el cliente en la base de datos
-			List<FacturaProveedor> proveedores = facProveedorControlador.buscarFacturasProveedor(idFactura,"","","",
+			List<FacturaProveedor> proveedores = facProveedorControlador.buscarFacturasProveedor(idFacturaProveedor,"","","",
 					fecha,valorTotal,numeroProductos,idProveedor);
 			if (proveedores != null) {
 				actualizarTabla(modeloTabla,proveedores);

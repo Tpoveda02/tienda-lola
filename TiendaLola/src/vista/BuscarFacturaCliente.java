@@ -243,8 +243,7 @@ public class BuscarFacturaCliente extends JPanel {
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnLimpiarActionPerformed(evt);
-//				actualizarTabla(modeloTabla, controlador.listarClientes());
-			}
+				actualizarTabla(modeloTabla, facClienteControlador.listarFacturasCliente());			}
 		});
 		pnlBuscarFacCliente.add(btnLimpiar);
 
@@ -321,14 +320,14 @@ public class BuscarFacturaCliente extends JPanel {
 		try {
 			Integer idFacturaCliente = null;
 			if(!txtIdFactura.getText().equals(""))
-				idFactura = Integer.parseInt(txtIdFactura.getText());
+				idFacturaCliente = Integer.parseInt(txtIdFactura.getText());
 			idCliente = txtIdCliente.getText();
 			String fecha = txtFecha.getText();
 			String numeroProductos = txtNumeroProductos.getText();
 			String valorTotal = txtValorTotal.getText();
 
 			// Buscar el cliente en la base de datos
-			List<FacturaCliente> clientes = facClienteControlador.buscarFacturasCliente(idFactura,"","","",fecha,valorTotal,numeroProductos,idCliente);
+			List<FacturaCliente> clientes = facClienteControlador.buscarFacturasCliente(idFacturaCliente,"","","",fecha,valorTotal,numeroProductos,idCliente);
 			if (clientes != null) {
 				actualizarTabla(modeloTabla,clientes);
 			} else {
