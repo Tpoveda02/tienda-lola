@@ -91,7 +91,7 @@ public class FacturaCliente {
                 facturaCliente.setFechaFactura(result.getTimestamp("fecha_factura"));
                 facturaCliente.setTotal(result.getDouble("total"));
                 facturaCliente.setCantidadProducto(result.getInt("cantidad_producto"));
-                Cliente cliente = new Cliente(result.getInt("id_cliente"),"","","","","","","","",true);
+                Cliente cliente = new Cliente(result.getInt("id_cliente"),"","","","","","","","",null);
                 facturaCliente.setCliente(cliente.buscarClientes(cliente,conexion).get(0));
                 facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(),conexion));
                 facturaClientes.add(facturaCliente);
@@ -105,6 +105,7 @@ public class FacturaCliente {
     // METODO PAR BUSCAR UNA FACTURA POR UN CAMPO ESPECÍFICO
     public ArrayList<FacturaCliente> buscarFacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, String fechaFactura, String total, String cantidadProducto, String idCliente, Connection conexion) {
         ArrayList<FacturaCliente> listaFacturasCliente = new ArrayList<FacturaCliente>();
+        DetalleFacturaCliente detalleFacturaProductosCliente = new DetalleFacturaCliente();
         try {
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM FACTURA_CLIENTE WHERE " +
                     "id_factura_cliente LIKE ? AND direccion LIKE ? AND correo_electronico LIKE ?  AND fecha_factura LIKE ? " +
@@ -134,11 +135,12 @@ public class FacturaCliente {
                 facturaCliente.setTotal(resultado.getDouble("total"));
                 facturaCliente.setCantidadProducto(resultado.getInt("cantidad_producto"));
                 //Buscar el cliente de esa factura
-                Cliente c = new Cliente();
-                c.setIdCliente(resultado.getInt("id_cliente"));
+                Cliente c = new Cliente(resultado.getInt("id_cliente"),"","","","","","","","",null);
                 Cliente cliente = c.buscarClientes(c,conexion).get(0);
                 //Asignar el cliente
                 facturaCliente.setCliente(cliente);
+                //Buscar detalle factura cliente
+                facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(),conexion));
                 // Agrega un registro - factura
                 listaFacturasCliente.add(facturaCliente);
             }

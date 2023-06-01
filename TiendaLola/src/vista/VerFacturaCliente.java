@@ -182,8 +182,11 @@ public class VerFacturaCliente extends JPanel {
 		modeloTabla.addColumn("Cantidad");
 		modeloTabla.addColumn("Total");
 
-		List<DetalleFacturaCliente> listaDetalle = controladorFacturaCliente.buscarFacturasCliente(panelBuscar.idFactura, 
-				"", "", "", "", "", "", panelBuscar.idCliente).get(0).getProductos();
+
+		List<DetalleFacturaCliente> listaDetalle = new ArrayList<>();
+		listaDetalle = controladorFacturaCliente.buscarFacturasCliente(panelBuscar.idFactura,
+				"", "", "", "", "", "", "").get(0).getProductos();
+		System.out.println(listaDetalle);
 		tablaProductos = new JTable(actualizarTabla(modeloTabla,listaDetalle));
 //		if(detalleProductos == null) {
 //			tablaProductos = new JTable(actualizarTabla(modeloTabla,new ArrayList<DetalleFacturaCliente>()));

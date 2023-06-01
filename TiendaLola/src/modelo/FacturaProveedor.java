@@ -118,6 +118,7 @@ public class FacturaProveedor {
     // METODO PAR BUSCAR UNA FACTURA POR UN CAMPO ESPECÍFICO
     public ArrayList<FacturaProveedor> buscarFacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico, String fechaFactura, String total, String cantidadProducto, String idProveedor, Connection conexion) {
         ArrayList<FacturaProveedor> listaFacturasProveedor = new ArrayList<FacturaProveedor>();
+        DetalleFacturaProveedor detalleFacturaProductosProveedor = new DetalleFacturaProveedor();
         try {
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM FACTURA_PROVEEDOR WHERE " +
                     "id_factura_proveedor LIKE ? AND direccion LIKE ? AND correo_electronico LIKE ?  AND fecha_factura_proveedor LIKE ? " +
@@ -138,6 +139,7 @@ public class FacturaProveedor {
             ResultSet resultado = sentencia.executeQuery();
             // Asigna los resultados a una lista de los mismos y recorre campo por campo según el registro
             while (resultado.next()) {
+
                 FacturaProveedor facturaProveedor = new FacturaProveedor();
                 facturaProveedor.setIdFacturaProveedor(resultado.getInt("id_factura_proveedor"));
                 facturaProveedor.setDireccion(resultado.getString("direccion"));
@@ -150,6 +152,8 @@ public class FacturaProveedor {
                 Proveedor c = new Proveedor();
                 c.setIdProveedor(resultado.getInt("id_proveedor"));
                 Proveedor proveedor = c.buscarProveedors(c,conexion).get(0);
+                System.out.println(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(),conexion));
+                facturaProveedor.setProductos(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(),conexion));
                 //Asignar el proveedor
                 facturaProveedor.setProveedor(proveedor);
                 // Agrega un registro - factura
