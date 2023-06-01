@@ -43,6 +43,7 @@ public class ActualizarProducto extends JPanel {
 		private JLabel lblCantidad;
 		private JLabel lblRecomendaciones;
 		private JLabel lblDescripcion;
+		private JLabel lblCategoria;
 		private JTextField txtNombreProducto;
 		private JTextField txtIdProducto;
 		private JComboBox txtTipoContenido;
@@ -158,6 +159,11 @@ public class ActualizarProducto extends JPanel {
 		lblNombreProducto.setBounds(393, 81, 80, 20);
 		lblNombreProducto.setForeground(new Color(135, 134, 133));
 		panelActualizar.add(lblNombreProducto);
+		
+		lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setForeground(new Color(135, 134, 133));
+		lblCategoria.setBounds(630, 243, 80, 20);
+		panelActualizar.add(lblCategoria);
 
 
 		// TextFields

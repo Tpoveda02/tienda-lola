@@ -29,7 +29,7 @@ import javax.swing.SpringLayout;
 import java.awt.Component;
 import javax.swing.border.MatteBorder;
 
-public class Clientes extends JFrame {
+public class Inicio extends JFrame {
 	//Objeto de la clase Controlador
 	private Controlador controlador;
 	//Objeto de la clase Login
@@ -44,6 +44,8 @@ public class Clientes extends JFrame {
 	private BuscarProducto panelBuscarProducto;
 	//Objeto de la calse BuscarFacturaCliente
 	private BuscarFacturaCliente panelBuscarFacCliente;
+	//Objeto de la calse BuscarFacturaProveedor
+	private BuscarFacturaProveedor panelBuscarFacProveedor;
 
 	//--------------Variables--------------
 	private JPanel contentPane;
@@ -65,7 +67,7 @@ public class Clientes extends JFrame {
 	/*
 	 * METODO CONSTRUCTOR
 	 */
-	public Clientes() {
+	public Inicio() {
 		controlador  = new Controlador();
 		login = new Login();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,7 +159,7 @@ public class Clientes extends JFrame {
 
 		btnCliente = new JButton("Clientes");
 		btnCliente.setBorder(new MatteBorder(0, 1, 0, 1, (Color) Color.WHITE));
-		btnCliente.setForeground(new Color(255, 255, 255));
+		btnCliente.setForeground(new Color(135, 134, 133));
 		btnCliente.setBackground(new Color(182, 220, 225));
 		btnCliente.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCliente.addActionListener(new ActionListener() {
@@ -197,7 +199,7 @@ public class Clientes extends JFrame {
 		btnFacCliente = new JButton("Facturas cliente");
 		btnFacCliente.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnFacCliente.setBorder(new MatteBorder(0, 1, 0, 1, (Color) Color.WHITE));
-		btnFacCliente.setForeground(new Color(135, 134, 133));
+		btnFacCliente.setForeground(new Color(255, 255, 255));
 		btnFacCliente.setBackground(new Color(182, 220, 225));
 		btnFacCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -208,12 +210,12 @@ public class Clientes extends JFrame {
 		panelMenu.add(btnFacCliente);
 
 		//Acción para llamar la clase BuscarClientes dentro del panelCrud
-		panelBuscarCliente = new BuscarClientes();
-		panelBuscarCliente.setSize(960, 440);
-		panelBuscarCliente.setLocation(0, 0);
+		panelBuscarFacCliente = new BuscarFacturaCliente();
+		panelBuscarFacCliente.setSize(960, 440);
+		panelBuscarFacCliente.setLocation(0, 0);
 
 		panelCrud.removeAll();
-		panelCrud.add(panelBuscarCliente, BorderLayout.CENTER);
+		panelCrud.add(panelBuscarFacCliente, BorderLayout.CENTER);
 
 		btnCerrarSesion = new JButton("");
 		btnCerrarSesion.addActionListener(new ActionListener() {
@@ -222,7 +224,7 @@ public class Clientes extends JFrame {
 			}
 		});
 		btnCerrarSesion.setBorder(null);
-		btnCerrarSesion.setIcon(new ImageIcon(Clientes.class.getResource("/media/CerrarSesion.png")));
+		btnCerrarSesion.setIcon(new ImageIcon(Inicio.class.getResource("/media/CerrarSesion.png")));
 		btnCerrarSesion.setBounds(873, 11, 50, 45);
 		btnCerrarSesion.setBackground(null);
 		contentPane.add(btnCerrarSesion);
@@ -382,12 +384,12 @@ public class Clientes extends JFrame {
 			btnCliente.setForeground(new Color(135, 134, 133));
 			btnProveedor.setForeground(new Color(135, 134, 133));
 //			//Acción para llamar la clase BuscarProveedor dentro del panelCrud
-//			panelBuscarProveedor = new BuscarProveedor();
-//			panelBuscarProveedor.setSize(960, 440);
-//			panelBuscarProveedor.setLocation(0, 0);
+			panelBuscarFacProveedor = new BuscarFacturaProveedor();
+			panelBuscarFacProveedor.setSize(960, 440);
+			panelBuscarFacProveedor.setLocation(0, 0);
 //
 			panelCrud.removeAll();
-//			panelCrud.add(panelBuscarProveedor, BorderLayout.CENTER);
+			panelCrud.add(panelBuscarFacProveedor, BorderLayout.CENTER);
 			panelCrud.revalidate();
 			panelCrud.repaint();
 		} catch (NumberFormatException ex) {

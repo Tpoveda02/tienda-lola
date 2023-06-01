@@ -32,7 +32,7 @@ public class Login extends JFrame{
 	//Objeto de la clase Controlador
 	private Controlador controlador;
 	//Objeto de la clase Clientes
-	private Clientes clientes;
+	private Inicio inicio;
 	//Objeto de la clase BuscarClientes
 	private BuscarClientes buscar;
 	//-------------Variables------------
@@ -156,13 +156,13 @@ public class Login extends JFrame{
      */
 	private void btnIniciarSesionActionPerformed(ActionEvent evt) {
 		boolean flag;
-		clientes = new Clientes();
+		inicio = new Inicio();
 		buscar = new BuscarClientes();
 		try {
 			flag = controlador.login(txtUsername.getText(), passwordField.getText());
 			System.out.println(flag);
 			if(flag) {
-				clientes.setVisible(true);
+				inicio.setVisible(true);
 				dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "Las credenciales son erroneas.", "Acceso invalido", JOptionPane.WARNING_MESSAGE);

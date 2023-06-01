@@ -35,8 +35,8 @@ public class BuscarFacturaCliente extends JPanel {
 	private FacturaClienteControlador facClienteControlador;
 	// Objeto de la clase PanelAgregar
 	private AgregarFacturaCliente panelAgregar;
-	// Objeto de la clase panelActualizar
-//	private ActualizarCliente panelActualizar;
+	// Objeto de la clase VerFacturaCliente
+	private VerFacturaCliente panelVer;
 
 	// --------------------Variables-------------------
 	private List<FacturaCliente> listaFacturasCliente;
@@ -224,8 +224,7 @@ public class BuscarFacturaCliente extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				// ValidaridCliente que no ha seleccionado ningun cliente//Si no mensaje
 				if (idFactura != 0) {
-					btnActualizarActionPerformed(evt, pnlBuscarFacCliente);
-//					actualizarTabla(modeloTabla, controlador.listarClientes());
+					btnVerActionPerformed(evt, pnlBuscarFacCliente);
 				} else {
 					JOptionPane.showMessageDialog(null, "Seleccione una Factura");
 				}
@@ -285,18 +284,18 @@ public class BuscarFacturaCliente extends JPanel {
 
 	/*
 	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Actualizar
-	 * Dentro de este metodo quitamos el panel BuscarClientes y ponemos el panel de la clase ActualizarCliente
+	 * Dentro de este metodo quitamos el panel BuscarFacturaCliente y ponemos el panel de la clase VerFacturaCliente
 	 */
-	private void btnActualizarActionPerformed(ActionEvent evt, JPanel panelBuscar) {
+	private void btnVerActionPerformed(ActionEvent evt, JPanel pnlBuscarFacCliente) {
 		try {
-//			panelActualizar = new ActualizarCliente();
-//			panelActualizar.setSize(960, 440);
-//			panelActualizar.setLocation(0, 0);
-//
-//			panelBuscar.removeAll();
-//			panelBuscar.add(panelActualizar, BorderLayout.CENTER);
-//			panelBuscar.revalidate();
-//			panelBuscar.repaint();
+			panelVer = new VerFacturaCliente();
+			panelVer.setSize(960, 440);
+			panelVer.setLocation(0, 0);
+
+			pnlBuscarFacCliente.removeAll();
+			pnlBuscarFacCliente.add(panelVer, BorderLayout.CENTER);
+			pnlBuscarFacCliente.revalidate();
+			pnlBuscarFacCliente.repaint();
 
 		} catch (NumberFormatException ex) {
 //			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");

@@ -74,6 +74,7 @@ public class AgregarProducto extends JPanel {
 		private DefaultTableModel modeloTabla;
 		private JButton btnGuardar; 
 		private JButton btnSalir; 
+		private JLabel lblCategoria;
 
 
 		
@@ -170,6 +171,14 @@ public class AgregarProducto extends JPanel {
 		lblNombreProducto.setBounds(393, 81, 80, 20);
 		lblNombreProducto.setForeground(new Color(135, 134, 133));
 		panelAgregar.add(lblNombreProducto);
+		
+		lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setForeground(new Color(135, 134, 133));
+		lblCategoria.setBounds(630, 243, 80, 20);
+		panelAgregar.add(lblCategoria);lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setForeground(new Color(135, 134, 133));
+		lblCategoria.setBounds(630, 243, 80, 20);
+		panelAgregar.add(lblCategoria);
 
 
 		// TextFields

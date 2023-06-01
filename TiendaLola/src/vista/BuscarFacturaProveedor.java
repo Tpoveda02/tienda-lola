@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -30,7 +31,7 @@ public class BuscarFacturaProveedor extends JPanel {
 	// Objeto de la clase Controlador
 	private FacturaProveedorControlador facProveedorControlador;
 	// Objeto de la clase PanelAgregar
-//	private AgregarFacturaProveedor panelAgregar;
+	private AgregarFacturaProveedor panelAgregarFac;
 	// Objeto de la clase panelActualizar
 	//		private ActualizarCliente panelActualizar;
 
@@ -43,8 +44,8 @@ public class BuscarFacturaProveedor extends JPanel {
 	private JLabel lblNumeroProductos;
 	private JLabel lblValorTotal;
 	private JTextField txtIdFactura;
-	private JTextField txtIdCliente;
-	private JTextField txtNombreCliente;
+	private JTextField txtIdProveedor;
+	private JTextField txtNombreProveedor;
 	private JTextField txtFecha;
 	private JTextField txtNumeroProductos;
 	private JTextField txtValorTotal;
@@ -69,8 +70,8 @@ public class BuscarFacturaProveedor extends JPanel {
 	 */
 	public BuscarFacturaProveedor() {
 		facProveedorControlador = new FacturaProveedorControlador();
-		inicializarComponentes();
 		listaFacturasProveedor = new ArrayList<FacturaProveedor>();
+		inicializarComponentes();
 	}
 	
 	/*
@@ -123,17 +124,17 @@ public class BuscarFacturaProveedor extends JPanel {
 		txtIdFactura.setText("");
 		pnlBuscarFacProveedor.add(txtIdFactura);
 
-		txtIdCliente = new JTextField();
-		txtIdCliente.setBounds(180, 23, 150, 20);
-		txtIdCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		txtIdCliente.setText("");
-		pnlBuscarFacProveedor.add(txtIdCliente);
+		txtIdProveedor = new JTextField();
+		txtIdProveedor.setBounds(180, 23, 150, 20);
+		txtIdProveedor.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
+		txtIdProveedor.setText("");
+		pnlBuscarFacProveedor.add(txtIdProveedor);
 
-		txtNombreCliente = new JTextField();
-		txtNombreCliente.setBounds(340, 23, 310, 20);
-		txtNombreCliente.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
-		txtNombreCliente.setText("");
-		pnlBuscarFacProveedor.add(txtNombreCliente);
+		txtNombreProveedor = new JTextField();
+		txtNombreProveedor.setBounds(340, 23, 310, 20);
+		txtNombreProveedor.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
+		txtNombreProveedor.setText("");
+		pnlBuscarFacProveedor.add(txtNombreProveedor);
 
 		txtFecha = new JTextField();
 		txtFecha.setBounds(660, 23, 150, 20);
@@ -205,7 +206,7 @@ public class BuscarFacturaProveedor extends JPanel {
 		btnAgregar.setForeground(new Color(255, 255, 255));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-//				btnAgregarActionPerformed(evt, pnlBuscarFacProveedor);
+				btnAgregarActionPerformed(evt, pnlBuscarFacProveedor);
 			}
 		});
 		pnlBuscarFacProveedor.add(btnAgregar);
@@ -258,6 +259,38 @@ public class BuscarFacturaProveedor extends JPanel {
 		});
 		pnlBuscarFacProveedor.add(btnBuscar);
 
+	}
+	
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Agregar
+	 * Dentro de este metodo quitamos el panel BuscarFacturaProveedor y ponemos el panel de la clase AgregarFacturaProveedor
+	 */	
+	private void btnAgregarActionPerformed(ActionEvent evt, JPanel pnlBuscarFacProveedor) {
+		try {
+			panelAgregarFac = new AgregarFacturaProveedor();
+			panelAgregarFac.setSize(960, 440);
+			panelAgregarFac.setLocation(0, 0);
+
+			pnlBuscarFacProveedor.removeAll();
+			pnlBuscarFacProveedor.add(panelAgregarFac, BorderLayout.CENTER);
+			pnlBuscarFacProveedor.revalidate();
+			pnlBuscarFacProveedor.repaint();
+		} catch (NumberFormatException ex) {
+//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+		}
+	}
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Limpiar
+	 */
+	private void btnLimpiarActionPerformed(ActionEvent evt) {
+		txtIdFactura.setText("");
+		txtIdProveedor.setText("");
+		txtNombreProveedor.setText("");
+		txtFecha.setText("");
+		txtNumeroProductos.setText("");
+		txtValorTotal.setText("");
 	}
 	
 	/*
