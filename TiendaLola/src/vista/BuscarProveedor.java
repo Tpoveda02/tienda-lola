@@ -76,6 +76,7 @@ public class BuscarProveedor extends JPanel {
 	public static String direccion;
 	public static String telefono;
 	public static String correoElectronico;
+	public static Boolean estado;
 
 	/*
 	 * METODO CONSTRUCTOR
@@ -211,6 +212,7 @@ public class BuscarProveedor extends JPanel {
 		modeloTabla.addColumn("Dirección");
 		modeloTabla.addColumn("Teléfono");
 		modeloTabla.addColumn("Correo Electrónico");
+		modeloTabla.addColumn("Estado");
 
 		tablaProveedores = new JTable(actualizarTabla(modeloTabla,proveedorControlador.listarProveedors()));
 		scrollPane = new JScrollPane(tablaProveedores);
@@ -372,14 +374,18 @@ public class BuscarProveedor extends JPanel {
 	 */
 	private void btnActualizarActionPerformed(ActionEvent evt, JPanel panelBuscar) {
 		try {
-			panelActualizar = new ActualizarProveedor();
-			panelActualizar.setSize(960, 440);
-			panelActualizar.setLocation(0, 0);
+			if(estado == true) {
+				panelActualizar = new ActualizarProveedor();
+				panelActualizar.setSize(960, 440);
+				panelActualizar.setLocation(0, 0);
 
-			panelBuscar.removeAll();
-			panelBuscar.add(panelActualizar, BorderLayout.CENTER);
-			panelBuscar.revalidate();
-			panelBuscar.repaint();
+				panelBuscar.removeAll();
+				panelBuscar.add(panelActualizar, BorderLayout.CENTER);
+				panelBuscar.revalidate();
+				panelBuscar.repaint();
+			}else{
+					JOptionPane.showMessageDialog(this, "El proveedor está inactivo");
+			}
 
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
@@ -391,9 +397,16 @@ public class BuscarProveedor extends JPanel {
 	 */
 	private void btnInactivarActionPerformed(ActionEvent evt) {
 		try {
-			// Eliminar el cliente de la base de datos
-			JOptionPane.showMessageDialog(this,proveedorControlador.eliminarProveedor(idProveedor));
-			actualizarTabla(modeloTabla,proveedorControlador.listarProveedors());
+			if(estado == true) {
+				// Actualizar el estado
+				JOptionPane.showMessageDialog(this,
+						proveedorControlador.modificarProveedor(idProveedor, tipoIdentificacion, primerNombre, segundoNombre,
+								primerApellido, segundoApellido, direccion, telefono, correoElectronico, false));
+				actualizarTabla(modeloTabla, proveedorControlador.listarProveedors());
+			}else{
+				JOptionPane.showMessageDialog(this, "El producto ya está inactivo");
+			}
+
 
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
@@ -405,12 +418,18 @@ public class BuscarProveedor extends JPanel {
 	 */
 	private void btnActivarActionPerformed(ActionEvent evt) {
 		try {
-			// Eliminar el producto de la base de datos
-//			JOptionPane.showMessageDialog(this,productoControlador.eliminarProducto(idProducto));
-//			actualizarTabla(modeloTabla,productoControlador.listarProductos());
+			if(estado == false) {
+				// Actualizar el estado
+				JOptionPane.showMessageDialog(this,
+						proveedorControlador.modificarProveedor(idProveedor, tipoIdentificacion, primerNombre, segundoNombre,
+								primerApellido, segundoApellido, direccion, telefono, correoElectronico, true));
+				actualizarTabla(modeloTabla, proveedorControlador.listarProveedors());
+			}else{
+				JOptionPane.showMessageDialog(this, "El producto ya está activo");
+			}
 
 		} catch (NumberFormatException ex) {
-//			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
 		}
 	}
 
@@ -448,7 +467,7 @@ public class BuscarProveedor extends JPanel {
 
 			// Buscar el cliente en la base de datos
 			List<Proveedor> proveedores = proveedorControlador.buscarProveedors(idProveedor,tipoId,primerNombre,segundoNombre,primerApellido,
-					segundoApellido,direccion,telefono,correo);
+					segundoApellido,direccion,telefono,correo, null);
 			if (proveedores != null) {
 				actualizarTabla(modeloTabla,proveedores);
 			} else {
@@ -475,7 +494,7 @@ public class BuscarProveedor extends JPanel {
 
 		// Agregar cada cliente a la tabla
 		for (Proveedor proveedor : listaProveedores) {
-			Object[] fila = new Object[9];
+			Object[] fila = new Object[10];
 			fila[0] = proveedor.getIdProveedor();
 			fila[1] = proveedor.getTipoIdentificacion();
 			fila[2] = proveedor.getPrimerNombre();
@@ -485,6 +504,11 @@ public class BuscarProveedor extends JPanel {
 			fila[6] = proveedor.getDireccion();
 			fila[7] = proveedor.getTelefono();
 			fila[8] = proveedor.getCorreoElectronico();
+			if (proveedor.getEstado() == true) {
+				fila[9] = "Activo";
+			} else {
+				fila[9] = "Inactivo";
+			}
 			modeloTabla.addRow(fila);
 		}
 
@@ -508,7 +532,8 @@ public class BuscarProveedor extends JPanel {
 		direccion = modeloTabla.getValueAt(i, 6).toString();
 		telefono = modeloTabla.getValueAt(i, 7).toString();
 		correoElectronico = modeloTabla.getValueAt(i, 8).toString();
-
+		Proveedor proveedor = proveedorControlador.buscarProveedors(idProveedor,"","","","","","","","",null).get(0);
+		estado = proveedor.getEstado();
 	}
 
 }

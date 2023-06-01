@@ -41,12 +41,5 @@ public class CategoriaControlador {
         //Llama el metodo de actualizar categoria
         return categoria.actualizarCategoria(categoria,controlador.getConexion());
     }
-    //Metodo eliminar categoria
-    public String eliminarCategoria(int id){
-        //Instacia el categoria con el ID para eliminarla
-        Categoria categoria = new Categoria();
-        categoria.setIdCategoria(id);
-        //Llama el metodo de eliminar categoria
-        return categoria.eliminarCategoria(categoria,controlador.getConexion());
-    }
+
 }

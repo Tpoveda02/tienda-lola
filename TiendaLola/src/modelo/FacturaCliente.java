@@ -17,7 +17,6 @@ public class FacturaCliente {
     private int cantidadProducto;
     private Integer total;
     private Cliente cliente;
-    private Boolean estado;
     private Timestamp fechaModificacion;
 
     private List<DetalleFacturaCliente> detalleProductosFacturaCliente;
@@ -29,7 +28,7 @@ public class FacturaCliente {
 
     // Constructor con parámetros
     public FacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura,
-                          Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente, Boolean estado) {
+                          Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
         this.idFacturaCliente = idFacturaCliente;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -39,7 +38,6 @@ public class FacturaCliente {
         this.cliente = cliente;
         this.detalleProductosFacturaCliente = detalleProductosFacturaCliente;
         this.detalleFacturaCliente = new DetalleFacturaCliente();
-        this.estado = estado;
     }
 
     // Método para insertar una factura de cliente en la base de datos
@@ -88,25 +86,6 @@ public class FacturaCliente {
         }
     }
 
-    /*
-     * METODOS ELIMINAR FACTURA
-     *
-     */
-    public String eliminarFacturaCliente(int idFacturaCliente, Connection conexion) {
-        // Eliminar una factura cliente de la base de datos
-        String sql = "DELETE FROM factura_cliente WHERE id_factura_cliente = ?";
-        //Eliminar el detalle de la factura
-        detalleFacturaCliente.eliminarDetalleFacturaPorIdFactura(idFacturaCliente,conexion);
-        try {
-            PreparedStatement sentencia = conexion.prepareStatement(sql);
-            sentencia.setInt(1, idFacturaCliente);
-            sentencia.executeUpdate();
-            return "Factura eliminada";
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return "No se pudo eliminar la factura";
-        }
-    }
 
     // METODO PARA LISTAR TODAS LAS FACTURAS
     public List<FacturaCliente> listarFacturasCliente(Connection conexion) {
@@ -266,12 +245,6 @@ public class FacturaCliente {
         this.detalleProductosFacturaCliente = productos;
     }
 
-    public Boolean getEstado() {
-        return estado;
-    }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
-    }
 
 }

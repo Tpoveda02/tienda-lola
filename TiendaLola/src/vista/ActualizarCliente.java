@@ -247,7 +247,7 @@ public class ActualizarCliente extends JPanel {
 			
 			String mensaje = "";
 			mensaje = clienteControlador.modificarCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
-					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
+					primerApellido, segundoApellido, direccion, telefono, correoElectronico, true);
 			JOptionPane.showMessageDialog(this,mensaje);
 			limpiarCampos();
 			if(mensaje.equals("Cliente actualizado.")) {

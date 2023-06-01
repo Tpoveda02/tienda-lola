@@ -239,7 +239,7 @@ public class AgregarCliente extends JPanel {
 			// Agregar el cliente a la base de datos
 			String mensaje = "";
 			mensaje = clienteControlador.crearCliente(idCliente, tipoIdentificacion, primerNombre, segundoNombre,
-					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
+					primerApellido, segundoApellido, direccion, telefono, correoElectronico, true);
 			JOptionPane.showMessageDialog(this,mensaje);
 			
 			//Volver al panel anterior

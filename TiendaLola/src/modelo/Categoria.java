@@ -56,7 +56,6 @@ public class Categoria {
                     "id_categoria LIKE ? AND nombre LIKE ? AND descripcion LIKE ? AND estado LIKE ?");
             if (categoria.getIdCategoria() != null) {
                 sentencia.setString(1, "%" + categoria.getIdCategoria() + "%");
-                System.out.println(categoria.getIdCategoria());
             } else {
                 sentencia.setString(1, "%%");
             }
@@ -96,7 +95,6 @@ public class Categoria {
                     PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO categoria(nombre, descripcion) VALUES (?, ?)");
                     sentencia.setString(1, categoria.getNombre());
                     sentencia.setString(2, categoria.getDescripcion());
-                    sentencia.setBoolean(3, categoria.getEstado());
                     //Ejecuta la sentencia
                     sentencia.executeUpdate();
                     //Cierra la conexión - sentencia
@@ -116,8 +114,8 @@ public class Categoria {
 
 
     public String actualizarCategoria(Categoria categoria, Connection conexion) {
-        ArrayList<Categoria> sc = buscarCategorias(new Categoria(null,categoria.getNombre(),"",null), conexion); //Busca la categoria
-        if (sc.isEmpty() || !sc.get(0).getNombre().equals(categoria.getNombre())) {//valida que la categoria no exista
+        ArrayList<Categoria> sc = buscarCategorias(new Categoria(categoria.getIdCategoria(),"","",null), conexion); //Busca la categoria
+        if (sc.isEmpty() || sc.get(0).getNombre().equals(categoria.getNombre())) {//valida que la categoria no exista
             String mensajeError = this.validarCamposCategoria(categoria);
             categoria.setFechaModificacion(Timestamp.valueOf(LocalDateTime.now()));
             if (mensajeError.equals("")) {//Verifica los campos - no sean null; Si no retorna los erroes
@@ -148,29 +146,6 @@ public class Categoria {
         return "Error: Categoría ya existe con esos campos.";
     }
 
-    public String eliminarCategoria(Categoria categoria, Connection conexion) {
-        try {
-            // Sentencia para eliminar la categoría según el ID
-            PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM categoria WHERE id_categoria = ?");
-            sentencia.setInt(1, categoria.getIdCategoria()); // El ID de la categoría que se desea eliminar
-            // Ejecuta la sentencia
-            int filasAfectadas = sentencia.executeUpdate();
-            // Cierra la conexión - sentencia
-            sentencia.close();
-            conexion.close();
-            if (filasAfectadas > 0) {
-                // Retorna el mensaje de éxito
-                return "Categoría eliminada con éxito";
-            } else {
-                // Retorna el mensaje de categoría no encontrada
-                return "No se encontró la categoría con el ID especificado";
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            // Retorna el mensaje de error
-            return "Error eliminando categoría";
-        }
-    }
  /*
         METODO VALIDAR CAMPOS DEL CLIENTE
      */

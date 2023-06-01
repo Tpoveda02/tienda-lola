@@ -235,7 +235,7 @@ public class AgregarProveedor extends JPanel {
 			// Agregar el proveedor a la base de datos
 			String mensaje = "";
 			mensaje = proveedorControlador.crearProveedor(idProveedor, tipoIdentificacion, primerNombre, segundoNombre,
-					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
+					primerApellido, segundoApellido, direccion, telefono, correoElectronico,true);
 			JOptionPane.showMessageDialog(this,mensaje);
 
 			//Volver al panel anterior

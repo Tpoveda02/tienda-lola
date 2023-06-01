@@ -15,7 +15,7 @@ public class FacturaProveedor {
     private int cantidadProducto;
     private Integer total;
     private Proveedor proveedor;
-    private Boolean estado;
+
     private Timestamp fechaModificacion;
 
     private List<DetalleFacturaProveedor> detalleProductosFacturaProveedor;
@@ -27,7 +27,7 @@ public class FacturaProveedor {
 
     // Constructor con parámetros
     public FacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico,
-                            Timestamp fechaFactura, Integer total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor, Boolean estado) {
+                            Timestamp fechaFactura, Integer total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
         this.idFacturaProveedor = idFacturaProveedor;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -37,7 +37,6 @@ public class FacturaProveedor {
         this.proveedor = proveedor;
         this.detalleProductosFacturaProveedor = detalleProductosFacturaProveedor;
         this.detalleFacturaProveedor = new DetalleFacturaProveedor();
-        this.estado = estado;
     }
 
     // Método para insertar una factura de proveedor en la base de datos
@@ -86,25 +85,6 @@ public class FacturaProveedor {
         }
     }
 
-    /*
-     * METODOS ELIMINAR FACTURA
-     *
-     */
-    public String eliminarFacturaProveedor(int idFacturaProveedor, Connection conexion) {
-        // Eliminar una factura proveedor de la base de datos
-        String sql = "DELETE FROM factura_proveedor WHERE id_factura_proveedor = ?";
-        //Eliminar el detalle de la factura
-        detalleFacturaProveedor.eliminarDetalleFacturaPorIdFactura(idFacturaProveedor,conexion);
-        try {
-            PreparedStatement sentencia = conexion.prepareStatement(sql);
-            sentencia.setInt(1, idFacturaProveedor);
-            sentencia.executeUpdate();
-            return "Factura eliminada";
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return "No se pudo eliminar la factura";
-        }
-    }
 
     // METODO PARA LISTAR TODAS LAS FACTURAS
     public List<FacturaProveedor> listarFacturasProveedor(Connection conexion) {
@@ -263,12 +243,4 @@ public class FacturaProveedor {
     public void setProductos(List<DetalleFacturaProveedor> productos) {
         this.detalleProductosFacturaProveedor = productos;
     }
-    public Boolean getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
-    }
-
 }

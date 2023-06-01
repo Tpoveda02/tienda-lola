@@ -304,7 +304,6 @@ public class AgregarProducto extends JPanel {
 			Integer porcentajeIva = new Integer(txtPorcentajeIva.getText());
 			Integer precioSinIva = new Integer(txtPrecioSinIva.getText());
 			Date fechaVencimiento = new Date(dateFechaVencimiento.getDate().getTime());
-			System.out.println(fechaVencimiento);
 			int cantidad = Integer.parseInt(txtCantidad.getText());
 			
 			Categoria categoria = categoriaControl.buscarCategorias(null, (String)txtCategoria.getSelectedItem(), "",null).get(0);
@@ -362,7 +361,7 @@ public class AgregarProducto extends JPanel {
 	
 	private String[] obtenerCategorias() {
 		categoriaControl = new CategoriaControlador();
-		List<Categoria> listaCategorias = categoriaControl.listarCategorias();
+		List<Categoria> listaCategorias = categoriaControl.buscarCategorias(null,"","",true);
 		String[] listaNombresCat = new String[listaCategorias.size()+1];
 		listaNombresCat[0] = "";
 		for(int i = 0; i<listaCategorias.size(); i++) {

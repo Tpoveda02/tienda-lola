@@ -60,6 +60,7 @@ public class Cliente {
     public List<Cliente> listarClientes(Connection conexion) {
         List<Cliente> clientes = new ArrayList<>();
         try {
+            //Sentecia consultar todos los clientes
             PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente");
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
@@ -73,7 +74,8 @@ public class Cliente {
                 cliente.setDireccion(resultado.getString("direccion"));
                 cliente.setTelefono(resultado.getString("telefono"));
                 cliente.setCorreoElectronico(resultado.getString("correo_electronico"));
-
+                cliente.setEstado(resultado.getBoolean("Estado"));
+                //Agregar el cleitne a la lista
                 clientes.add(cliente);
             }
         } catch (SQLException e) {
@@ -87,11 +89,12 @@ public class Cliente {
         ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
         Cliente c = new Cliente();
         try {
+            //Sentencia para filtrar por parametros específicos
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM CLIENTE WHERE " +
                     "id_cliente LIKE ? AND tipo_identificacion LIKE ? " +
                     "AND primer_nombre LIKE ? AND segundo_nombre LIKE ? AND primer_apellido LIKE ? " +
                     "AND segundo_apellido LIKE ? AND direccion LIKE ? AND telefono LIKE ? " +
-                    "AND correo_electronico LIKE ?");
+                    "AND correo_electronico LIKE ? AND estado LIKE ?");
             if (cliente.getIdCliente() != null) {
                 sentencia.setString(1, "%" + cliente.getIdCliente() + "%");
             } else {
@@ -105,6 +108,11 @@ public class Cliente {
             sentencia.setString(7, "%" + cliente.getDireccion() + "%");
             sentencia.setString(8, "%" + cliente.getTelefono() + "%");
             sentencia.setString(9, "%" + cliente.getCorreoElectronico() + "%");
+            if (cliente.getEstado() != null) {
+                sentencia.setBoolean(10,  cliente.getEstado());
+            } else {
+                sentencia.setString(10, "%%");
+            }
             //Ejecuta la sentencia
             ResultSet resultado = sentencia.executeQuery();
             //Asigna los resultados a una lista de los mismos y recorre campo por campo según el registro
@@ -118,6 +126,7 @@ public class Cliente {
                 c.setDireccion(resultado.getString("direccion"));
                 c.setTelefono(resultado.getString("telefono"));
                 c.setCorreoElectronico(resultado.getString("correo_electronico"));
+                c.setEstado(resultado.getBoolean("estado"));
                 //Agrega un registro - cliente
                 listaClientes.add(c);
                 c = new Cliente();
@@ -150,6 +159,7 @@ public class Cliente {
                     sentencia.setString(7, cliente.getDireccion());
                     sentencia.setString(8, cliente.getTelefono());
                     sentencia.setString(9, cliente.getCorreoElectronico());
+
                     //Ejecuta la sentencia
                     sentencia.executeUpdate();
                     //Cierra la conexión - sentencia
@@ -179,7 +189,7 @@ public class Cliente {
                 PreparedStatement sentencia = conexion.prepareStatement("UPDATE CLIENTE SET tipo_identificacion = ?, " +
                         "primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, " +
                         "direccion = ?, telefono = ?, correo_electronico = ?," +
-                        "fecha_modificacion = ? WHERE id_cliente = ?");
+                        "fecha_modificacion = ?, estado = ? WHERE id_cliente = ?");
                 sentencia.setString(1, cliente.getTipoIdentificacion());
                 sentencia.setString(2, cliente.getPrimerNombre());
                 sentencia.setString(3, cliente.getSegundoNombre());
@@ -189,7 +199,8 @@ public class Cliente {
                 sentencia.setString(7, cliente.getTelefono());
                 sentencia.setString(8, cliente.getCorreoElectronico());
                 sentencia.setTimestamp(9, cliente.getFechaModificacion());
-                sentencia.setInt(10, cliente.getIdCliente());
+                sentencia.setBoolean(10, cliente.getEstado());
+                sentencia.setInt(11, cliente.getIdCliente());
                 //Ejecuta la sentencia
                 sentencia.executeUpdate();
                 //Cierra la conexión - sentencia
@@ -203,33 +214,6 @@ public class Cliente {
             return mensajeError;
         }
         return "Cliente no actualizado, campos invalidos";
-    }
-    /*
-     * METODO ELIMINAR
-     */
-
-    public String eliminarCliente(Cliente cliente, Connection conexion) {
-        try {
-            //Sentencia para eliminar el cliente según el ID
-            PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM CLIENTE WHERE id_cliente = ?");
-            sentencia.setInt(1, cliente.getIdCliente());// El ID del cliente que se desea eliminar
-            //Ejecuta la sentencia
-            int filasAfectadas = sentencia.executeUpdate();
-            //Cierra la conexión - sentencia
-            sentencia.close();
-            conexion.close();
-            if (filasAfectadas > 0) {
-                //Retorna el mensaje de exito
-                return "Cliente eliminado con éxito";
-            } else {
-                //Retorna el mensaje de cliente no encontrado
-                return "No se encontró el cliente con el ID especificado";
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            //Retorna el mensaje de error
-            return "Error elimando cliente.";
-        }
     }
 
     /*

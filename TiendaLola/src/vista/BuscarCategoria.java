@@ -28,6 +28,7 @@ import javax.swing.table.TableModel;
 import controlador.CategoriaControlador;
 import controlador.Controlador;
 import modelo.Categoria;
+import modelo.Producto;
 
 public class BuscarCategoria extends JPanel {
 
@@ -189,7 +190,7 @@ public class BuscarCategoria extends JPanel {
         panelBuscar.add(btnActualizar);
 
 
-        btnInactivar = new JButton("Eliminar");
+        btnInactivar = new JButton("Inactivar");
         btnInactivar.setBounds(615, 399, 100, 30);
         btnInactivar.setBorder(new LineBorder(new Color(192, 192, 192), 2, true));
         btnInactivar.setBackground(new Color(192, 192, 192));
@@ -415,7 +416,8 @@ public class BuscarCategoria extends JPanel {
         idCategoria = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
         nombreCategoria = modeloTabla.getValueAt(i, 1).toString();
         descripcion = modeloTabla.getValueAt(i, 2).toString();
-        estado = (Boolean) modeloTabla.getValueAt(i, 3);
+        Categoria categoria = categoriaControlador.buscarCategorias(idCategoria,nombreCategoria,descripcion,null).get(0);
+        estado = categoria.getEstado();
 
     }
 

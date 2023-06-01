@@ -245,7 +245,7 @@ public class ActualizarProveedor extends JPanel {
 			
 			String mensaje = "";
 			mensaje = proveedorControlador.modificarProveedor(idProveedor, tipoIdentificacion, primerNombre, segundoNombre,
-					primerApellido, segundoApellido, direccion, telefono, correoElectronico);
+					primerApellido, segundoApellido, direccion, telefono, correoElectronico, true);
 			JOptionPane.showMessageDialog(this,mensaje);
 			limpiarCampos();
 			if(mensaje.equals("Proveedor actualizado.")) {

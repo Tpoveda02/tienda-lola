@@ -362,8 +362,9 @@ public class BuscarProducto extends JPanel {
 	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Inactivar
 	 */
 	private void btnInactivarActionPerformed(ActionEvent evt) {
-		//try {
+		try {
 			if(estado == true) {
+
 				// Eliminar el producto de la base de datos
 				JOptionPane.showMessageDialog(this,
 						productoControlador.modificarProducto(idProducto,nombre,tipoContenidoNeto,
@@ -376,12 +377,11 @@ public class BuscarProducto extends JPanel {
 			}else{
 				JOptionPane.showMessageDialog(this, "El producto ya está inactivo");
 			}
-/*
+
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
 		}
 
- */
 	}
 	
 	/*
@@ -498,7 +498,6 @@ public class BuscarProducto extends JPanel {
 		tipoContenidoNeto = producto.getTipoContenidoNeto();
 		contenidoNeto = producto.getContenidoNeto() +"";
 		valorContenido = producto.getValorContenido() +"";
-		System.out.println(producto.getValorContenido() +"");
 		empaqueGeneral = producto.getEmpaqueGeneral();
 		empaque = producto.getEmpaque();
 		precioProveedor = producto.getPrecioProveedor() +"";

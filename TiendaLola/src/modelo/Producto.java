@@ -268,34 +268,6 @@ public class Producto {
         }
         return "Producto no actualizado, campos inválidos";
     }
-
-    /*
-     * METODO ELIMINAR
-     */
-
-    public String eliminarProducto(Producto producto, Connection conexion) {
-        try {
-            //Sentencia para eliminar el producto según el ID
-            PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM PRODUCTO WHERE id_producto = ?");
-            sentencia.setInt(1, producto.getIdProducto());// El ID del producto que se desea eliminar
-            //Ejecuta la sentencia
-            int filasAfectadas = sentencia.executeUpdate();
-            //Cierra la conexión - sentencia
-            sentencia.close();
-            conexion.close();
-            if (filasAfectadas > 0) {
-                //Retorna el mensaje de éxito
-                return "Producto eliminado con éxito";
-            } else {
-                //Retorna el mensaje de producto no encontrado
-                return "No se encontró el producto con el ID especificado";
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            //Retorna el mensaje de error
-            return "Error eliminando producto.";
-        }
-    }
     /*
         METODO VALIDAR CAMPOS DEL PRODUCTO
      */

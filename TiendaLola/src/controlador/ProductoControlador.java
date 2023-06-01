@@ -47,12 +47,4 @@ public class ProductoControlador {
         return producto.actualizarProducto(producto, controlador.getConexion());
     }
 
-    //Metodo eliminar producto
-    public String eliminarProducto(int id) {
-        //Instacia el producto con el ID para eliminarlo
-        Producto producto = new Producto();
-        producto.setIdProducto(id);
-        //Llama el metodo de eliminar producto
-        return producto.eliminarProducto(producto, controlador.getConexion());
-    }
 }

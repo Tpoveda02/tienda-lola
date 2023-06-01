@@ -73,7 +73,7 @@ public class Proveedor {
                 proveedor.setDireccion(resultado.getString("direccion"));
                 proveedor.setTelefono(resultado.getString("telefono"));
                 proveedor.setCorreoElectronico(resultado.getString("correo_electronico"));
-
+                proveedor.setEstado(resultado.getBoolean("estado"));
                 proveedores.add(proveedor);
             }
         } catch (SQLException e) {
@@ -91,7 +91,7 @@ public class Proveedor {
                     "id_proveedor LIKE ? AND tipo_identificacion LIKE ? " +
                     "AND primer_nombre LIKE ? AND segundo_nombre LIKE ? AND primer_apellido LIKE ? " +
                     "AND segundo_apellido LIKE ? AND direccion LIKE ? AND telefono LIKE ? " +
-                    "AND correo_electronico LIKE ?");
+                    "AND correo_electronico LIKE ? AND estado LIKE ? ");
             if (proveedor.getIdProveedor() != null) {
                 sentencia.setString(1, "%" + proveedor.getIdProveedor() + "%");
             } else {
@@ -105,6 +105,11 @@ public class Proveedor {
             sentencia.setString(7, "%" + proveedor.getDireccion() + "%");
             sentencia.setString(8, "%" + proveedor.getTelefono() + "%");
             sentencia.setString(9, "%" + proveedor.getCorreoElectronico() + "%");
+            if (proveedor.getEstado() != null) {
+                sentencia.setBoolean(10, proveedor.getEstado());
+            } else {
+                sentencia.setString(10, "%%");
+            }
             //Ejecuta la sentencia
             ResultSet resultado = sentencia.executeQuery();
             //Asigna los resultados a una lista de los mismos y recorre campo por campo según el registro
@@ -118,6 +123,7 @@ public class Proveedor {
                 c.setDireccion(resultado.getString("direccion"));
                 c.setTelefono(resultado.getString("telefono"));
                 c.setCorreoElectronico(resultado.getString("correo_electronico"));
+                c.setEstado(resultado.getBoolean("estado"));
                 //Agrega un registro - proveedor
                 listaProveedors.add(c);
                 c = new Proveedor();
@@ -179,7 +185,7 @@ public class Proveedor {
                 PreparedStatement sentencia = conexion.prepareStatement("UPDATE PROVEEDOR SET tipo_identificacion = ?, " +
                         "primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, " +
                         "direccion = ?, telefono = ?, correo_electronico = ?," +
-                        "fecha_modificacion = ? WHERE id_proveedor = ?");
+                        "fecha_modificacion = ?, estado = ? WHERE id_proveedor = ?");
                 sentencia.setString(1, proveedor.getTipoIdentificacion());
                 sentencia.setString(2, proveedor.getPrimerNombre());
                 sentencia.setString(3, proveedor.getSegundoNombre());
@@ -189,7 +195,8 @@ public class Proveedor {
                 sentencia.setString(7, proveedor.getTelefono());
                 sentencia.setString(8, proveedor.getCorreoElectronico());
                 sentencia.setTimestamp(9, proveedor.getFechaModificacion());
-                sentencia.setInt(10, proveedor.getIdProveedor());
+                sentencia.setBoolean(10, proveedor.getEstado());
+                sentencia.setInt(11, proveedor.getIdProveedor());
                 //Ejecuta la sentencia
                 sentencia.executeUpdate();
                 //Cierra la conexion - sentencia
@@ -203,33 +210,6 @@ public class Proveedor {
             return mensajeError;
         }
         return "Proveedor no actualizado, campos invalidos";
-    }
-    /*
-     * METODO ELIMINAR
-     */
-
-    public String eliminarProveedor(Proveedor proveedor, Connection conexion) {
-        try {
-            //Sentencia para eliminar el proveedor según el ID
-            PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM PROVEEDOR WHERE id_proveedor = ?");
-            sentencia.setInt(1, proveedor.getIdProveedor());// El ID del proveedor que se desea eliminar
-            //Ejecuta la sentencia
-            int filasAfectadas = sentencia.executeUpdate();
-            //Cierra la conexion - sentencia
-            sentencia.close();
-            conexion.close();
-            if (filasAfectadas > 0) {
-                //Retorna el mensaje de exito
-                return "Proveedor eliminado con éxito";
-            } else {
-                //Retorna el mensaje de proveedor no encontrado
-                return "No se encontró el proveedor con el ID especificado";
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            //Retorna el mensaje de error
-            return "Error elimando proveedor.";
-        }
     }
 
     /*

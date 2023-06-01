@@ -58,20 +58,6 @@ public class DetalleFacturaCliente {
     }
 
     /*
-     * METODO ELIMINAR
-     */
-    public String eliminarDetalleFacturaPorIdFactura(int idFacturaCliente, Connection conexion) {
-        try {
-            PreparedStatement statement = conexion.prepareStatement("DELETE FROM detalle_factura_cliente WHERE id_factura = ?");
-            statement.setInt(1, idFacturaCliente);
-            statement.executeUpdate();
-            conexion.close();
-           return "Productos eliminados de la factura";
-        } catch (SQLException ex) {
-           return "Ocurrió un error al eliminar los productos de la factura: " + ex.getMessage();
-        }
-    }
-    /*
      * METODO BUSCAR
      */
     public List<DetalleFacturaCliente>  buscarPorIdFactura(int idFactura, Connection conexion) {
