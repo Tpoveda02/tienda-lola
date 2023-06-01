@@ -27,7 +27,6 @@ import javax.swing.table.TableModel;
 import controlador.CategoriaControlador;
 import controlador.ProductoControlador;
 import modelo.Categoria;
-import modelo.DetalleFacturaCliente;
 import modelo.DetalleFacturaProveedor;
 import modelo.Producto;
 
@@ -330,7 +329,7 @@ public class EscogerProductoProveedor extends JPanel {
 			Producto producto = productoControlador.buscarProductos(idProducto,"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", null).get(0);
 			int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Digite la cantidad del producto."));
 			Double precio = cantidad * producto.getPrecioProveedor();
-//			panelAgregarFactura.detalleProductos.add(new DetalleFacturaProveedor(null, null, cantidad, precio, producto));
+			panelAgregarFactura.detalleProductos.add(new DetalleFacturaProveedor(null, null, cantidad, precio, producto));
 			actualizarTablaAgregar(modeloTablaSelec, panelAgregarFactura.detalleProductos);
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");

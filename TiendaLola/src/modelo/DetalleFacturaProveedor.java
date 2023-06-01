@@ -20,9 +20,9 @@ public class DetalleFacturaProveedor {
      * METODO CONSTRUCTOR
      */
 
-    public DetalleFacturaProveedor(Integer idDetalleFacturaCliente, Integer idFacturaCliente, int cantidad, Double precio, Producto producto) {
-        this.idDetalleFacturaProveedor = idDetalleFacturaCliente;
-        this.idFacturaProveedor = idFacturaCliente;
+    public DetalleFacturaProveedor(Integer idDetalleFacturaProveedor, Integer idFacturaProveedor, int cantidad, Double precio, Producto producto) {
+        this.idDetalleFacturaProveedor = idDetalleFacturaProveedor;
+        this.idFacturaProveedor = idFacturaProveedor;
         this.cantidad = cantidad;
         this.precio = precio;
         this.producto = producto;

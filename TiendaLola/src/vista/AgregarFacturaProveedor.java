@@ -26,13 +26,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import controlador.ClienteControlador;
-import controlador.FacturaClienteControlador;
 import controlador.FacturaProveedorControlador;
 import controlador.ProductoControlador;
 import controlador.ProveedorControlador;
-import modelo.Cliente;
-import modelo.DetalleFacturaCliente;
 import modelo.DetalleFacturaProveedor;
 import modelo.Proveedor;
 
@@ -377,6 +373,8 @@ public class AgregarFacturaProveedor extends JPanel {
 		int i = tablaProductos.getSelectedRow();
 
 		TableModel modeloTabla = tablaProductos.getModel();
+		
+		nombreProducto = modeloTabla.getValueAt(i, 0).toString();
 
 	}
 

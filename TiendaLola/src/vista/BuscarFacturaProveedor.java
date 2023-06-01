@@ -33,7 +33,7 @@ public class BuscarFacturaProveedor extends JPanel {
 	// Objeto de la clase PanelAgregar
 	private AgregarFacturaProveedor panelAgregarFac;
 	// Objeto de la clase panelActualizar
-	//		private ActualizarCliente panelActualizar;
+	private VerFacturaProveedor panelVer;
 
 	// --------------------Variables-------------------
 	private List<FacturaProveedor> listaFacturasProveedor;
@@ -221,8 +221,7 @@ public class BuscarFacturaProveedor extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				// ValidaridCliente que no ha seleccionado ningun cliente//Si no mensaje
 				if (idFactura != 0) {
-//					btnActualizarActionPerformed(evt, pnlBuscarFacProveedor);
-//					actualizarTabla(modeloTabla, controlador.listarClientes());
+					btnVerActionPerformed(evt, pnlBuscarFacProveedor);
 				} else {
 					JOptionPane.showMessageDialog(null, "Seleccione una Factura");
 				}
@@ -240,7 +239,7 @@ public class BuscarFacturaProveedor extends JPanel {
 		btnLimpiar.setForeground(new Color(255, 255, 255));
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-//				btnLimpiarActionPerformed(evt);
+				btnLimpiarActionPerformed(evt);
 //				actualizarTabla(modeloTabla, controlador.listarClientes());
 			}
 		});
@@ -254,7 +253,7 @@ public class BuscarFacturaProveedor extends JPanel {
 		btnBuscar.setForeground(new Color(255, 255, 255));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-//				btnBuscarActionPerformed(evt);
+				btnBuscarActionPerformed(evt);
 			}
 		});
 		pnlBuscarFacProveedor.add(btnBuscar);
@@ -281,6 +280,27 @@ public class BuscarFacturaProveedor extends JPanel {
 		}
 	}
 	
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Ver
+	 * Dentro de este metodo quitamos el panel BuscarFacturaCliente y ponemos el panel de la clase VerFacturaCliente
+	 */
+	private void btnVerActionPerformed(ActionEvent evt, JPanel pnlBuscarFacCliente) {
+		try {
+			panelVer = new VerFacturaProveedor();
+			panelVer.setSize(960, 440);
+			panelVer.setLocation(0, 0);
+
+			pnlBuscarFacCliente.removeAll();
+			pnlBuscarFacCliente.add(panelVer, BorderLayout.CENTER);
+			pnlBuscarFacCliente.revalidate();
+			pnlBuscarFacCliente.repaint();
+
+		} catch (NumberFormatException ex) {
+//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+		}
+	}
+	
 	/*
 	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Limpiar
 	 */
@@ -291,6 +311,40 @@ public class BuscarFacturaProveedor extends JPanel {
 		txtFecha.setText("");
 		txtNumeroProductos.setText("");
 		txtValorTotal.setText("");
+	}
+	
+	/*
+	 * METODO PARA REALIZAR LA ACCIÓN DEL BOTÓN Buscar
+	 */
+	private void btnBuscarActionPerformed(ActionEvent evt) {
+		try {
+//			Integer idCliente = null;
+//			if(!txtIdFactura.getText().equals(""))
+//				idCliente = Integer.parseInt(txtIdFactura.getText());
+//			String tipoId = txtIdCliente.getSelectedItem().toString();
+//			String primerNombre = txtNombreCliente.getText();
+//			String segundoNombre = txtFecha.getText();
+//			String primerApellido = txtNumeroProductos.getText();
+//			String segundoApellido = txtValorTotal.getText();
+//			String direccion = txtDireccion.getText();
+//			String telefono = txtTelefono.getText();
+//			String correo = txtCorreoElectronico.getText();
+//
+//			// Buscar el cliente en la base de datos
+//			List<Cliente> clientes = controlador.buscarClientes(idCliente,tipoId,primerNombre,segundoNombre,primerApellido,
+//					segundoApellido,direccion,telefono,correo);
+//			if (clientes != null) {
+//				actualizarTabla(modeloTabla,clientes);
+//			} else {
+//				JOptionPane.showMessageDialog(this, "Cliente no encontrado.");
+//			}
+
+
+		} catch (NumberFormatException ex) {
+			System.err.println(ex.getMessage());
+//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+		}
+
 	}
 	
 	/*
