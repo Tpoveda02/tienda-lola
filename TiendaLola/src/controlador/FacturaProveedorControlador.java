@@ -34,7 +34,7 @@ public class FacturaProveedorControlador {
     }
 
     //Metodo agregar factura proveedor - recibe los valores de los JText
-    public String crearFacturaProveedor(int idFacturaProveedor, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura,int cantidadProducto, Double total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
+    public String crearFacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, int cantidadProducto, Double total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
         //Instacia la factura con los respectivos valores
         FacturaProveedor facturaProveedor = new FacturaProveedor(idFacturaProveedor,direccion,telefono,correoElectronico,fechaFactura,cantidadProducto,total,proveedor,detalleProductosFacturaProveedor);
         //Llama el metodo de buscar facturasProveedor

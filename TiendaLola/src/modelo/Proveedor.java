@@ -41,10 +41,10 @@ public class Proveedor {
 
     //VALIDACIÓN ENUM PERMITIDOS
     public enum TipoIdentificacion {
+        CC,
+        NIT,
         DNI,
-        NIE,
-        PASAPORTE,
-        CC
+        PASAPORTE
     }
 
     public Proveedor() {

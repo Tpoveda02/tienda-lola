@@ -286,7 +286,7 @@ public class AgregarFacturaProveedor extends JPanel {
 	 */	
 	private void btnGuardarActionPerformed(ActionEvent evt, JPanel panelAgregar) {
 		try {
-			int totalFactura = 0;
+			Double totalFactura = 0.0;
 			for (int i = 0; i < detalleProductos.size(); i++) {
 				totalFactura += detalleProductos.get(i).getPrecio();
 			}
@@ -294,10 +294,10 @@ public class AgregarFacturaProveedor extends JPanel {
 			int idProveedor = Integer.parseInt((String)txtProveedor.getSelectedItem());
 			Proveedor proveedor = proveedorControl.buscarProveedors(idProveedor,"", "", "", "", "", "", "", "", null).get(0);
 			
-//			String mensaje = facProveedorControlador.crearFacturaProveedor(null, lblDireccion.getText(), lblTelefono.getText(), 
-//					lblCorreo.getText(), Timestamp.valueOf(LocalDateTime.now()), totalFactura, proveedor, detalleProductos);
+			String mensaje = facProveedorControlador.crearFacturaProveedor(null, lblDireccion.getText(), lblTelefono.getText(),
+					lblCorreo.getText(), Timestamp.valueOf(LocalDateTime.now()), detalleProductos.size(), totalFactura, proveedor, detalleProductos);
 			
-//			System.out.println(mensaje);
+			System.out.println(mensaje);
 			
 			irPanelBuscar(evt, panelAgregar);
 		} catch (NumberFormatException ex) {
