@@ -287,7 +287,7 @@ public class AgregarFacturaCliente extends JPanel {
 	 */	
 	private void btnGuardarActionPerformed(ActionEvent evt, JPanel panelAgregar) {
 		try {
-			int totalFactura = 0;
+			Double totalFactura = 0.0;
 			for (int i = 0; i < detalleProductos.size(); i++) {
 				totalFactura += detalleProductos.get(i).getPrecio();
 			}
@@ -296,7 +296,7 @@ public class AgregarFacturaCliente extends JPanel {
 			Cliente cliente = clienteControl.buscarClientes(idCliente,"", "", "", "", "", "", "", "", null).get(0);
 			
 			String mensaje = facClienteControlador.crearFacturaCliente(null, lblDireccion.getText(), lblTelefono.getText(), 
-					lblCorreo.getText(), Timestamp.valueOf(LocalDateTime.now()), totalFactura, cliente, detalleProductos);
+					lblCorreo.getText(), Timestamp.valueOf(LocalDateTime.now()), detalleProductos.size(), totalFactura, cliente, detalleProductos);
 			
 			System.out.println(mensaje);
 			

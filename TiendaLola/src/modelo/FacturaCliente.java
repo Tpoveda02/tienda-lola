@@ -15,7 +15,7 @@ public class FacturaCliente {
     private String correoElectronico;
     private Timestamp fechaFactura;
     private int cantidadProducto;
-    private Integer total;
+    private Double total;
     private Cliente cliente;
     private Timestamp fechaModificacion;
 
@@ -27,13 +27,14 @@ public class FacturaCliente {
     public FacturaCliente() {}
 
     // Constructor con parámetros
-    public FacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura,
-                          Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
+    public FacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, int cantidadProducto,
+                          Double total,  Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
         this.idFacturaCliente = idFacturaCliente;
         this.direccion = direccion;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.fechaFactura = fechaFactura;
+        this.cantidadProducto = cantidadProducto;
         this.total = total;
         this.cliente = cliente;
         this.detalleProductosFacturaCliente = detalleProductosFacturaCliente;
@@ -46,15 +47,15 @@ public class FacturaCliente {
         ResultSet resultSet = null;
         try {
             // Insertar la factura
-            String sql = "INSERT INTO factura_cliente (direccion, telefono, correo_electronico, total, id_cliente) VALUES (?, ?, ?, ?, ?)";
-            statement = conexion.prepareStatement(sql);
+            String sql = "INSERT INTO factura_cliente (direccion, telefono, correo_electronico, cantidad_producto, total, id_cliente) VALUES (?, ?, ?, ?, ?, ?)";
+            statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, factura.getDireccion());
             statement.setString(2, factura.getTelefono());
             statement.setString(3, factura.getCorreoElectronico());
-            statement.setInt(4, factura.getTotal());
-            statement.setInt(5, factura.getCliente().getIdCliente());
-            statement.executeUpdate();
-
+            statement.setInt(4, factura.getCantidadProducto());
+            statement.setDouble(5, factura.getTotal());
+            statement.setInt(6, factura.getCliente().getIdCliente());
+            System.out.println(statement.executeUpdate());
             // Obtener el id generado por la base de datos
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -63,27 +64,14 @@ public class FacturaCliente {
 
             // Insertar los productos en la factura
             for (DetalleFacturaCliente producto : factura.getProductos()) {
-                detalleFacturaCliente.agregarDetalleFactura(producto,factura,conexion);
+                System.out.println(detalleFacturaCliente.agregarDetalleFactura(producto,factura,conexion));
             }
 
         return "Factura creada";
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            return "Error creando la factura";
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al buscar registros por id_factura_cliente en la tabla factura_cliente: " + ex.getMessage());
         }
+            return "Error creando la factura";
     }
 
 
@@ -101,9 +89,9 @@ public class FacturaCliente {
                 facturaCliente.setTelefono(result.getString("telefono"));
                 facturaCliente.setCorreoElectronico(result.getString("correo_electronico"));
                 facturaCliente.setFechaFactura(result.getTimestamp("fecha_factura"));
-                facturaCliente.setTotal(result.getInt("total"));
+                facturaCliente.setTotal(result.getDouble("total"));
                 facturaCliente.setCantidadProducto(result.getInt("cantidad_producto"));
-                cliente.setIdCliente(result.getInt("id_cliente"));
+                Cliente cliente = new Cliente(result.getInt("id_cliente"),"","","","","","","","",true);
                 facturaCliente.setCliente(cliente.buscarClientes(cliente,conexion).get(0));
                 facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(),conexion));
                 facturaClientes.add(facturaCliente);
@@ -143,7 +131,7 @@ public class FacturaCliente {
                 facturaCliente.setTelefono(resultado.getString("telefono"));
                 facturaCliente.setCorreoElectronico(resultado.getString("correo_electronico"));
                 facturaCliente.setFechaFactura(resultado.getTimestamp("fecha_factura"));
-                facturaCliente.setTotal(resultado.getInt("total"));
+                facturaCliente.setTotal(resultado.getDouble("total"));
                 facturaCliente.setCantidadProducto(resultado.getInt("cantidad_producto"));
                 //Buscar el cliente de esa factura
                 Cliente c = new Cliente();
@@ -213,11 +201,11 @@ public class FacturaCliente {
         this.cantidadProducto = cantidadProducto;
     }
 
-    public Integer getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 

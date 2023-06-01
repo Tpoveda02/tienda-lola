@@ -332,7 +332,7 @@ public class EscogerProductoCliente extends JPanel {
 		try {
 			Producto producto = productoControlador.buscarProductos(idProducto,"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", null).get(0);
 			int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Digite la cantidad del producto."));
-			int precio = cantidad * producto.getPrecioVenta();
+			Double precio = cantidad * producto.getPrecioVenta();
 			panelAgregarFactura.detalleProductos.add(new DetalleFacturaCliente(null, null, cantidad, precio, producto));
 			actualizarTablaAgregar(modeloTablaSelec, panelAgregarFactura.detalleProductos);
 		} catch (NumberFormatException ex) {

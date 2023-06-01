@@ -13,7 +13,7 @@ public class FacturaProveedor {
     private String correoElectronico;
     private Timestamp fechaFactura;
     private int cantidadProducto;
-    private Integer total;
+    private Double total;
     private Proveedor proveedor;
 
     private Timestamp fechaModificacion;
@@ -27,12 +27,13 @@ public class FacturaProveedor {
 
     // Constructor con parámetros
     public FacturaProveedor(Integer idFacturaProveedor, String direccion, String telefono, String correoElectronico,
-                            Timestamp fechaFactura, Integer total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
+                            Timestamp fechaFactura,int cantidadProducto, Double total, Proveedor proveedor, List<DetalleFacturaProveedor> detalleProductosFacturaProveedor) {
         this.idFacturaProveedor = idFacturaProveedor;
         this.direccion = direccion;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.fechaFactura = fechaFactura;
+        this.cantidadProducto = cantidadProducto;
         this.total = total;
         this.proveedor = proveedor;
         this.detalleProductosFacturaProveedor = detalleProductosFacturaProveedor;
@@ -45,13 +46,14 @@ public class FacturaProveedor {
         ResultSet resultSet = null;
         try {
             // Insertar la factura
-            String sql = "INSERT INTO factura_proveedor (direccion, telefono, correo_electronico, total, id_proveedor) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO factura_proveedor (direccion, telefono, correo_electronico, cantidad_producto,total, id_proveedor) VALUES (?, ?, ?, ?, ?)";
             statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, factura.getDireccion());
             statement.setString(2, factura.getTelefono());
             statement.setString(3, factura.getCorreoElectronico());
-            statement.setInt(4, factura.getTotal());
-            statement.setInt(5, factura.getProveedor().getIdProveedor());
+            statement.setInt(4, factura.getCantidadProducto());
+            statement.setDouble(5, factura.getTotal());
+            statement.setInt(6, factura.getProveedor().getIdProveedor());
             statement.executeUpdate();
 
             // Obtener el id generado por la base de datos
@@ -100,9 +102,9 @@ public class FacturaProveedor {
                 facturaProveedor.setTelefono(result.getString("telefono"));
                 facturaProveedor.setCorreoElectronico(result.getString("correo_electronico"));
                 facturaProveedor.setFechaFactura(result.getTimestamp("fecha_factura"));
-                facturaProveedor.setTotal(result.getInt("total"));
+                facturaProveedor.setTotal(result.getDouble("total"));
                 facturaProveedor.setCantidadProducto(result.getInt("cantidad_producto"));
-                proveedor.setIdProveedor(result.getInt("id_proveedor"));
+                Proveedor proveedor = new Proveedor(result.getInt("id_proveedor"),"","","","","","","","",true);
                 facturaProveedor.setProveedor(proveedor.buscarProveedors(proveedor,conexion).get(0));
                 facturaProveedor.setProductos(detalleFacturaProductosProveedor.buscarPorIdFactura(facturaProveedor.getIdFacturaProveedor(),conexion));
                 facturaProveedors.add(facturaProveedor);
@@ -142,7 +144,7 @@ public class FacturaProveedor {
                 facturaProveedor.setTelefono(resultado.getString("telefono"));
                 facturaProveedor.setCorreoElectronico(resultado.getString("correo_electronico"));
                 facturaProveedor.setFechaFactura(resultado.getTimestamp("fecha_factura"));
-                facturaProveedor.setTotal(resultado.getInt("total"));
+                facturaProveedor.setTotal(resultado.getDouble("total"));
                 facturaProveedor.setCantidadProducto(resultado.getInt("cantidad_producto"));
                 //Buscar el proveedor de esa factura
                 Proveedor c = new Proveedor();
@@ -212,11 +214,11 @@ public class FacturaProveedor {
         this.cantidadProducto = cantidadProducto;
     }
 
-    public Integer getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 

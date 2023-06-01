@@ -13,14 +13,14 @@ public class DetalleFacturaCliente {
     private Integer idDetalleFacturaCliente;
     private Integer idFacturaCliente;
     private int cantidad;
-    private Integer precio;
+    private Double precio;
     private Producto producto;
 
     /*
      * METODO CONSTRUCTOR
      */
 
-    public DetalleFacturaCliente(Integer idDetalleFacturaCliente, Integer idFacturaCliente, int cantidad, Integer precio, Producto producto) {
+    public DetalleFacturaCliente(Integer idDetalleFacturaCliente, Integer idFacturaCliente, int cantidad, Double precio, Producto producto) {
         this.idDetalleFacturaCliente = idDetalleFacturaCliente;
         this.idFacturaCliente = idFacturaCliente;
         this.cantidad = cantidad;
@@ -37,19 +37,16 @@ public class DetalleFacturaCliente {
     public String agregarDetalleFactura(DetalleFacturaCliente detalleFacturaCliente, FacturaCliente factura, Connection conexion) {
         PreparedStatement sentencia = null;
         try {
-            String sql = "INSERT INTO factura_cliente_producto (id_factura_cliente, id_producto, cantidad, precio) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO detalle_factura_cliente (id_factura, id_producto, cantidad, precio) VALUES (?, ?, ?, ?)";
             sentencia = conexion.prepareStatement(sql);
             sentencia.setInt(1, factura.getIdFacturaCliente());
             sentencia.setInt(2, detalleFacturaCliente.getProducto().getIdProducto());
             sentencia.setInt(3, detalleFacturaCliente.getCantidad());
-            sentencia.setInt(4, detalleFacturaCliente.getPrecio());
-            sentencia.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+            sentencia.setDouble(4, detalleFacturaCliente.getPrecio());
             sentencia.executeUpdate();
             //Ejecuta la sentencia
             sentencia.executeUpdate();
             //Cierra la conexion - sentencia
-            sentencia.close();
-            conexion.close();
             return "Productos agregados a la factura.";
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -69,15 +66,14 @@ public class DetalleFacturaCliente {
             while (result.next()) {
                 DetalleFacturaCliente productoDetalle = new DetalleFacturaCliente();
                 productoDetalle.setIdFacturaCliente(result.getInt("id_detalle_factura_cliente"));
-                productoDetalle.setIdFacturaCliente(result.getInt("id_factura_cliente"));
+                productoDetalle.setIdFacturaCliente(result.getInt("id_factura"));
                 Producto producto =  new Producto();
                 producto = producto.buscarProductos(result.getInt("id_producto"),"","","","","","","","","","","","","","","",null,conexion).get(0);
                 productoDetalle.setProducto(producto);
                 productoDetalle.setCantidad(result.getInt("cantidad"));
-                productoDetalle.setPrecio(result.getInt("precio"));
+                productoDetalle.setPrecio(result.getDouble("precio"));
                 productos.add(productoDetalle);
             }
-            conexion.close();
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al buscar registros por id_factura en la tabla detalle_factura_cliente: " + ex.getMessage());
         }
@@ -104,11 +100,11 @@ public class DetalleFacturaCliente {
         this.cantidad = cantidad;
     }
 
-    public Integer getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 

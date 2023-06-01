@@ -29,13 +29,11 @@ public class DetalleFacturaProveedor {
             sentencia.setInt(2, detalleFacturaProveedor.getProducto().getIdProducto());
             sentencia.setInt(3, detalleFacturaProveedor.getCantidad());
             sentencia.setInt(4, detalleFacturaProveedor.getPrecio());
-            sentencia.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             sentencia.executeUpdate();
             //Ejecuta la sentencia
             sentencia.executeUpdate();
             //Cierra la conexion - sentencia
             sentencia.close();
-            conexion.close();
             return "Productos agregados a la factura.";
         } catch (SQLException e) {
             System.err.println(e.getMessage());
