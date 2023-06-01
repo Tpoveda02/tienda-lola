@@ -27,7 +27,7 @@ public class FacturaCliente {
     public FacturaCliente() {}
 
     // Constructor con parámetros
-    public FacturaCliente(int idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura,
+    public FacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura,
                           Integer total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
         this.idFacturaCliente = idFacturaCliente;
         this.direccion = direccion;
