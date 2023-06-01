@@ -42,6 +42,8 @@ public class Clientes extends JFrame {
 	private BuscarProveedor panelBuscarProveedor;
 	//Objeto de la calse BuscarProducto
 	private BuscarProducto panelBuscarProducto;
+	//Objeto de la calse BuscarFacturaCliente
+	private BuscarFacturaCliente panelBuscarFacCliente;
 
 	//--------------Variables--------------
 	private JPanel contentPane;
@@ -355,14 +357,14 @@ public class Clientes extends JFrame {
 			btnCliente.setForeground(new Color(135, 134, 133));
 			btnProveedor.setForeground(new Color(135, 134, 133));
 //			//Acción para llamar la clase BuscarProveedor dentro del panelCrud
-//			panelBuscarProveedor = new BuscarProveedor();
-//			panelBuscarProveedor.setSize(960, 440);
-//			panelBuscarProveedor.setLocation(0, 0);
+			panelBuscarFacCliente = new BuscarFacturaCliente();
+			panelBuscarFacCliente.setSize(960, 440);
+			panelBuscarFacCliente.setLocation(0, 0);
 //
-//			panelCrud.removeAll();
-//			panelCrud.add(panelBuscarProveedor, BorderLayout.CENTER);
-//			panelCrud.revalidate();
-//			panelCrud.repaint();
+			panelCrud.removeAll();
+			panelCrud.add(panelBuscarFacCliente, BorderLayout.CENTER);
+			panelCrud.revalidate();
+			panelCrud.repaint();
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(this, "Acción incorrecta...");
 		}
