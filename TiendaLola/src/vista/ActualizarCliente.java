@@ -258,7 +258,7 @@ public class ActualizarCliente extends JPanel {
 			
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -270,7 +270,7 @@ public class ActualizarCliente extends JPanel {
 			irPanelBuscar(evt, panelActualizar);
 			limpiarCampos();
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -288,7 +288,7 @@ public class ActualizarCliente extends JPanel {
 			panelActualizar.repaint();
 
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	

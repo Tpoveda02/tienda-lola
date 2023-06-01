@@ -245,7 +245,7 @@ public class AgregarProveedor extends JPanel {
 
 
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -257,7 +257,7 @@ public class AgregarProveedor extends JPanel {
 			irPanelBuscar(evt, panelAgregar);
 
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -277,7 +277,7 @@ public class AgregarProveedor extends JPanel {
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 }

@@ -328,7 +328,7 @@ public class AgregarProducto extends JPanel {
 
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -340,7 +340,7 @@ public class AgregarProducto extends JPanel {
 			irPanelBuscar(evt, panelAgregar);
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -360,7 +360,7 @@ public class AgregarProducto extends JPanel {
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	

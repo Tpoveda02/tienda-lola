@@ -276,7 +276,7 @@ public class BuscarFacturaProveedor extends JPanel {
 			pnlBuscarFacProveedor.revalidate();
 			pnlBuscarFacProveedor.repaint();
 		} catch (NumberFormatException ex) {
-//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+//			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -339,7 +339,7 @@ public class BuscarFacturaProveedor extends JPanel {
 
 		} catch (NumberFormatException ex) {
 			System.err.println(ex.getMessage());
-//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+//			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 
 	}

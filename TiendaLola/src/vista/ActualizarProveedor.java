@@ -256,7 +256,7 @@ public class ActualizarProveedor extends JPanel {
 			
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -268,7 +268,7 @@ public class ActualizarProveedor extends JPanel {
 			irPanelBuscar(evt, panelActualizar);
 			limpiarCampos();
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -287,7 +287,7 @@ public class ActualizarProveedor extends JPanel {
 			panelActualizar.repaint();
 
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Proveedor debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	

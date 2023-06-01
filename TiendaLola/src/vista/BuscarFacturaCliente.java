@@ -277,7 +277,7 @@ public class BuscarFacturaCliente extends JPanel {
 			pnlBuscarFacCliente.revalidate();
 			pnlBuscarFacCliente.repaint();
 		} catch (NumberFormatException ex) {
-//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+//			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -297,7 +297,7 @@ public class BuscarFacturaCliente extends JPanel {
 			pnlBuscarFacCliente.repaint();
 
 		} catch (NumberFormatException ex) {
-//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+//			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -337,7 +337,7 @@ public class BuscarFacturaCliente extends JPanel {
 
 		} catch (NumberFormatException ex) {
 			System.err.println(ex.getMessage());
-//			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+//			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 
 	}

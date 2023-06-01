@@ -332,7 +332,7 @@ public class ActualizarProducto extends JPanel {
 
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -344,7 +344,7 @@ public class ActualizarProducto extends JPanel {
 			irPanelBuscar(evt, panelActualizar);
 			limpiarCampos();
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -364,7 +364,7 @@ public class ActualizarProducto extends JPanel {
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	

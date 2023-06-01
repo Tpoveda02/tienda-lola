@@ -249,7 +249,7 @@ public class AgregarCliente extends JPanel {
 
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 
@@ -261,7 +261,7 @@ public class AgregarCliente extends JPanel {
 			irPanelBuscar(evt, panelAgregar);
 			
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -281,7 +281,7 @@ public class AgregarCliente extends JPanel {
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 }

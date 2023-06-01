@@ -259,7 +259,7 @@ public class AgregarFacturaProveedor extends JPanel {
 			panelAgregarFac.revalidate();
 			panelAgregarFac.repaint();
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -283,7 +283,7 @@ public class AgregarFacturaProveedor extends JPanel {
 			
 			irPanelBuscar(evt, panelAgregar);
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	
@@ -315,7 +315,7 @@ public class AgregarFacturaProveedor extends JPanel {
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 	}
 	

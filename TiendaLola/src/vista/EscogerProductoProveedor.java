@@ -361,7 +361,7 @@ public class EscogerProductoProveedor extends JPanel {
 
 		} catch (NumberFormatException ex) {
 			System.err.println(ex.getMessage());
-			JOptionPane.showMessageDialog(this, "El ID Producto debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos");
 		}
 
 	}

@@ -152,6 +152,7 @@ public class Categoria {
 
     public String validarCamposCategoria(Categoria c) {
         String mensajeError = "";
+
         if (c.getNombre().length() < 3) {
             mensajeError += "El campo de nombre debe tener almenos 3 caracteres.\n";
         }

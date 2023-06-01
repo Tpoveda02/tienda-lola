@@ -371,7 +371,7 @@ public class BuscarClientes extends JPanel {
             panelBuscar.revalidate();
             panelBuscar.repaint();
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+            JOptionPane.showMessageDialog(this, "Campos invalidos");
         }
     }
 
@@ -396,7 +396,7 @@ public class BuscarClientes extends JPanel {
 
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+            JOptionPane.showMessageDialog(this, "Campos invalidos");
         }
     }
 
@@ -416,7 +416,7 @@ public class BuscarClientes extends JPanel {
             }
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+            JOptionPane.showMessageDialog(this, "Campos invalidos");
         }
     }
 
@@ -437,7 +437,7 @@ public class BuscarClientes extends JPanel {
 
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+            JOptionPane.showMessageDialog(this, "Campos invalidos");
         }
     }
 
@@ -485,7 +485,7 @@ public class BuscarClientes extends JPanel {
 
         } catch (NumberFormatException ex) {
             System.err.println(ex.getMessage());
-            JOptionPane.showMessageDialog(this, "El ID Cliente debe ser un número entero.");
+            JOptionPane.showMessageDialog(this, "Campos invalidos");
         }
 
     }

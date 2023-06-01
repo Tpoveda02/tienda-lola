@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FacturaCliente {
     //--------------DECLARACIÓN DE VARIABLES--------------
@@ -24,11 +26,12 @@ public class FacturaCliente {
     private DetalleFacturaCliente detalleFacturaCliente;
 
     // Constructor vacío
-    public FacturaCliente() {}
+    public FacturaCliente() {
+    }
 
     // Constructor con parámetros
     public FacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, Timestamp fechaFactura, int cantidadProducto,
-                          Double total,  Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
+                          Double total, Cliente cliente, List<DetalleFacturaCliente> detalleProductosFacturaCliente) {
         this.idFacturaCliente = idFacturaCliente;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -42,36 +45,41 @@ public class FacturaCliente {
     }
 
     // Método para insertar una factura de cliente en la base de datos
-    public String insertarFacturaCliente(FacturaCliente factura, Connection conexion)  {
+    public String insertarFacturaCliente(FacturaCliente factura, Connection conexion) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
-            // Insertar la factura
-            String sql = "INSERT INTO factura_cliente (direccion, telefono, correo_electronico, cantidad_producto, total, id_cliente) VALUES (?, ?, ?, ?, ?, ?)";
-            statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, factura.getDireccion());
-            statement.setString(2, factura.getTelefono());
-            statement.setString(3, factura.getCorreoElectronico());
-            statement.setInt(4, factura.getCantidadProducto());
-            statement.setDouble(5, factura.getTotal());
-            statement.setInt(6, factura.getCliente().getIdCliente());
-            System.out.println(statement.executeUpdate());
-            // Obtener el id generado por la base de datos
-            resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                factura.setIdFacturaCliente(resultSet.getInt(1));
-            }
+        String mensajeError = this.validarCamposFacturaCliente(factura);//Verifica los campos - no sean null; Si no retorna los erroes
+        if (mensajeError.equals("")) {
+            try {
+                // Insertar la factura
+                String sql = "INSERT INTO factura_cliente (direccion, telefono, correo_electronico, cantidad_producto, total, id_cliente) VALUES (?, ?, ?, ?, ?, ?)";
+                statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, factura.getDireccion());
+                statement.setString(2, factura.getTelefono());
+                statement.setString(3, factura.getCorreoElectronico());
+                statement.setInt(4, factura.getCantidadProducto());
+                statement.setDouble(5, factura.getTotal());
+                statement.setInt(6, factura.getCliente().getIdCliente());
+                System.out.println(statement.executeUpdate());
+                // Obtener el id generado por la base de datos
+                resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    factura.setIdFacturaCliente(resultSet.getInt(1));
+                }
 
-            // Insertar los productos en la factura
-            for (DetalleFacturaCliente producto : factura.getProductos()) {
-                detalleFacturaCliente.agregarDetalleFactura(producto,factura,conexion);
-            }
+                // Insertar los productos en la factura
+                for (DetalleFacturaCliente producto : factura.getProductos()) {
+                    detalleFacturaCliente.agregarDetalleFactura(producto, factura, conexion);
+                }
 
-        return "Factura creada";
-        } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al buscar registros por id_factura_cliente en la tabla factura_cliente: " + ex.getMessage());
+                return "Factura creada";
+            } catch (SQLException ex) {
+                System.out.println("Ocurrió un error al buscar registros por id_factura_cliente en la tabla factura_cliente: " + ex.getMessage());
+                return "Error creando la factura";
+            }
+        } else {
+            return mensajeError;
         }
-            return "Error creando la factura";
     }
 
 
@@ -91,9 +99,9 @@ public class FacturaCliente {
                 facturaCliente.setFechaFactura(result.getTimestamp("fecha_factura"));
                 facturaCliente.setTotal(result.getDouble("total"));
                 facturaCliente.setCantidadProducto(result.getInt("cantidad_producto"));
-                Cliente cliente = new Cliente(result.getInt("id_cliente"),"","","","","","","","",null);
-                facturaCliente.setCliente(cliente.buscarClientes(cliente,conexion).get(0));
-                facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(),conexion));
+                Cliente cliente = new Cliente(result.getInt("id_cliente"), "", "", "", "", "", "", "", "", null);
+                facturaCliente.setCliente(cliente.buscarClientes(cliente, conexion).get(0));
+                facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(), conexion));
                 facturaClientes.add(facturaCliente);
             }
             conexion.close();
@@ -102,10 +110,12 @@ public class FacturaCliente {
         }
         return facturaClientes;
     }
+
     // METODO PAR BUSCAR UNA FACTURA POR UN CAMPO ESPECÍFICO
     public ArrayList<FacturaCliente> buscarFacturaCliente(Integer idFacturaCliente, String direccion, String telefono, String correoElectronico, String fechaFactura, String total, String cantidadProducto, String idCliente, Connection conexion) {
         ArrayList<FacturaCliente> listaFacturasCliente = new ArrayList<FacturaCliente>();
         DetalleFacturaCliente detalleFacturaProductosCliente = new DetalleFacturaCliente();
+
         try {
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM FACTURA_CLIENTE WHERE " +
                     "id_factura_cliente LIKE ? AND direccion LIKE ? AND correo_electronico LIKE ?  AND fecha_factura LIKE ? " +
@@ -116,8 +126,8 @@ public class FacturaCliente {
                 sentencia.setString(1, "%%");
             }
             sentencia.setString(2, "%" + direccion + "%");
-            sentencia.setString(3,"%" + correoElectronico + "%");
-            sentencia.setString(4,"%" + fechaFactura + "%");
+            sentencia.setString(3, "%" + correoElectronico + "%");
+            sentencia.setString(4, "%" + fechaFactura + "%");
             sentencia.setString(5, "%" + telefono + "%");
             sentencia.setString(6, "%" + cantidadProducto + "%");
             sentencia.setString(7, "%" + total + "%");
@@ -135,12 +145,12 @@ public class FacturaCliente {
                 facturaCliente.setTotal(resultado.getDouble("total"));
                 facturaCliente.setCantidadProducto(resultado.getInt("cantidad_producto"));
                 //Buscar el cliente de esa factura
-                Cliente c = new Cliente(resultado.getInt("id_cliente"),"","","","","","","","",null);
-                Cliente cliente = c.buscarClientes(c,conexion).get(0);
+                Cliente c = new Cliente(resultado.getInt("id_cliente"), "", "", "", "", "", "", "", "", null);
+                Cliente cliente = c.buscarClientes(c, conexion).get(0);
                 //Asignar el cliente
                 facturaCliente.setCliente(cliente);
                 //Buscar detalle factura cliente
-                facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(),conexion));
+                facturaCliente.setProductos(detalleFacturaProductosCliente.buscarPorIdFactura(facturaCliente.getIdFacturaCliente(), conexion));
                 // Agrega un registro - factura
                 listaFacturasCliente.add(facturaCliente);
             }
@@ -149,6 +159,41 @@ public class FacturaCliente {
         }
         // Retorna la lista con los productos
         return listaFacturasCliente;
+    }
+
+     /*
+        METODO VALIDAR CAMPOS DEL CLIENTE
+     */
+
+    public String validarCamposFacturaCliente(FacturaCliente fc) {
+        String mensajeError = "";
+        if (fc.getTelefono().length() < 7 || fc.getTelefono().length() > 10) {
+            mensajeError += "El campo de teléfono debe tener entre 7 y 10 caracteres.\n";
+        }
+        if (fc.getDireccion().length() < 3) {
+            mensajeError += "El campo de dirección debe tener almenos 3 caracteres.\n";
+        }
+        if (!this.validarCorreo(fc.getCorreoElectronico())) {
+            mensajeError += "El campo del correo es invalido, ingrese un correo valido.\n";
+        }
+        if (fc.getProductos().size() < 1) {
+            mensajeError += "No se han agregado productos\n";
+        }
+        //Concatena y devuelve los errores
+        return mensajeError;
+    }
+
+    //Metodo para validar el correo
+    public boolean validarCorreo(String correo) {
+        // Expresion regular para validar correo electionico
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+        // Compilar la expresion regular en un objeto Pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Verificar si el correo electionico coincide con la expresion regular
+        Matcher matcher = pattern.matcher(correo);
+        return matcher.matches();
     }
     /*
      * METODOS GETTERS AND SETTERS
@@ -234,7 +279,6 @@ public class FacturaCliente {
     public void setProductos(List<DetalleFacturaCliente> productos) {
         this.detalleProductosFacturaCliente = productos;
     }
-
 
 
 }

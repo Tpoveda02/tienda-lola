@@ -234,6 +234,9 @@ public class Cliente {
         if (c.getTelefono().length() < 7 || c.getTelefono().length() > 10) {
             mensajeError += "El campo de teléfono debe tener entre 7 y 10 caracteres.\n";
         }
+        if (c.getDireccion().length() < 3) {
+            mensajeError += "El campo de dirección debe tener almenos 3 caracteres.\n";
+        }
         if (c.getPrimerNombre().length() < 3) {
             mensajeError += "El campo de primer nombre debe tener almenos 3 caracteres.\n";
         }
