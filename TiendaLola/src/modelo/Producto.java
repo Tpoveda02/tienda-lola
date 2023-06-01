@@ -58,7 +58,7 @@ public class Producto {
 
     //VALIDACIÓN ENUM PERMITIDOS
     public enum TipoContenidoNeto {
-        gr,
+        g,
         ml
     }
     /*
@@ -190,23 +190,26 @@ public class Producto {
                 PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO PRODUCTO (nombre, tipo_contenido_neto, contenido_neto," +
                         " valor_contenido, empaque_general, empaque, descripcion, recomendaciones, precio_proveedor, porcentaje_iva, " +
                         "precio_sin_iva, precio_venta, fecha_vencimiento, cantidad, id_categoria, id_producto) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+                        "VALUES (?, ?, ?, calcular_valor_contenido(calcular_precio_venta(?, ?),?), ?, ?, ?, ?, ?, ?, ?, calcular_precio_venta(?, ?), ?, ?, ?, ?)");
                 sentencia.setString(1, producto.getNombre());
-                sentencia.setString(2, producto.getTipoContenidoNeto().toString());
+                sentencia.setString(2, producto.getTipoContenidoNeto());
                 sentencia.setInt(3, producto.getContenidoNeto());
-                sentencia.setInt(4, producto.getValorContenido());
-                sentencia.setString(5, producto.getEmpaqueGeneral());
-                sentencia.setString(6, producto.getEmpaque());
-                sentencia.setString(7, producto.getDescripcion());
-                sentencia.setString(8, producto.getRecomendaciones());
-                sentencia.setInt(9, producto.getPrecioProveedor());
-                sentencia.setInt(10, producto.getPorcentajeIva());
-                sentencia.setInt(11, producto.getPrecioSinIva());
-                sentencia.setInt(12, producto.getPrecioVenta());
-                sentencia.setDate(13, producto.getFechaVencimiento());
-                sentencia.setInt(14, producto.getCantidad());
-                sentencia.setInt(15, producto.getCategoria().getIdCategoria());
-                sentencia.setInt(16, producto.getIdProducto());
+                sentencia.setDouble(4, producto.getPrecioSinIva()); // Valor para el parámetro de la función 1
+                sentencia.setDouble(5, producto.getPorcentajeIva());// Valor para el parámetro de la función 1
+                sentencia.setDouble(6, producto.getContenidoNeto()); // Valor para el parámetro de la función 2
+                sentencia.setString(7, producto.getEmpaqueGeneral());
+                sentencia.setString(8, producto.getEmpaque());
+                sentencia.setString(9, producto.getDescripcion());
+                sentencia.setString(10, producto.getRecomendaciones());
+                sentencia.setInt(11, producto.getPrecioProveedor());
+                sentencia.setInt(12, producto.getPorcentajeIva());
+                sentencia.setInt(13, producto.getPrecioSinIva());
+                sentencia.setDouble(14, producto.getPrecioSinIva()); // Valor para el parámetro de la función2
+                sentencia.setDouble(15, producto.getPorcentajeIva()); // Valor para el parámetro de la función2
+                sentencia.setDate(16, producto.getFechaVencimiento());
+                sentencia.setInt(17, producto.getCantidad());
+                sentencia.setInt(18, producto.getCategoria().getIdCategoria());
+                sentencia.setInt(19, producto.getIdProducto());
                 // Ejecuta la sentencia
                 sentencia.executeUpdate();
                 // Cierra la conexión - sentencia
@@ -233,27 +236,30 @@ public class Producto {
             try {
                 //Sentencia para actualizar
                 PreparedStatement sentencia = conexion.prepareStatement("UPDATE PRODUCTO SET nombre = ?, tipo_contenido_neto = ?, " +
-                        "contenido_neto = ?, valor_contenido = ?, empaque_general = ?, empaque = ?, descripcion = ?, " +
-                        "recomendaciones = ?, precio_proveedor = ?, porcentaje_iva = ?, precio_sin_iva = ?, precio_venta = ?, " +
+                        "contenido_neto = ?, valor_contenido =  calcular_valor_contenido(calcular_precio_venta(?, ?),?), empaque_general = ?, empaque = ?, descripcion = ?, " +
+                        "recomendaciones = ?, precio_proveedor = ?, porcentaje_iva = ?, precio_sin_iva = ?, precio_venta = calcular_precio_venta(?, ?), " +
                         "fecha_vencimiento = ?, cantidad = ?, id_categoria = ?, fecha_modificacion = ?, estado = ? WHERE id_producto = ?");
                 sentencia.setString(1, producto.getNombre());
-                sentencia.setString(2, producto.getTipoContenidoNeto().toString());
+                sentencia.setString(2, producto.getTipoContenidoNeto());
                 sentencia.setInt(3, producto.getContenidoNeto());
-                sentencia.setInt(4, producto.getValorContenido());
-                sentencia.setString(5, producto.getEmpaqueGeneral());
-                sentencia.setString(6, producto.getEmpaque());
-                sentencia.setString(7, producto.getDescripcion());
-                sentencia.setString(8, producto.getRecomendaciones());
-                sentencia.setInt(9, producto.getPrecioProveedor());
-                sentencia.setInt(10, producto.getPorcentajeIva());
-                sentencia.setInt(11, producto.getPrecioSinIva());
-                sentencia.setInt(12, producto.getPrecioVenta());
-                sentencia.setDate(13, producto.getFechaVencimiento());
-                sentencia.setInt(14, producto.getCantidad());
-                sentencia.setInt(15, producto.getCategoria().getIdCategoria());
-                sentencia.setTimestamp(16, producto.getFechaModificacion());
-                sentencia.setBoolean(17, producto.getEstado());
-                sentencia.setInt(18, producto.getIdProducto());
+                sentencia.setDouble(4, producto.getPrecioSinIva()); // Valor para el parámetro de la función 1
+                sentencia.setDouble(5, producto.getPorcentajeIva());// Valor para el parámetro de la función 1
+                sentencia.setDouble(6, producto.getContenidoNeto()); // Valor para el parámetro de la función 2
+                sentencia.setString(7, producto.getEmpaqueGeneral());
+                sentencia.setString(8, producto.getEmpaque());
+                sentencia.setString(9, producto.getDescripcion());
+                sentencia.setString(10, producto.getRecomendaciones());
+                sentencia.setInt(11, producto.getPrecioProveedor());
+                sentencia.setInt(12, producto.getPorcentajeIva());
+                sentencia.setInt(13, producto.getPrecioSinIva());
+                sentencia.setDouble(14, producto.getPrecioSinIva()); // Valor para el parámetro de la función2
+                sentencia.setDouble(15, producto.getPorcentajeIva()); // Valor para el parámetro de la función2
+                sentencia.setDate(16, producto.getFechaVencimiento());
+                sentencia.setInt(17, producto.getCantidad());
+                sentencia.setInt(18, producto.getCategoria().getIdCategoria());
+                sentencia.setTimestamp(19, producto.getFechaModificacion());
+                sentencia.setBoolean(20, producto.getEstado());
+                sentencia.setInt(21, producto.getIdProducto());
                 //Ejecuta la sentencia
                 sentencia.executeUpdate();
                 //Cierra la conexión - sentencia

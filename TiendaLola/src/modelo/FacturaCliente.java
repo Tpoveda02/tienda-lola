@@ -47,7 +47,7 @@ public class FacturaCliente {
         try {
             // Insertar la factura
             String sql = "INSERT INTO factura_cliente (direccion, telefono, correo_electronico, total, id_cliente) VALUES (?, ?, ?, ?, ?)";
-            statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement = conexion.prepareStatement(sql);
             statement.setString(1, factura.getDireccion());
             statement.setString(2, factura.getTelefono());
             statement.setString(3, factura.getCorreoElectronico());
