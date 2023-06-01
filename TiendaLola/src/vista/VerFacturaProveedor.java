@@ -59,6 +59,8 @@ public class VerFacturaProveedor extends JPanel {
 	 * METODO CONSTRUCTOR
 	 */
 	public VerFacturaProveedor() {
+		controladorFacturaProveedor = new FacturaProveedorControlador();
+		detalleProductos = new ArrayList<DetalleFacturaProveedor>();
 		inicializarComponentes();
 	}
 	
