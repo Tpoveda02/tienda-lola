@@ -317,7 +317,7 @@ public class EscogerProductoProveedor extends JPanel {
 		try {
 			irPanelAgregarFactura(evt, panelAgregar);
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos.");
 		}
 	}
 
@@ -332,7 +332,7 @@ public class EscogerProductoProveedor extends JPanel {
 			panelAgregarFactura.detalleProductos.add(new DetalleFacturaProveedor(null, null, cantidad, precio, producto));
 			actualizarTablaAgregar(modeloTablaSelec, panelAgregarFactura.detalleProductos);
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos.");
 		}
 	}
 	
@@ -417,7 +417,7 @@ public class EscogerProductoProveedor extends JPanel {
 
 			// Actualizar la tabla
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos.");
 		}
 	}
 

@@ -64,7 +64,7 @@ public class FacturaCliente {
 
             // Insertar los productos en la factura
             for (DetalleFacturaCliente producto : factura.getProductos()) {
-                System.out.println(detalleFacturaCliente.agregarDetalleFactura(producto,factura,conexion));
+                detalleFacturaCliente.agregarDetalleFactura(producto,factura,conexion);
             }
 
         return "Factura creada";

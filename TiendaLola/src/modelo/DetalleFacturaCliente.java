@@ -43,7 +43,6 @@ public class DetalleFacturaCliente {
             sentencia.setInt(2, detalleFacturaCliente.getProducto().getIdProducto());
             sentencia.setInt(3, detalleFacturaCliente.getCantidad());
             sentencia.setDouble(4, detalleFacturaCliente.getPrecio());
-            sentencia.executeUpdate();
             //Ejecuta la sentencia
             sentencia.executeUpdate();
             //Cierra la conexion - sentencia

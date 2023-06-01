@@ -3,7 +3,6 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.desktop.SystemEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,7 +11,6 @@ import java.util.List;
 import java.sql.Date;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,10 +21,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.CategoriaControlador;
-import controlador.Controlador;
 import controlador.ProductoControlador;
 import modelo.Categoria;
-import modelo.Cliente;
 import modelo.Producto;
 import com.toedter.calendar.JDateChooser;
 

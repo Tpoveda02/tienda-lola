@@ -160,7 +160,7 @@ public class ActualizarCategoria extends JPanel {
 
 
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos.");
 		}
 	}
 
@@ -172,7 +172,7 @@ public class ActualizarCategoria extends JPanel {
 			irPanelBuscar(evt, panelActualizar);
 			limpiarCampos();
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos.");
 		}
 	}
 
@@ -191,7 +191,7 @@ public class ActualizarCategoria extends JPanel {
 			panelActualizar.repaint();
 
 		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(this, "El ID Categoria debe ser un número entero.");
+			JOptionPane.showMessageDialog(this, "Campos invalidos.");
 		}
 	}
 
